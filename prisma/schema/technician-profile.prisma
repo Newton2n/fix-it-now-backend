@@ -10,9 +10,7 @@ model TechnicianProfile {
     serviceArea        String[]
 
 
-    technicianCategory TechnicianCategory[]
     service Service[]
-    booking Booking[]
 
     user User @relation(fields: [userId], references: [id])
 

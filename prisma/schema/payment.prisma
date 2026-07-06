@@ -1,6 +1,6 @@
 model Payment {
     id            String        @id @default(uuid())
-    transactionId String
+    transactionId String        @unique
     bookingId     String        @unique
     amount        Int
     currency      String        @db.VarChar(100)

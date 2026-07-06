@@ -1,9 +1,8 @@
 model Category {
     id          String @id @default(uuid())
-    name        String @db.VarChar(100)
+    name        String @db.VarChar(100) @unique
     description String
 
-    technicianCategory TechnicianCategory[]
     service            Service[]
 
     createdAt DateTime @default(now())
