@@ -1,9 +1,21 @@
-import express, { type Express, type Request, type Response } from 'express';
+import app from "./app";
+import config from "./config";
+import { prisma } from "./lib/prisma";
 
-const app: Express = express();
+const port = config.port;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+async function main() {
+  try {
+    await prisma.$connect();
+    app.listen(port, () => {
+      console.log("data base connection successful");
+      console.log(`prisma server listening on port ${port}`);
+    });
+  } catch (error) {
+    await prisma.$disconnect();
+    console.log("Error occurred on server start", error);
+    process.exit(1);
+  }
+}
 
-app.listen(5000);
+main();

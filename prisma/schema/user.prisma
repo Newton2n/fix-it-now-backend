@@ -5,7 +5,7 @@ model User {
     email          String?    @unique @db.VarChar(200)
     password       String    @db.Text()
     roles          UserRole
-    country        String    @db.VarChar(120)
+    country        String?    @db.VarChar(120)
     profilePicture String?
 
     booking Booking[]
