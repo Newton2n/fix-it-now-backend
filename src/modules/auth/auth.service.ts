@@ -24,5 +24,10 @@ const register = async (payload: TRegistrationPayload) => {
 
 
 
+const login = async() =>{}
+const getMe = async() =>{}
+const refreshToken = async() =>{}
 
-export const authService = {register}
+
+
+export const authService = {register,login,getMe,refreshToken}

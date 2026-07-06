@@ -17,9 +17,19 @@ const register = catchAsync(
   },
 );
 
+const login = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
 
-
-
+const getMe = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
+const refreshToken = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
 export const authController = {
-  register,login
+  register,
+  login,
+  getMe,
+  refreshToken,
 };
