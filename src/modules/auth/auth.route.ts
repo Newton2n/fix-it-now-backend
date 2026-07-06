@@ -7,7 +7,7 @@ const authRouter = Router();
 authRouter.post("/register", authController.register);
 
 //login
-authRouter.post("/register", authController.register);
+authRouter.post("/login", authController.login);
 
 //get me
 
