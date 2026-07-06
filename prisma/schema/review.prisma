@@ -1,0 +1,13 @@
+model Review {
+    id          String @id @default(uuid())
+    bookingId   String @unique
+    description String
+    rating      Int
+
+    booking Booking @relation(fields: [bookingId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("reviews")
+}
