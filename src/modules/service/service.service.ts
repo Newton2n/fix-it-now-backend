@@ -4,7 +4,10 @@ import {
   TUpdateServicePayload,
 } from "./service.interface";
 
-const getAll = async () => {};
+const getAll = async () => {
+  const service = await prisma.service.findMany();
+  return service;
+};
 const getById = async (serviceId: string) => {
   const service = await prisma.service.findUnique({
     where: {

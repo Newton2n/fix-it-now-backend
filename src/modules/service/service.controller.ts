@@ -4,7 +4,17 @@ import { serviceService } from "./service.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await serviceService.getAll();
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Services retrieved Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const getById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +27,7 @@ const getById = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Service retrieve Successfully",
+      message: "Service retrieved Successfully",
       data: {
         result,
       },
