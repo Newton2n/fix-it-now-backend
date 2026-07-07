@@ -3,7 +3,7 @@ model Service {
     categoryId     String
     technicianId   String
     title          String    @db.VarChar(100)
-    description    String    @db.VarChar(255)
+    description    String?    @db.VarChar(255)
     price          Int
     currency       String    @db.VarChar(50)
     isAvailable    Boolean   @default(true)

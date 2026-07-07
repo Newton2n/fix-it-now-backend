@@ -3,6 +3,7 @@ import { serviceController } from "./service.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate } from "../../middleware/validate";
+import { createServiceSchema } from "./service.schema";
 const serviceRoute = Router();
 
 //get all service
@@ -18,7 +19,7 @@ serviceRoute.get(
 serviceRoute.post(
   "/",
   authMiddleware.auth(UserRole.TECHNICIAN),
-  //   validate(updateCategorySchema),
+    validate(createServiceSchema),
   serviceController.create,
 );
 
