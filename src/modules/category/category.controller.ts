@@ -39,8 +39,8 @@ const update = catchAsync(
     const payload = req.body;
 
     const result = await categoryService.update(id as string, payload);
-     sendSuccessResponse(res, {
-      statusCode: StatusCodes.CREATED,
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
       message: "Category updated Successfully",
       data: {
         result,
@@ -49,7 +49,20 @@ const update = catchAsync(
   },
 );
 const remove = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Category id required");
+    }
+    const result =await categoryService.remove(id as string);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Category deleted Successfully",
+      data: {
+        result
+      },
+    });
+  },
 );
 
 export const categoryController = {

@@ -26,7 +26,6 @@ categoryRoute.patch(
 categoryRoute.delete(
   "/:id",
   authMiddleware.auth(UserRole.ADMIN),
-  validate(updateCategorySchema),
   categoryController.remove,
 );
 
