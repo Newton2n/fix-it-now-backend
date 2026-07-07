@@ -47,7 +47,20 @@ const login = catchAsync(
 );
 
 const getMe = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    console.log("user from request", user);
+    if (!user?.id) {
+      throw new Error("Can not fetch user please log in again");
+    }
+    const result = await authService.getMe(user?.id);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "User data retrieve successfully",
+      data: result,
+    });
+  },
 );
 
 //generate refresh token

@@ -2,6 +2,8 @@ import { Router } from "express";
 import { authController } from "./auth.controller";
 import { validate } from "../../middleware/validate";
 import { userLoginSchema, userRegisterSchema } from "./auth.schema";
+import { authMiddleware } from "../../middleware/auth";
+import { UserRole } from "../../../generated/prisma/enums";
 
 const authRoute = Router();
 
@@ -17,7 +19,11 @@ authRoute.post("/login", validate(userLoginSchema), authController.login);
 
 //get me
 
-authRoute.post("/me", authController.register);
+authRoute.get(
+  "/me",
+  authMiddleware.auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
+  authController.getMe,
+);
 
 //refresh token
 

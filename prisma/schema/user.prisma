@@ -4,7 +4,7 @@ model User {
     phoneNumber    String?    @unique @db.VarChar(100)
     email          String    @unique @db.VarChar(200)
     password       String    @db.Text()
-    roles          UserRole
+    role          UserRole   @default(CUSTOMER)
     status         UserActiveStatus @default(ACTIVE)
     country        String?    @db.VarChar(120)
     profilePicture String?

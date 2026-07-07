@@ -42,7 +42,7 @@ const login = async (payload: TLoginPayload) => {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.roles,
+    role: user.role,
   };
 
   console.log("jwt payload", jwtPayload);
@@ -68,7 +68,17 @@ const login = async (payload: TLoginPayload) => {
 };
 
 //get user
-const getMe = async () => {};
+const getMe = async (userId: string) => {
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+    omit: {
+      password: true,
+    },
+  });
+  return user
+};
 
 //generate refresh token
 const refreshToken = async (refreshToken: string) => {
@@ -98,7 +108,7 @@ const refreshToken = async (refreshToken: string) => {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.roles,
+    role: user.role,
   };
 
   const accessToken = jwtUtils.createToken(
