@@ -73,9 +73,19 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
       ...payload,
     },
   });
+  return booking;
+};
+
+// get all booking by log in user
+const getAll = async (userId: string) => {
+  const booking = await prisma.booking.findMany({
+    where: {
+      customerId: userId,
+    },
+  });
+
   return booking
 };
-const getAll = async () => {};
 const getDetails = async () => {};
 const update = async () => {};
 export const bookingService = {

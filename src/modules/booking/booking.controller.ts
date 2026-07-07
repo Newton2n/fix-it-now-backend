@@ -6,7 +6,7 @@ import { StatusCodes } from "http-status-codes";
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log("user in req",user)
+    console.log("user in req", user);
     if (!user?.id) {
       throw new Error("User id required please log in");
     }
@@ -20,7 +20,19 @@ const create = catchAsync(
   },
 );
 const getAll = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    console.log("user in req", user);
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
+    const result = await bookingService.getAll(user.id);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "All Booking retrieved successfully",
+      data: { bookings: result },
+    });
+  },
 );
 const getDetails = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
