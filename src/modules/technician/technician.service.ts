@@ -98,6 +98,11 @@ const getProfile = async (technicianProfileId: string) => {
   return technician;
 };
 
+const getAll = async () => {
+  const profile = await prisma.technicianProfile.findMany();
+  return profile;
+};
+
 export const technicianService = {
   create,
   updateAvailability,
@@ -105,4 +110,5 @@ export const technicianService = {
   getMe,
   getBooking,
   getProfile,
+  getAll
 };

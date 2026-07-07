@@ -6,6 +6,7 @@ import categoryRoute from "./modules/category/category.route";
 import globalError from "./middleware/global-error";
 import notFound from "./middleware/not-found";
 import technicianRoute from "./modules/technician/tecnician.route";
+import serviceRoute from "./modules/service/service.route";
 const app: Application = express();
 
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/technicians", technicianRoute);
+app.use("/api/service", serviceRoute);
 
 
 // error handle

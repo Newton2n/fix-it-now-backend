@@ -125,6 +125,21 @@ const getProfile = catchAsync(
   },
 );
 
+const getAll = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+   
+
+    const result = await technicianService.getAll();
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Your Technician Profile Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
 export const technicianController = {
   create,
   updateAvailability,
@@ -132,4 +147,5 @@ export const technicianController = {
   getMe,
   getBookings,
   getProfile,
+  getAll
 };

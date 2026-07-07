@@ -10,6 +10,14 @@ import {
 } from "./technician.schema";
 const technicianRoute = Router();
 
+
+
+
+//create technician profile
+technicianRoute.get(
+  "/",
+  technicianController.getAll,
+);
 //create technician profile
 technicianRoute.post(
   "/profile",
@@ -37,6 +45,8 @@ technicianRoute.get(
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getMe,
 );
+
+// get booking by log in technician
 technicianRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.TECHNICIAN),
