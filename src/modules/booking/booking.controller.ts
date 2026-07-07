@@ -58,12 +58,17 @@ const update = catchAsync(
     if (!id) {
       throw new Error("Booking id required");
     }
-    const payload = req.body;
+    const { status } = req.body;
     const result = await bookingService.updateStatusByTechnician(
       id as string,
       user.id,
-      payload,
+      status,
     );
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Booking status updated successfully",
+      data: { booking: result },
+    });
   },
 );
 

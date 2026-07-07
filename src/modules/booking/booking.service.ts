@@ -102,7 +102,7 @@ const updateStatusByTechnician = async (
 ) => {
   const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
-      id: userId,
+      userId,
     },
   });
 
