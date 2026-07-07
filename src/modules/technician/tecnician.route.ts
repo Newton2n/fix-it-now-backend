@@ -35,6 +35,10 @@ technicianRoute.get(
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getMe,
 );
-technicianRoute.get("/bookings", technicianController.getBookings);
+technicianRoute.get(
+  "/bookings",
+  authMiddleware.auth(UserRole.TECHNICIAN),
+  technicianController.getBookings,
+);
 
 export default technicianRoute;
