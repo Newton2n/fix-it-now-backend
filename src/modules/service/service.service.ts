@@ -5,7 +5,18 @@ import {
 } from "./service.interface";
 
 const getAll = async () => {};
-const getById = async () => {};
+const getById = async (serviceId: string) => {
+  const service = await prisma.service.findUnique({
+    where: {
+      id: serviceId,
+    },
+  });
+  if (!service) {
+    throw new Error("Service does not exist");
+  }
+
+  return service;
+};
 const create = async (userId: string, payload: TCreateServicePayload) => {
   const isTechnicianProfileExist =
     await prisma.technicianProfile.findFirstOrThrow({
@@ -57,7 +68,7 @@ const update = async (
 
   //owner check
   if (service.technicianId !== isTechnicianProfileExist.id) {
-    throw new Error("Sorry you can edit others technician service");
+    throw new Error("You cannot edit another technician's service");
   }
 
   const updateService = await prisma.service.update({

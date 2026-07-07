@@ -3,12 +3,26 @@ import catchAsync from "../../utils/catch-async";
 import { serviceService } from "./service.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
-import { prisma } from "../../lib/prisma";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
 const getById = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    if (!id) {
+      throw new Error("Service id required");
+    }
+    const result = await serviceService.getById(id as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Service retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -48,7 +62,7 @@ const update = catchAsync(
     );
 
     sendSuccessResponse(res, {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.OK,
       message: "Service updated Successfully",
       data: {
         result,
