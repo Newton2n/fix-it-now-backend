@@ -48,7 +48,22 @@ const updateProfile = catchAsync(
   },
 );
 const getMe = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+
+    const result = await technicianService.getMe(user.id);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Your Technician Profile Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const updateAvailability = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},

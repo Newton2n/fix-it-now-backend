@@ -36,10 +36,17 @@ const updateProfile = async (
     },
   });
 
-  return update
+  return update;
 };
 const updateAvailability = async () => {};
-const getMe = async () => {};
+const getMe = async (userId: string) => {
+  const profile = await prisma.technicianProfile.findFirstOrThrow({
+    where: {
+      userId: userId,
+    },
+  });
+  return profile
+};
 const getBooking = async () => {};
 const getProfile = async () => {};
 
