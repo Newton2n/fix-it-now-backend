@@ -6,11 +6,15 @@ import { validate } from "../../middleware/validate";
 const categoryRoute = Router();
 
 //create booking
-categoryRoute.post("/", bookingController.create);
+categoryRoute.post(
+  "/",
+  authMiddleware.auth(UserRole.CUSTOMER),
+  bookingController.create,
+);
 //get all booking by log in customer
 categoryRoute.get(
   "/",
-  authMiddleware.auth(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.CUSTOMER),
+  authMiddleware.auth(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.TECHNICIAN),
   bookingController.getAll,
 );
 //get booking details
