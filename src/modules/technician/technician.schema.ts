@@ -1,4 +1,9 @@
 import { z } from "zod";
+
+const daySchema = z.object({
+  start: z.string(),
+  end: z.string(),
+});
 export const technicianRegisterSchema = z.object({
   body: z.object({
     bio: z.string().min(10, "Minimum 10 character required").optional(),
@@ -8,13 +13,13 @@ export const technicianRegisterSchema = z.object({
       .min(0, "Experience cannot be negative")
       .max(100),
     availability: z.object({
-      monday: z.string().optional(),
-      tuesday: z.string().optional(),
-      wednesday: z.string().optional(),
-      thursday: z.string().optional(),
-      friday: z.string().optional(),
-      saturday: z.string().optional(),
-      sunday: z.string().optional(),
+      monday: daySchema.optional(),
+      tuesday: daySchema.optional(),
+      wednesday: daySchema.optional(),
+      thursday: daySchema.optional(),
+      friday: daySchema.optional(),
+      saturday: daySchema.optional(),
+      sunday: daySchema.optional(),
     }),
     serviceArea: z.array(z.string({ error: "Service areas must be strings" })),
   }),
@@ -30,13 +35,13 @@ export const technicianUpdateSchema = z.object({
       .optional(),
     availability: z
       .object({
-        monday: z.string().optional(),
-        tuesday: z.string().optional(),
-        wednesday: z.string().optional(),
-        thursday: z.string().optional(),
-        friday: z.string().optional(),
-        saturday: z.string().optional(),
-        sunday: z.string().optional(),
+        monday: daySchema.optional(),
+        tuesday: daySchema.optional(),
+        wednesday: daySchema.optional(),
+        thursday: daySchema.optional(),
+        friday: daySchema.optional(),
+        saturday: daySchema.optional(),
+        sunday: daySchema.optional(),
       })
       .optional(),
     serviceArea: z
@@ -45,18 +50,16 @@ export const technicianUpdateSchema = z.object({
   }),
 });
 
-
 export const changeAvailabilityPayload = z.object({
   body: z.object({
-    availability: z
-      .object({
-        monday: z.string().optional(),
-        tuesday: z.string().optional(),
-        wednesday: z.string().optional(),
-        thursday: z.string().optional(),
-        friday: z.string().optional(),
-        saturday: z.string().optional(),
-        sunday: z.string().optional(),
-      })
+    availability: z.object({
+      monday: daySchema.optional(),
+      tuesday: daySchema.optional(),
+      wednesday: daySchema.optional(),
+      thursday: daySchema.optional(),
+      friday: daySchema.optional(),
+      saturday: daySchema.optional(),
+      sunday: daySchema.optional(),
+    }),
   }),
 });
