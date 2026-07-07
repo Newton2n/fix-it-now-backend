@@ -3,7 +3,7 @@ import { z } from "zod";
 export const createBookingSchema = z.object({
   body: z.object({
     serviceId: z.uuid("Invalid service ID"),
-    scheduledAt: z.date("valid date time required"),
+    scheduledAt: z.coerce.date("valid date time required"),
     location: z
       .string()
       .trim()
