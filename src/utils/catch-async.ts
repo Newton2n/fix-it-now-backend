@@ -5,7 +5,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
       await fn(req, res, next);
     } catch (error: any) {
       console.log(error);
-      next(error);
+      next(error)
     }
   };
 };

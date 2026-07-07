@@ -13,18 +13,8 @@ export const userRegisterSchema = z.object({
     phoneNumber: z.string().optional(),
     email: z.email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 letters long"),
-    roles: z.enum(["CUSTOMER", "TECHNICIAN"]),
+    role: z.enum(["CUSTOMER", "TECHNICIAN"]),
     country: z.string().optional(),
     profilePicture: z.url({ error: "Invalid image URL layout" }).optional(),
   }),
 });
-
-// export interface TRegistrationPayload {
-//   name: string;
-//   phoneNumber?: string;
-//   email: string;
-//   password: string;
-//   roles: "CUSTOMER" | "TECHNICIAN";
-//   country?: string;
-//   profilePicture?: string;
-// }
