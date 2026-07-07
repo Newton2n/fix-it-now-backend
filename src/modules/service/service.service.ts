@@ -42,7 +42,9 @@ const create = async (userId: string, payload: TCreateServicePayload) => {
         userId: userId,
       },
     });
-
+  if (isTechnicianProfileExist.status !== "VERIFIED") {
+    throw new Error("Technician is not verified yet" );
+  }
   //category exist check
   await prisma.category.findUniqueOrThrow({
     where: {

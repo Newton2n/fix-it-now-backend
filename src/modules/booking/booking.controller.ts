@@ -49,7 +49,22 @@ const getDetails = catchAsync(
   },
 );
 const update = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Booking id required");
+    }
+    const payload = req.body;
+    const result = await bookingService.updateStatusByTechnician(
+      id as string,
+      user.id,
+      payload,
+    );
+  },
 );
 
 export const bookingController = {

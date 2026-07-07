@@ -1,3 +1,4 @@
+import { BookingStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateBookingPayload,
@@ -92,12 +93,45 @@ const getDetails = async (bookingId: string) => {
       id: bookingId,
     },
   });
-  return booking
+  return booking;
 };
-const update = async () => {};
+const updateStatusByTechnician = async (
+  bookingId: string,
+  userId: string,
+  status: BookingStatus,
+) => {
+  const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+  });
+
+  const booking = await prisma.booking.findFirstOrThrow({
+    where: {
+      id: bookingId,
+      service: {
+        technicianId: technicianProfile.id,
+      },
+    },
+  });
+  if (booking.status === "DECLINED") {
+    throw new Error("Declined booking cannot be updated");
+  }
+
+  const update = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status: status,
+    },
+  });
+
+  return update;
+};
 export const bookingService = {
   create,
   getAll,
   getDetails,
-  update,
+  updateStatusByTechnician,
 };

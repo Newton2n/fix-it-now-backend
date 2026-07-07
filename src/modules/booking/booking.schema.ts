@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { BookingStatus } from "../../../generated/prisma/enums";
 export const createBookingSchema = z.object({
   body: z.object({
     serviceId: z.uuid("Invalid service ID"),
@@ -15,6 +15,11 @@ export const createBookingSchema = z.object({
       .min(5, "Customer note must be at least 5 characters")
       .max(500, "Customer note cannot exceed 500 characters")
       .optional(),
+  }),
+});
+export const updateBookingStatusPayload = z.object({
+  body: z.object({
+    status : z.enum([BookingStatus.ACCEPTED,BookingStatus.COMPLETED,BookingStatus.DECLINED,BookingStatus.IN_PROGRESS,])
   }),
 });
 

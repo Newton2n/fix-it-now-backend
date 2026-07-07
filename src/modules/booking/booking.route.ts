@@ -3,7 +3,10 @@ import { bookingController } from "./booking.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate } from "../../middleware/validate";
-import { createBookingSchema } from "./booking.schema";
+import {
+  createBookingSchema,
+  updateBookingStatusPayload,
+} from "./booking.schema";
 const bookingRoute = Router();
 
 // create booking
@@ -29,6 +32,7 @@ bookingRoute.get(
 bookingRoute.patch(
   "/:id",
   authMiddleware.auth(UserRole.TECHNICIAN),
+  validate(updateBookingStatusPayload),
   bookingController.update,
 );
 
