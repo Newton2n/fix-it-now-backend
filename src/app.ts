@@ -18,6 +18,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/categories", categoryRoute);
+app.use("/api/technicians", categoryRoute);
 
 
 // error handle
