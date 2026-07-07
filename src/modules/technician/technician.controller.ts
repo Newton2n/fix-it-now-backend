@@ -66,7 +66,24 @@ const getMe = catchAsync(
   },
 );
 const updateAvailability = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+  const user = req.user;
+    const payload = req.body
+    
+    console.log("payload",payload);
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+    const result = await technicianService.updateProfile(user.id, payload);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Technician Profile Availability Updated Successfully",
+      data: {
+        result,
+      },
+    });
+
+  },
 );
 const getBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

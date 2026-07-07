@@ -44,3 +44,19 @@ export const technicianUpdateSchema = z.object({
       .optional(),
   }),
 });
+
+
+export const changeAvailabilityPayload = z.object({
+  body: z.object({
+    availability: z
+      .object({
+        monday: z.string().optional(),
+        tuesday: z.string().optional(),
+        wednesday: z.string().optional(),
+        thursday: z.string().optional(),
+        friday: z.string().optional(),
+        saturday: z.string().optional(),
+        sunday: z.string().optional(),
+      })
+  }),
+});

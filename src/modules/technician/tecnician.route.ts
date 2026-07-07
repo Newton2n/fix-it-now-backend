@@ -4,6 +4,7 @@ import { authMiddleware } from "../../middleware/auth";
 import { validate } from "../../middleware/validate";
 import { UserRole } from "../../../generated/prisma/enums";
 import {
+    changeAvailabilityPayload,
   technicianRegisterSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
@@ -27,7 +28,8 @@ technicianRoute.patch(
   validate(technicianUpdateSchema),
   technicianController.updateProfile,
 );
-technicianRoute.patch("/availability", technicianController.updateAvailability);
+technicianRoute.patch("/availability",authMiddleware.auth(UserRole.TECHNICIAN),
+validate(changeAvailabilityPayload), technicianController.updateAvailability);
 
 //get login user technician profile
 technicianRoute.get(

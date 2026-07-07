@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
+  TUpdateAvailabilityPayload,
   TUpdateTechnicianProfilePayload,
 } from "./technician.interface";
 
@@ -38,7 +39,27 @@ const updateProfile = async (
 
   return update;
 };
-const updateAvailability = async () => {};
+const updateAvailability = async (
+  userId: string,
+  payload: TUpdateAvailabilityPayload,
+) => {
+  const isProfileExist = await prisma.technicianProfile.findFirstOrThrow({
+    where: {
+      userId: userId,
+    },
+  });
+
+  const update = await prisma.technicianProfile.update({
+    where: {
+      id: isProfileExist.id,
+    },
+    data: {
+      availability: payload,
+    },
+  });
+
+  return update;
+};
 const getMe = async (userId: string) => {
   const profile = await prisma.technicianProfile.findFirstOrThrow({
     where: {
@@ -56,13 +77,13 @@ const getBooking = async (userId: string) => {
 
   const bookings = await prisma.booking.findMany({
     where: {
-      service :{
-        technicianId :profile.id
-      }
+      service: {
+        technicianId: profile.id,
+      },
     },
   });
 
-  return bookings
+  return bookings;
 };
 const getProfile = async (technicianProfileId: string) => {
   const technician = await prisma.technicianProfile.findUniqueOrThrow({
