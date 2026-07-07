@@ -77,7 +77,10 @@ const getMe = async (userId: string) => {
       password: true,
     },
   });
-  return user
+  if (user.status !== "ACTIVE") {
+    throw new Error("Your account is not active. Please contact support");
+  }
+  return user;
 };
 
 //generate refresh token
