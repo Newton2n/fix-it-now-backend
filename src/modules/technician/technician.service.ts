@@ -1,5 +1,8 @@
 import { prisma } from "../../lib/prisma";
-import { TCreateTechnicianProfilePayload } from "./technician.interface";
+import {
+  TCreateTechnicianProfilePayload,
+  TUpdateTechnicianProfilePayload,
+} from "./technician.interface";
 
 const create = async (
   userId: string,
@@ -12,9 +15,29 @@ const create = async (
     },
   });
 
-  return result
+  return result;
 };
-const updateProfile = async () => {};
+const updateProfile = async (
+  userId: string,
+  payload: TUpdateTechnicianProfilePayload,
+) => {
+  const isProfileExist = await prisma.technicianProfile.findFirstOrThrow({
+    where: {
+      userId: userId,
+    },
+  });
+
+  const update = await prisma.technicianProfile.update({
+    where: {
+      id: isProfileExist.id,
+    },
+    data: {
+      ...payload,
+    },
+  });
+
+  return update
+};
 const updateAvailability = async () => {};
 const getMe = async () => {};
 const getBooking = async () => {};

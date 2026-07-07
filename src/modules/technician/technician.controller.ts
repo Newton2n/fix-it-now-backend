@@ -3,6 +3,7 @@ import catchAsync from "../../utils/catch-async";
 import { technicianService } from "./technician.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
+import { prisma } from "../../lib/prisma";
 
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -29,7 +30,22 @@ const create = catchAsync(
   },
 );
 const updateProfile = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const payload = req.body;
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+
+    const result = await technicianService.updateProfile(user.id, payload);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Technician Profile Updated Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const getMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
