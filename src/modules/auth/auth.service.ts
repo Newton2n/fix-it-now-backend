@@ -2,9 +2,7 @@ import { prisma } from "../../lib/prisma";
 import { TLoginPayload, TRegistrationPayload } from "./auth.interface";
 import bcrypt from "bcryptjs";
 import config from "../../config";
-import { Prisma } from "../../../generated/prisma/client";
 import { jwtUtils } from "../../utils/jwt";
-import { JwtPayload } from "jsonwebtoken";
 
 //register user
 const register = async (payload: TRegistrationPayload) => {

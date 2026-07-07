@@ -1,8 +1,8 @@
 model User {
     id             String    @id @default(uuid())
     name           String    @db.VarChar(100)
-    phoneNumber    String    @unique @db.VarChar(100)
-    email          String?    @unique @db.VarChar(200)
+    phoneNumber    String?    @unique @db.VarChar(100)
+    email          String    @unique @db.VarChar(200)
     password       String    @db.Text()
     roles          UserRole
     status         UserActiveStatus @default(ACTIVE)
