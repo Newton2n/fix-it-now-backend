@@ -35,7 +35,13 @@ serviceRoute.patch(
 serviceRoute.delete(
   "/:id",
   authMiddleware.auth(UserRole.TECHNICIAN),
-  serviceController.update,
+  serviceController.remove,
+);
+//delete service
+serviceRoute.get(
+  "/:id/technician",
+  authMiddleware.auth(UserRole.TECHNICIAN,UserRole.ADMIN,UserRole.CUSTOMER),
+  serviceController.getAllByTechnicianId,
 );
 
 export default serviceRoute;

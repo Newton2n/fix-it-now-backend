@@ -22,7 +22,7 @@ const updateProfile = async (
   userId: string,
   payload: TUpdateTechnicianProfilePayload,
 ) => {
-  const isProfileExist = await prisma.technicianProfile.findFirstOrThrow({
+  const isProfileExist = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
@@ -43,7 +43,7 @@ const updateAvailability = async (
   userId: string,
   payload: TUpdateAvailabilityPayload,
 ) => {
-  const isProfileExist = await prisma.technicianProfile.findFirstOrThrow({
+  const isProfileExist = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
@@ -61,7 +61,7 @@ const updateAvailability = async (
   return update;
 };
 const getMe = async (userId: string) => {
-  const profile = await prisma.technicianProfile.findFirstOrThrow({
+  const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
@@ -69,7 +69,7 @@ const getMe = async (userId: string) => {
   return profile;
 };
 const getBooking = async (userId: string) => {
-  const profile = await prisma.technicianProfile.findFirstOrThrow({
+  const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
@@ -110,5 +110,5 @@ export const technicianService = {
   getMe,
   getBooking,
   getProfile,
-  getAll
+  getAll,
 };

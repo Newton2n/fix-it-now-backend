@@ -8,6 +8,21 @@ const getAll = async () => {
   const service = await prisma.service.findMany();
   return service;
 };
+const getAllByTechnicianId = async (technicianId: string) => {
+  const isTechnicianProfileExist =
+    await prisma.technicianProfile.findUniqueOrThrow({
+      where: {
+        id: technicianId,
+      },
+    });
+
+  const service = await prisma.service.findMany({
+    where: {
+      technicianId: technicianId,
+    },
+  });
+  return service;
+};
 const getById = async (serviceId: string) => {
   const service = await prisma.service.findUnique({
     where: {
@@ -22,14 +37,14 @@ const getById = async (serviceId: string) => {
 };
 const create = async (userId: string, payload: TCreateServicePayload) => {
   const isTechnicianProfileExist =
-    await prisma.technicianProfile.findFirstOrThrow({
+    await prisma.technicianProfile.findUniqueOrThrow({
       where: {
         userId: userId,
       },
     });
 
   //category exist check
-  await prisma.category.findFirstOrThrow({
+  await prisma.category.findUniqueOrThrow({
     where: {
       id: payload.categoryId,
     },
@@ -50,20 +65,20 @@ const update = async (
   payload: TUpdateServicePayload,
 ) => {
   const isTechnicianProfileExist =
-    await prisma.technicianProfile.findFirstOrThrow({
+    await prisma.technicianProfile.findUniqueOrThrow({
       where: {
         userId: userId,
       },
     });
 
   //category exist check
-  await prisma.category.findFirstOrThrow({
+  await prisma.category.findUniqueOrThrow({
     where: {
       id: payload.categoryId,
     },
   });
 
-  const service = await prisma.service.findFirstOrThrow({
+  const service = await prisma.service.findUniqueOrThrow({
     where: {
       id: serviceId,
     },
@@ -86,7 +101,33 @@ const update = async (
 
   return updateService;
 };
-const remove = async () => {};
+const remove = async (userId: string, serviceId: string) => {
+  const isTechnicianProfileExist =
+    await prisma.technicianProfile.findUniqueOrThrow({
+      where: {
+        userId: userId,
+      },
+    });
+
+  const service = await prisma.service.findUniqueOrThrow({
+    where: {
+      id: serviceId,
+    },
+  });
+
+  //owner check
+  if (service.technicianId !== isTechnicianProfileExist.id) {
+    throw new Error("You cannot delete another technician's service");
+  }
+
+  const remove = await prisma.service.delete({
+    where: {
+      id: serviceId,
+    },
+  });
+
+  return remove;
+};
 
 export const serviceService = {
   getAll,
@@ -94,4 +135,5 @@ export const serviceService = {
   create,
   update,
   remove,
+  getAllByTechnicianId,
 };

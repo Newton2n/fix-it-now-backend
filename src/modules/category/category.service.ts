@@ -18,7 +18,7 @@ const create = async (payload: TCreateCategoryPayload) => {
   return category;
 };
 const update = async (categoryId: string, payload: TUpdateCategoryPayload) => {
-  await prisma.category.findFirstOrThrow({
+  await prisma.category.findUniqueOrThrow({
     where: {
       id: categoryId,
     },
@@ -35,7 +35,7 @@ const update = async (categoryId: string, payload: TUpdateCategoryPayload) => {
   return update;
 };
 const remove = async (categoryId: string) => {
-  const isCategoryExist = await prisma.category.findFirstOrThrow({
+  const isCategoryExist = await prisma.category.findUniqueOrThrow({
     where: {
       id: categoryId,
     },

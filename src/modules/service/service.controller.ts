@@ -16,6 +16,23 @@ const getAll = catchAsync(
     });
   },
 );
+const getAllByTechnicianId = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Technician id required");
+    }
+    const result = await serviceService.getAllByTechnicianId(id as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Services retrieved Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
 const getById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -81,7 +98,26 @@ const update = catchAsync(
   },
 );
 const remove = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const serviceId = req.params?.id;
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+    if (!serviceId) {
+      throw new Error("Service id required");
+    }
+
+    const result = await serviceService.remove(user.id, serviceId as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Service deleted Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 
 export const serviceController = {
@@ -90,4 +126,5 @@ export const serviceController = {
   create,
   update,
   remove,
+  getAllByTechnicianId,
 };
