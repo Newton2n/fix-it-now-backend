@@ -37,7 +37,7 @@ serviceRoute.delete(
   authMiddleware.auth(UserRole.TECHNICIAN),
   serviceController.remove,
 );
-//delete service
+//get all services by technician id 
 serviceRoute.get(
   "/:id/technician",
   authMiddleware.auth(UserRole.TECHNICIAN,UserRole.ADMIN,UserRole.CUSTOMER),
