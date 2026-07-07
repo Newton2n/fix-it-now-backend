@@ -3,7 +3,7 @@ import { categoryController } from "./category.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate } from "../../middleware/validate";
-import { createCategorySchema } from "./category.schema";
+import { createCategorySchema, updateCategorySchema } from "./category.schema";
 const categoryRoute = Router();
 
 //get all route
@@ -19,12 +19,14 @@ categoryRoute.post(
 categoryRoute.patch(
   "/:id",
   authMiddleware.auth(UserRole.ADMIN),
+  validate(updateCategorySchema),
   categoryController.update,
 );
 //delete category
 categoryRoute.delete(
   "/:id",
   authMiddleware.auth(UserRole.ADMIN),
+  validate(updateCategorySchema),
   categoryController.remove,
 );
 

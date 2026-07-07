@@ -12,16 +12,17 @@ export const createCategorySchema = z.object({
       .max(255, "description  must be less than 101 letters"),
   }),
 });
-
-// model Category {
-//     id          String @id @default(uuid())
-//     name        String @db.VarChar(100) @unique
-//     description String
-
-//     service            Service[]
-
-//     createdAt DateTime @default(now())
-//     updatedAt DateTime @updatedAt
-
-//     @@map("categories")
-// }
+export const updateCategorySchema = z.object({
+  body: z.object({
+    name: z
+      .string()
+      .min(3, "category name must be at least 3 letters long")
+      .max(100, "category name must be less than 101 letters").optional()
+      ,
+    description: z
+      .string()
+      .min(6, "Description must be at least 10 letters long")
+      .max(255, "description  must be less than 101 letters").optional()
+      ,
+  }),
+});
