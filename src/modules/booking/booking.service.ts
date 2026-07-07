@@ -84,9 +84,16 @@ const getAll = async (userId: string) => {
     },
   });
 
+  return booking;
+};
+const getDetails = async (bookingId: string) => {
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: {
+      id: bookingId,
+    },
+  });
   return booking
 };
-const getDetails = async () => {};
 const update = async () => {};
 export const bookingService = {
   create,

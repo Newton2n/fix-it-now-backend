@@ -20,7 +20,7 @@ bookingRoute.get(
   bookingController.getAll,
 );
 //get booking details
-bookingRoute.patch(
+bookingRoute.get(
   "/:id",
   authMiddleware.auth(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.TECHNICIAN),
   bookingController.getDetails,

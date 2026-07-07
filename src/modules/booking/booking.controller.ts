@@ -35,7 +35,18 @@ const getAll = catchAsync(
   },
 );
 const getDetails = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Booking id required");
+    }
+    const result = await bookingService.getDetails(id as string);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Booking retrieved successfully",
+      data: { booking: result },
+    });
+  },
 );
 const update = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
