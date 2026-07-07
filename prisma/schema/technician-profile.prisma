@@ -3,7 +3,7 @@ model TechnicianProfile {
     userId             String               @unique
     bio                String?
     skills             String[]
-    isAvailable        Boolean
+    isAvailable        Boolean    @default(true)
     yearsOfExperience  Decimal
     availability       Json
     status             TechnicianStatus       @default(PENDING_APPROVAL)

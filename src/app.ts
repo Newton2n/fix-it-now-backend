@@ -5,6 +5,7 @@ import authRoute from "./modules/auth/auth.route";
 import categoryRoute from "./modules/category/category.route";
 import globalError from "./middleware/global-error";
 import notFound from "./middleware/not-found";
+import technicianRoute from "./modules/technician/tecnician.route";
 const app: Application = express();
 
 
@@ -18,7 +19,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/categories", categoryRoute);
-app.use("/api/technicians", categoryRoute);
+app.use("/api/technicians", technicianRoute);
 
 
 // error handle

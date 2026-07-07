@@ -5,7 +5,28 @@ import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 
 const create = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const payload = req.body;
+
+    if (user?.role !== "TECHNICIAN") {
+      throw new Error(
+        "Customer can not create technician profile please update",
+      );
+    }
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+    const result = await technicianService.create(user.id, payload);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.CREATED,
+      message: "Technician Profile Created Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const updateProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
@@ -19,6 +40,9 @@ const updateAvailability = catchAsync(
 const getBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
+const getProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
 
 export const technicianController = {
   create,
@@ -26,4 +50,5 @@ export const technicianController = {
   updateProfile,
   getMe,
   getBookings,
+  getProfile,
 };
