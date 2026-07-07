@@ -30,7 +30,31 @@ const create = catchAsync(
   },
 );
 const update = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const serviceId = req.params?.id;
+    const payload = req.body;
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+    if (!serviceId) {
+      throw new Error("Service id required");
+    }
+
+    const result = await serviceService.update(
+      user?.id,
+      serviceId as string,
+      payload,
+    );
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.CREATED,
+      message: "Service updated Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const remove = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
