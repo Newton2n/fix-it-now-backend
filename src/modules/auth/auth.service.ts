@@ -1,13 +1,12 @@
 import { prisma } from "../../lib/prisma";
-import {
-  TLoginPayload,
-  TRegistrationPayload,
-} from "./auth.interface";
+import { TLoginPayload, TRegistrationPayload } from "./auth.interface";
 import bcrypt from "bcryptjs";
 import config from "../../config";
 import { Prisma } from "../../../generated/prisma/client";
 import { jwtUtils } from "../../utils/jwt";
+import { JwtPayload } from "jsonwebtoken";
 
+//register user
 const register = async (payload: TRegistrationPayload) => {
   const hashPassword = await bcrypt.hash(
     payload.password,
@@ -28,6 +27,7 @@ const register = async (payload: TRegistrationPayload) => {
   return result;
 };
 
+//log in
 const login = async (payload: TLoginPayload) => {
   const where = {} as Prisma.UserWhereUniqueInput;
 
@@ -76,7 +76,48 @@ const login = async (payload: TLoginPayload) => {
     jwtPayload,
   };
 };
+
+//get user
 const getMe = async () => {};
-const refreshToken = async () => {};
+
+//generate refresh token
+const refreshToken = async (refreshToken: string) => {
+  const verifyToken = jwtUtils.verifyToken(
+    refreshToken,
+    config.jwt_refresh_secret!,
+  );
+
+  if (!verifyToken.data) {
+    throw new Error(verifyToken.error);
+  }
+
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: verifyToken.data.id,
+    },
+    omit: {
+      password: true,
+    },
+  });
+
+  if (user.status === "BLOCKED") {
+    throw new Error("Sorry you are blocked contact support");
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.roles,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in!,
+  );
+
+  return { accessToken, jwtPayload };
+};
 
 export const authService = { register, login, getMe, refreshToken };

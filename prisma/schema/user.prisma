@@ -5,6 +5,7 @@ model User {
     email          String?    @unique @db.VarChar(200)
     password       String    @db.Text()
     roles          UserRole
+    status         UserActiveStatus @default(ACTIVE)
     country        String?    @db.VarChar(120)
     profilePicture String?
 

@@ -37,7 +37,7 @@ const login = catchAsync(
     });
 
     sendSuccessResponse(res, {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.OK,
       message: "User Log in successfully",
       data: {
         user: jwtPayload,
@@ -49,8 +49,34 @@ const login = catchAsync(
 const getMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
+
+
+//generate refresh token
 const refreshToken = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) {
+      throw new Error("Sorry You Are Logged Out Please Log In Again");
+    }
+
+    const { accessToken, jwtPayload } =
+      await authService.refreshToken(refreshToken);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "User Log in successfully",
+      data: {
+        user: jwtPayload,
+      },
+    });
+  },
 );
 export const authController = {
   register,
