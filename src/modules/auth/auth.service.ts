@@ -29,18 +29,10 @@ const register = async (payload: TRegistrationPayload) => {
 
 //log in
 const login = async (payload: TLoginPayload) => {
-  const where = {} as Prisma.UserWhereUniqueInput;
-
-  if (payload.email) {
-    where.email = payload.email;
-  } else if (payload.phoneNumber) {
-    where.phoneNumber = payload.phoneNumber;
-  } else {
-    throw new Error("At least email or phone number field is required");
-  }
-
   const user = await prisma.user.findUniqueOrThrow({
-    where,
+    where: {
+      email: payload.email,
+    },
   });
 
   const checkPassword = await bcrypt.compare(payload.password, user.password);
@@ -100,8 +92,8 @@ const refreshToken = async (refreshToken: string) => {
     },
   });
 
-  if (user.status === "BLOCKED") {
-    throw new Error("Sorry you are blocked contact support");
+  if (user.status !== "ACTIVE") {
+    throw new Error("Your account is not active. Please contact support");
   }
 
   const jwtPayload = {

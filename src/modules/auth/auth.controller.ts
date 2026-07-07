@@ -38,7 +38,7 @@ const login = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "User Log in successfully",
+      message: "Access token refreshed successfully",
       data: {
         user: jwtPayload,
       },
@@ -49,7 +49,6 @@ const login = catchAsync(
 const getMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
-
 
 //generate refresh token
 const refreshToken = catchAsync(
