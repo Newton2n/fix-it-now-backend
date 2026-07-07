@@ -16,6 +16,8 @@ technicianRoute.post(
   validate(technicianRegisterSchema),
   technicianController.create,
 );
+
+// get random technician profile details public
 technicianRoute.post("/profile/:id", technicianController.getProfile);
 
 //update profile

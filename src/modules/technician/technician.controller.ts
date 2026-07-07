@@ -72,7 +72,24 @@ const getBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
 const getProfile = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const technicianProfileId = req.params?.id;
+
+    if (!technicianProfileId) {
+      throw new Error("technicianProfileId id required ");
+    }
+
+    const result = await technicianService.getProfile(
+      technicianProfileId as string,
+    );
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Technician Profile Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 
 export const technicianController = {

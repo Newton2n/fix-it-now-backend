@@ -45,10 +45,21 @@ const getMe = async (userId: string) => {
       userId: userId,
     },
   });
-  return profile
+  return profile;
 };
 const getBooking = async () => {};
-const getProfile = async () => {};
+const getProfile = async (technicianProfileId: string) => {
+  const technician = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      id: technicianProfileId,
+    },
+    include: {
+      service: true,
+    },
+  });
+  
+  return technician
+};
 
 export const technicianService = {
   create,
