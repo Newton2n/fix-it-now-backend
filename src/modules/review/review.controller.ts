@@ -22,7 +22,21 @@ const create = catchAsync(
   },
 );
 const getById = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Sorry review id required");
+    }
+
+    const result = await reviewService.getById(id as string);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Review retrieved successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const update = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},

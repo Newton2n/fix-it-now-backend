@@ -33,9 +33,16 @@ const create = async (customerId: string, payload: TCreateReviewPayload) => {
       ...payload,
     },
   });
-  return createReview
+  return createReview;
 };
-const getById = async () => {};
+const getById = async (reviewId: string) => {
+  const review = await prisma.review.findUniqueOrThrow({
+    where: {
+      id: reviewId,
+    },
+  });
+  return review
+};
 const update = async () => {};
 const remove = async () => {};
 const getAll = async () => {};
