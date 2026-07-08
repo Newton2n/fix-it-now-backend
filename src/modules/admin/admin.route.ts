@@ -1,22 +1,46 @@
 import { Router } from "express";
-import { categoryController } from "./category.controller";
+import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate } from "../../middleware/validate";
-import { createCategorySchema, updateCategorySchema } from "./category.schema";
-const reviewRoute = Router();
+import { updateUserStatus } from "./admin.schema";
+const adminRoute = Router();
 
-//create review
-reviewRoute.get("/", reviewController.create);
+//get all user
+adminRoute.get(
+  "/users",
+  authMiddleware.auth(UserRole.ADMIN),
+  adminController.getAllUser,
+);
 
-//get review by id review
-reviewRoute.get("/:id", reviewController.getById);
+//Update user status
+adminRoute.patch(
+  "/users/:id",
+  authMiddleware.auth(UserRole.ADMIN),
+  validate(updateUserStatus),
+  adminController.updateUserStatus,
+);
 
-//update review by owner
-reviewRoute.patch("/:id", reviewController.update);
+//Get all bookings
+adminRoute.get(
+  "/bookings",
+  authMiddleware.auth(UserRole.ADMIN),
+  adminController.getAllBooking,
+);
 
-//delete review by owner
-reviewRoute.delete("/:id", reviewController.remove);
+//get all category
+adminRoute.get(
+  "/categories",
+  authMiddleware.auth(UserRole.ADMIN),
+  adminController.getAllCategory,
+);
 
-//get all reviews log in customer
-reviewRoute.get("/me", reviewController.getAllByCustomer);
+//get all reviews
+adminRoute.get(
+  "/reviews",
+  authMiddleware.auth(UserRole.ADMIN),
+  adminController.getAllReviews,
+);
+
+
+export default adminRoute

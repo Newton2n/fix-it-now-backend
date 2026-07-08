@@ -6,25 +6,25 @@ import { validate } from "../../middleware/validate";
 import { createCategorySchema, updateCategorySchema } from "./category.schema";
 const categoryRoute = Router();
 
-//get all route
+//get all
 categoryRoute.get("/", categoryController.getAll);
 //create category
 categoryRoute.post(
-  "/",
+  "/admin",
   authMiddleware.auth(UserRole.ADMIN),
   validate(createCategorySchema),
   categoryController.create,
 );
 //update category
 categoryRoute.patch(
-  "/:id",
+  "/admin/:id",
   authMiddleware.auth(UserRole.ADMIN),
   validate(updateCategorySchema),
   categoryController.update,
 );
 //delete category
 categoryRoute.delete(
-  "/:id",
+  "/admin/:id",
   authMiddleware.auth(UserRole.ADMIN),
   categoryController.remove,
 );
