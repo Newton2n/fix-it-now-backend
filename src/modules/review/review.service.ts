@@ -16,24 +16,27 @@ const create = async (customerId: string, payload: TCreateReviewPayload) => {
     throw new Error("Sorry you can not write a review to another booking");
   }
 
-  const isOneReviewExists = await prisma.review.findUnique({
-    where: {
-      bookingId: payload.bookingId,
-    },
-  });
+  const createReviewTransaction = await prisma.$transaction(async (tx) => {
+    const isOneReviewExists = await tx.review.findUnique({
+      where: {
+        bookingId: payload.bookingId,
+      },
+    });
 
-  if (isOneReviewExists) {
-    throw new Error(
-      "Sorry this booking has already a review you can customize it only",
-    );
-  }
+    if (isOneReviewExists) {
+      throw new Error(
+        "Sorry this booking has already a review you can customize it only",
+      );
+    }
 
-  const createReview = await prisma.review.create({
-    data: {
-      ...payload,
-    },
+    const createReview = await tx.review.create({
+      data: {
+        ...payload,
+      },
+    });
+    return createReview;
   });
-  return createReview;
+  return createReviewTransaction;
 };
 const getById = async (reviewId: string) => {
   const review = await prisma.review.findUniqueOrThrow({
@@ -41,7 +44,7 @@ const getById = async (reviewId: string) => {
       id: reviewId,
     },
   });
-  return review
+  return review;
 };
 const update = async () => {};
 const remove = async () => {};
