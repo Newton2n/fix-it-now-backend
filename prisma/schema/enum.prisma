@@ -3,11 +3,13 @@ enum UserRole {
   CUSTOMER
   TECHNICIAN
 }
+
 enum UserActiveStatus {
-    ACTIVE
-    INACTIVE
-    BLOCKED
+  ACTIVE
+  INACTIVE
+  BLOCKED
 }
+
 enum TechnicianStatus {
   PENDING_APPROVAL
   VERIFIED
@@ -15,11 +17,13 @@ enum TechnicianStatus {
 }
 
 enum BookingStatus {
-  PENDING
+  REQUESTED
   ACCEPTED
+  DECLINED
+  CANCELED
+  PAID
   IN_PROGRESS
   COMPLETED
-  DECLINED
 }
 
 enum PaymentStatus {
@@ -27,4 +31,3 @@ enum PaymentStatus {
   SUCCEEDED
   FAILED
 }
-

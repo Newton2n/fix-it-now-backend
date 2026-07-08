@@ -28,12 +28,12 @@ bookingRoute.get(
   authMiddleware.auth(UserRole.CUSTOMER, UserRole.ADMIN, UserRole.TECHNICIAN),
   bookingController.getDetails,
 );
-//update service by technician
+//update service status by technician
 bookingRoute.patch(
   "/:id",
   authMiddleware.auth(UserRole.TECHNICIAN),
   validate(updateBookingStatusPayload),
-  bookingController.update,
+  bookingController.updateByTechnician,
 );
 
 export default bookingRoute;

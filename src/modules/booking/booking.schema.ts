@@ -19,7 +19,11 @@ export const createBookingSchema = z.object({
 });
 export const updateBookingStatusPayload = z.object({
   body: z.object({
-    status : z.enum([BookingStatus.ACCEPTED,BookingStatus.COMPLETED,BookingStatus.DECLINED,BookingStatus.IN_PROGRESS,])
+    status: z.enum([
+      BookingStatus.ACCEPTED,
+      BookingStatus.DECLINED,
+      BookingStatus.IN_PROGRESS,
+      BookingStatus.COMPLETED,
+    ]),
   }),
 });
-

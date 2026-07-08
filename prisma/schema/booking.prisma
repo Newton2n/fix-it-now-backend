@@ -2,7 +2,7 @@ model Booking {
     id           String        @id @default(uuid())
     customerId   String
     serviceId    String
-    status       BookingStatus @default(PENDING)
+    status       BookingStatus @default(REQUESTED)
     scheduledAt DateTime
     location     String
     customerNote String?

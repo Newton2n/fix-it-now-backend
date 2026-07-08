@@ -3,6 +3,7 @@ import catchAsync from "../../utils/catch-async";
 import { bookingService } from "./booking.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
+import { BookingStatus } from "../../../generated/prisma/enums";
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -48,7 +49,7 @@ const getDetails = catchAsync(
     });
   },
 );
-const update = catchAsync(
+const updateByTechnician = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     if (!user?.id) {
@@ -59,6 +60,9 @@ const update = catchAsync(
       throw new Error("Booking id required");
     }
     const { status } = req.body;
+    if (!status || !Object.values(BookingStatus).includes(status)) {
+      throw new Error("Valid booking status required");
+    }
     const result = await bookingService.updateStatusByTechnician(
       id as string,
       user.id,
@@ -76,5 +80,5 @@ export const bookingController = {
   create,
   getAll,
   getDetails,
-  update,
+  updateByTechnician,
 };
