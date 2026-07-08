@@ -1,12 +1,12 @@
 model Service {
-    id             String    @id @default(uuid())
+    id             String          @id @default(uuid())
     categoryId     String
     technicianId   String
-    title          String    @db.VarChar(100)
-    description    String?    @db.VarChar(255)
+    title          String          @db.VarChar(100)
+    description    String?         @db.VarChar(255)
     price          Int
-    currency       String    @db.VarChar(50)
-    isAvailable    Boolean   @default(true)
+    currency       CurrencyAllowed @default(USD)
+    isAvailable    Boolean         @default(true)
     thumbnailImage String?
     galleryImages  String[]
     booking        Booking[]
@@ -17,7 +17,7 @@ model Service {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@map("services")
     @@index([categoryId])
     @@index([technicianId])
+    @@map("services")
 }

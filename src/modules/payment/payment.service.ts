@@ -20,7 +20,7 @@ const checkoutSession = async (
     throw new Error("Sorry booking is not available");
   }
   if (booking.status !== "ACCEPTED") {
-    throw new Error("You can not pay before technician accept booking");
+    throw new Error("You can not pay before technician accept booking or canceled booking");
   }
   const session = await stripe.checkout.sessions.create({
     mode: "payment",

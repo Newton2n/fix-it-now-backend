@@ -92,6 +92,9 @@ const getDetails = async (bookingId: string) => {
     where: {
       id: bookingId,
     },
+    include :{
+      service :true
+    }
   });
   return booking;
 };

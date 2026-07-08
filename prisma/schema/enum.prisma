@@ -31,3 +31,7 @@ enum PaymentStatus {
   SUCCEEDED
   FAILED
 }
+
+enum CurrencyAllowed {
+    USD
+}
