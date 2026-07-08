@@ -2,10 +2,15 @@ import { UserActiveStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 const getAllUser = async () => {
-  const allUser = await prisma.user.findMany();
+  const allUser = await prisma.user.findMany({
+    omit: { password: true },
+  });
   return allUser;
 };
-const updateUserStatus = async (userId: string, newStatus: UserActiveStatus) => {
+const updateUserStatus = async (
+  userId: string,
+  newStatus: UserActiveStatus,
+) => {
   const isUserExist = await prisma.user.findUniqueOrThrow({
     where: {
       id: userId,
@@ -36,11 +41,10 @@ const getAllReviews = async () => {
   return allReviews;
 };
 
-
 export const adminService = {
   getAllUser,
   updateUserStatus,
   getAllBooking,
   getAllCategory,
-  getAllReviews
+  getAllReviews,
 };
