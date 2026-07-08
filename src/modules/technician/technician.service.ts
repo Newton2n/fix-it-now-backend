@@ -1,3 +1,4 @@
+import { TechnicianStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
@@ -102,6 +103,30 @@ const getAll = async () => {
   const profile = await prisma.technicianProfile.findMany();
   return profile;
 };
+const verify = async (technicianId: string ,newStatus :TechnicianStatus) => {
+  const profile = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      id: technicianId,
+    },
+  });
+
+  const updateStatus = await prisma.technicianProfile.update({
+    where :{
+      id :technicianId
+    },
+    data :{
+      status :newStatus
+    },
+    include :{
+      user:true
+    }
+  })
+  return {
+    technicianId :updateStatus.id,
+    technicianName :updateStatus.user.name,
+    newStatus :updateStatus.status,
+  };
+};
 
 export const technicianService = {
   create,
@@ -111,4 +136,5 @@ export const technicianService = {
   getBooking,
   getProfile,
   getAll,
+  verify,
 };

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { TechnicianStatus } from "../../../generated/prisma/enums";
 
 const daySchema = z.object({
   start: z.string(),
@@ -62,4 +63,14 @@ export const changeAvailabilityPayload = z.object({
       sunday: daySchema.optional(),
     }),
   }),
+});
+
+export const technicianProfileUpdateStatus = z.object({
+  body: z.object({
+      status: z.enum([
+        TechnicianStatus.PENDING_APPROVAL,
+        TechnicianStatus.SUSPENDED,
+        TechnicianStatus.VERIFIED
+      ]),
+    }),
 });

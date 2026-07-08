@@ -61,10 +61,10 @@ const getMe = catchAsync(
 );
 const updateAvailability = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-  const user = req.user;
-    const payload = req.body
-    
-    console.log("payload",payload);
+    const user = req.user;
+    const payload = req.body;
+
+    console.log("payload", payload);
     if (!user?.id) {
       throw new Error("User id required Please log in");
     }
@@ -76,7 +76,6 @@ const updateAvailability = catchAsync(
         result,
       },
     });
-
   },
 );
 const getBookings = catchAsync(
@@ -121,12 +120,35 @@ const getProfile = catchAsync(
 
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-   
-
     const result = await technicianService.getAll();
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "Your Technician Profile Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const verify = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { technicianId } = req.params;
+    if (!technicianId) {
+      throw new Error("Technician id required");
+    }
+    const user = req.user;
+    if (user?.role !== "ADMIN") {
+      throw new Error("Sorry only admin can change technician status");
+    }
+    const newStatus = req.body.status;
+
+    const result = await technicianService.verify(
+      technicianId as string,
+      newStatus,
+    );
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: " Technician Profile updated Successfully",
       data: {
         result,
       },
@@ -141,5 +163,6 @@ export const technicianController = {
   getMe,
   getBookings,
   getProfile,
-  getAll
+  getAll,
+  verify,
 };

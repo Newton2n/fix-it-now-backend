@@ -5,6 +5,7 @@ import { validate } from "../../middleware/validate";
 import { UserRole } from "../../../generated/prisma/enums";
 import {
     changeAvailabilityPayload,
+  technicianProfileUpdateStatus,
   technicianRegisterSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
@@ -51,6 +52,14 @@ technicianRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getBookings,
+);
+
+//verify technician profile
+technicianRoute.patch(
+  "/admin/:technicianId/verify",
+  authMiddleware.auth(UserRole.ADMIN),
+  validate(technicianProfileUpdateStatus),
+  technicianController.verify,
 );
 
 export default technicianRoute;
