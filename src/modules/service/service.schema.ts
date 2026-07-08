@@ -14,7 +14,7 @@ export const createServiceSchema = z.object({
       .max(255, "description must be less than 255 letters")
       .optional(),
     price: z.number().min(0, "Price should be positive value"),
-    currency: z.enum([CurrencyAllowed.USD]),
+    currency: z.enum([CurrencyAllowed.USD]).optional(),
     isAvailable: z.boolean().optional(),
     thumbnailImage: z.url().min(1, "Valid url required").optional(),
     galleryImages: z.array(z.url({ error: "Valid url required" })).optional(),
@@ -34,7 +34,7 @@ export const updateServiceSchema = z.object({
       .max(255, "description must be less than 255 letters")
       .optional(),
     price: z.number().min(0, "Price should be positive value").optional(),
-    currency: z.enum([CurrencyAllowed.USD]),
+    currency: z.enum([CurrencyAllowed.USD]).optional(),
     isAvailable: z.boolean().optional(),
     thumbnailImage: z.url().min(1, "Valid url required").optional(),
     galleryImages: z.array(z.url({ error: "Valid url required" })).optional(),

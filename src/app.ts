@@ -16,6 +16,10 @@ const app: Application = express();
 
 app.use(cors());
 
+app.post(
+  "/api/payment/webhook",
+  express.raw({ type: "application/json" }),
+);
 
 
 app.use(express.json());
