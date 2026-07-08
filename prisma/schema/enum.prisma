@@ -33,5 +33,10 @@ enum PaymentStatus {
 }
 
 enum CurrencyAllowed {
-    USD
+  USD
+}
+
+enum PaymentProvider {
+  STRIPE
+  SSLCOMMERZ
 }

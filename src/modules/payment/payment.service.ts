@@ -1,8 +1,8 @@
-import { setEngine } from "node:crypto";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
+import { handlePaymentSuccess } from "./payment-utils";
 
 const checkoutSession = async (
   userId: string,
@@ -27,6 +27,26 @@ const checkoutSession = async (
       "You cannot pay for a booking that hasn't been accepted by a technician or has been canceled",
     );
   }
+
+  const findPayment = await prisma.payment.findUnique({
+    where: {
+      bookingId: booking.id,
+    },
+  });
+  if (findPayment?.status === "SUCCEEDED") {
+    throw new Error("This booking has already been paid.");
+  }
+
+  if (!findPayment) {
+    const createPaymentData = await prisma.payment.create({
+      data: {
+        provider: "STRIPE",
+        bookingId: booking.id,
+        currency: "USD",
+        amount: booking.service.price,
+      },
+    });
+  }
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_email: userEmail,
@@ -45,6 +65,7 @@ const checkoutSession = async (
     ],
     metadata: {
       userId: userId,
+      bookingId: booking.id,
     },
     success_url: "http://localhost:5000/api/payment?success=true",
     cancel_url: "http://localhost:5000/api/payment?success=false",
@@ -53,24 +74,22 @@ const checkoutSession = async (
 };
 
 const webhookHandler = async (payload: Buffer, signature: string) => {
-  const webhookSecret = config.stripe_webhook_secret
+  const webhookSecret = config.stripe_webhook_secret;
   const event: Stripe.Event = stripe.webhooks.constructEvent(
     payload,
     signature!,
     webhookSecret,
   );
-  //  console.log(event)
+
   // Handle the event
   switch (event.type) {
     case "checkout.session.completed":
-      console.log("customer payment event checkout session complete triggered ", event.type);
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log("session",session)
+      await handlePaymentSuccess(session);
+
       break;
 
     default:
-      // Unexpected event type
-      console.log(`Unhandled event type ${event.type}.`);
   }
 };
 
