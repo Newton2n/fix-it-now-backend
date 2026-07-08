@@ -15,17 +15,17 @@ reviewRoute.post(
   reviewController.create,
 );
 
+//get all reviews log in customer
+reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN), reviewController.getAllByMe);
 //get review by id review
 reviewRoute.get("/:id", reviewController.getById);
 
 //update review by owner
-reviewRoute.patch("/:id", authMiddleware.auth(UserRole.CUSTOMER),
+reviewRoute.patch("/:reviewId", authMiddleware.auth(UserRole.CUSTOMER),
   validate(updateReviewSchema), reviewController.update);
 
 //delete review by owner
 reviewRoute.delete("/:id",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN), reviewController.remove);
 
-//get all reviews log in customer
-reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN), reviewController.getAllByMe);
 
 export default reviewRoute;

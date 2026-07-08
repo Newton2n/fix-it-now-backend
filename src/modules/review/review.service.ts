@@ -8,13 +8,12 @@ const create = async (customerId: string, payload: TCreateReviewPayload) => {
       id: payload.bookingId,
     },
   });
-
-  if (booking.status !== "COMPLETED") {
-    throw new Error("Sorry the booking is still not completed");
-  }
-
   if (booking.customerId !== customerId) {
     throw new Error("Sorry you can not write a review to another booking");
+  }
+
+  if (booking.status !== "COMPLETED") {
+    throw new Error("Sorry the booking is not completed");
   }
 
   const createReviewTransaction = await prisma.$transaction(async (tx) => {
@@ -46,11 +45,14 @@ const getById = async (reviewId: string) => {
     },
   });
   return review;
+  return {
+    name :"hello"
+  }
 };
-const update = async (customerId: string, payload: TUpdateReviewPayload) => {
-  const isOneReviewExists = await prisma.review.findUnique({
+const update = async (customerId: string, reviewId :string,payload: TUpdateReviewPayload) => {
+  const isOneReviewExists = await prisma.review.findUniqueOrThrow({
     where: {
-      bookingId: payload.bookingId,
+      id :reviewId,
     },
     include: {
       booking: true,
@@ -60,23 +62,17 @@ const update = async (customerId: string, payload: TUpdateReviewPayload) => {
     throw new Error("Sorry you cannot update another review");
   }
 
-  if (isOneReviewExists) {
-    throw new Error(
-      "Sorry this booking has already a review you can customize it only",
-    );
-  }
 
-  const { bookingId, ...restPayload } = payload;
 
-  const createReview = await prisma.review.update({
+  const updateReview = await prisma.review.update({
     where: {
-      bookingId: payload.bookingId,
+      id: reviewId,
     },
     data: {
-      ...restPayload,
+      ...payload,
     },
   });
-  return createReview;
+  return updateReview;
 };
 
 //delete review
@@ -118,7 +114,7 @@ const getAllMy = async (userId: string) => {
     },
   });
 
-  return review
+  return review;
 };
 
 export const reviewService = {

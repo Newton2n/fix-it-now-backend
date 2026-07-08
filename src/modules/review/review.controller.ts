@@ -44,9 +44,17 @@ const update = catchAsync(
     if (!user?.id) {
       throw new Error("User id required please log in ");
     }
+    const { reviewId } = req.params;
+    if (!reviewId) {
+      throw new Error("Sorry review id required");
+    }
 
     const payload = req.body;
-    const result = await reviewService.update(user?.id, payload);
+    const result = await reviewService.update(
+      user?.id,
+      reviewId as string,
+      payload,
+    );
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "Review updated successfully",
