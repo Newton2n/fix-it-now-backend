@@ -23,7 +23,7 @@ reviewRoute.patch("/:id", authMiddleware.auth(UserRole.CUSTOMER),
   validate(updateReviewSchema), reviewController.update);
 
 //delete review by owner
-reviewRoute.delete("/:id", reviewController.remove);
+reviewRoute.delete("/:id",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN), reviewController.remove);
 
 //get all reviews log in customer
 reviewRoute.get("/me", reviewController.getAllByCustomer);

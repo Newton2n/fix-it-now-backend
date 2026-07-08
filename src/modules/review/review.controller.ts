@@ -57,7 +57,27 @@ const update = catchAsync(
   },
 );
 const remove = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in ");
+    }
+
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Sorry review id required");
+    }
+
+    const userRole = user.role;
+    const result = await reviewService.remove(user?.id, userRole, id as string);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Review deleted successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const getAllByCustomer = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},

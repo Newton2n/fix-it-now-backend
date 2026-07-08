@@ -1,3 +1,4 @@
+import { UserRole } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { TCreateReviewPayload, TUpdateReviewPayload } from "./review.interface";
 
@@ -77,7 +78,34 @@ const update = async (customerId: string, payload: TUpdateReviewPayload) => {
   });
   return createReview;
 };
-const remove = async () => {};
+
+//delete review
+const remove = async (
+  customerId: string,
+  userRole: UserRole,
+  reviewId: string,
+) => {
+  const isOneReviewExists = await prisma.review.findUniqueOrThrow({
+    where: {
+      id: reviewId,
+    },
+    include: {
+      booking: true,
+    },
+  });
+  if (userRole !== "ADMIN") {
+    if (isOneReviewExists?.booking.customerId !== customerId) {
+      throw new Error("Sorry you cannot delete another review");
+    }
+  }
+
+  const deleteReview = await prisma.review.delete({
+    where: {
+      id: reviewId,
+    },
+  });
+  return deleteReview;
+};
 const getAll = async () => {};
 
 export const reviewService = {
