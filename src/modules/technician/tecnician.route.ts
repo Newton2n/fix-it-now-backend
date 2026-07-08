@@ -4,21 +4,15 @@ import { authMiddleware } from "../../middleware/auth";
 import { validate } from "../../middleware/validate";
 import { UserRole } from "../../../generated/prisma/enums";
 import {
-    changeAvailabilityPayload,
+  changeAvailabilityPayload,
   technicianProfileUpdateStatus,
   technicianRegisterSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
 const technicianRoute = Router();
 
-
-
-
 //create technician profile
-technicianRoute.get(
-  "/",
-  technicianController.getAll,
-);
+technicianRoute.get("/", technicianController.getAll);
 //create technician profile
 technicianRoute.post(
   "/profile",
@@ -37,8 +31,12 @@ technicianRoute.patch(
   validate(technicianUpdateSchema),
   technicianController.updateProfile,
 );
-technicianRoute.patch("/availability",authMiddleware.auth(UserRole.TECHNICIAN),
-validate(changeAvailabilityPayload), technicianController.updateAvailability);
+technicianRoute.patch(
+  "/availability",
+  authMiddleware.auth(UserRole.TECHNICIAN),
+  validate(changeAvailabilityPayload),
+  technicianController.updateAvailability,
+);
 
 //get login user technician profile
 technicianRoute.get(
@@ -53,7 +51,7 @@ technicianRoute.get(
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getBookings,
 );
-// get booking by log in technician
+// get all reviews for a technician
 technicianRoute.get(
   "/:technicianId/reviews",
   technicianController.getAllReviews,

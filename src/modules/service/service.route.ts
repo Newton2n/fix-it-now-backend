@@ -19,7 +19,7 @@ serviceRoute.get(
 serviceRoute.post(
   "/",
   authMiddleware.auth(UserRole.TECHNICIAN),
-    validate(createServiceSchema),
+  validate(createServiceSchema),
   serviceController.create,
 );
 
@@ -27,7 +27,7 @@ serviceRoute.post(
 serviceRoute.patch(
   "/:id",
   authMiddleware.auth(UserRole.TECHNICIAN),
-    validate(updateServiceSchema),
+  validate(updateServiceSchema),
   serviceController.update,
 );
 
@@ -37,14 +37,13 @@ serviceRoute.delete(
   authMiddleware.auth(UserRole.TECHNICIAN),
   serviceController.remove,
 );
-//get all services by technician id 
+//get all services by technician id
 serviceRoute.get(
   "/:id/technician",
-  authMiddleware.auth(UserRole.TECHNICIAN,UserRole.ADMIN,UserRole.CUSTOMER),
+  authMiddleware.auth(UserRole.TECHNICIAN, UserRole.ADMIN, UserRole.CUSTOMER),
   serviceController.getAllByTechnicianId,
 );
 
-//get all service
+// get all reviews for a service
 serviceRoute.get("/:serviceId/reviews", serviceController.getAllReviews);
-
 export default serviceRoute;
