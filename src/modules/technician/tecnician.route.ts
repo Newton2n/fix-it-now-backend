@@ -53,7 +53,11 @@ technicianRoute.get(
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getBookings,
 );
-
+// get booking by log in technician
+technicianRoute.get(
+  "/:technicianId/reviews",
+  technicianController.getAllReviews,
+);
 //verify technician profile
 technicianRoute.patch(
   "/admin/:technicianId/verify",

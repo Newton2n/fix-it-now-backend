@@ -43,7 +43,7 @@ const create = async (userId: string, payload: TCreateServicePayload) => {
       },
     });
   if (isTechnicianProfileExist.status !== "VERIFIED") {
-    throw new Error("Technician is not verified yet" );
+    throw new Error("Technician is not verified yet");
   }
   //category exist check
   await prisma.category.findUniqueOrThrow({
@@ -131,6 +131,17 @@ const remove = async (userId: string, serviceId: string) => {
   return remove;
 };
 
+const getAllReviews = async (serviceId: string) => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      booking: {
+        serviceId: serviceId,
+      },
+    },
+  });
+  return reviews;
+};
+
 export const serviceService = {
   getAll,
   getById,
@@ -138,4 +149,5 @@ export const serviceService = {
   update,
   remove,
   getAllByTechnicianId,
+  getAllReviews,
 };

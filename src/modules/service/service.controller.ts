@@ -119,6 +119,24 @@ const remove = catchAsync(
     });
   },
 );
+const getAllReviews = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+
+    const {serviceId} = req.params ;
+    if(!serviceId) {
+      throw new Error("Sorry service id required")
+    }
+    const result = await serviceService.getAllReviews(serviceId as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Service Reviews retrieved Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
 
 export const serviceController = {
   getAll,
@@ -127,4 +145,5 @@ export const serviceController = {
   update,
   remove,
   getAllByTechnicianId,
+  getAllReviews
 };

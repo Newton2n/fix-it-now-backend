@@ -44,4 +44,7 @@ serviceRoute.get(
   serviceController.getAllByTechnicianId,
 );
 
+//get all service
+serviceRoute.get("/:serviceId/reviews", serviceController.getAllReviews);
+
 export default serviceRoute;

@@ -123,7 +123,7 @@ const getAll = catchAsync(
     const result = await technicianService.getAll();
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Your Technician Profile Retrieve Successfully",
+      message: "All Technician Profile Retrieve Successfully",
       data: {
         result,
       },
@@ -156,6 +156,25 @@ const verify = catchAsync(
   },
 );
 
+// get all review by a technician
+const getAllReviews = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+  const {technicianId} = req.params;
+  if(!technicianId){
+    throw new Error("Sorry technician id required")
+  }
+
+    const result = await technicianService.getAllReviews(technicianId as string);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "All reviews Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
 export const technicianController = {
   create,
   updateAvailability,
@@ -165,4 +184,5 @@ export const technicianController = {
   getProfile,
   getAll,
   verify,
+  getAllReviews
 };

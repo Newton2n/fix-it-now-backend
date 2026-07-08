@@ -103,7 +103,7 @@ const getAll = async () => {
   const profile = await prisma.technicianProfile.findMany();
   return profile;
 };
-const verify = async (technicianId: string ,newStatus :TechnicianStatus) => {
+const verify = async (technicianId: string, newStatus: TechnicianStatus) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       id: technicianId,
@@ -111,23 +111,45 @@ const verify = async (technicianId: string ,newStatus :TechnicianStatus) => {
   });
 
   const updateStatus = await prisma.technicianProfile.update({
-    where :{
-      id :technicianId
+    where: {
+      id: technicianId,
     },
-    data :{
-      status :newStatus
+    data: {
+      status: newStatus,
     },
-    include :{
-      user:true
-    }
-  })
+    include: {
+      user: true,
+    },
+  });
   return {
-    technicianId :updateStatus.id,
-    technicianName :updateStatus.user.name,
-    newStatus :updateStatus.status,
+    technicianId: updateStatus.id,
+    technicianName: updateStatus.user.name,
+    newStatus: updateStatus.status,
   };
 };
 
+const getAllReviews = async (technicianId: string) => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      booking: {
+        service: { technicianId: technicianId },
+      },
+    },
+    select: {
+      id: true,
+      description: true,
+      rating: true,
+      createdAt: true,
+      updatedAt: true,
+      booking: {
+        select: {
+          service: true,
+        },
+      },
+    },
+  });
+  return reviews;
+};
 export const technicianService = {
   create,
   updateAvailability,
@@ -137,4 +159,5 @@ export const technicianService = {
   getProfile,
   getAll,
   verify,
+  getAllReviews,
 };
