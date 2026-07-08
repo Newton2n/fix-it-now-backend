@@ -95,40 +95,72 @@ const getDetails = async (bookingId: string) => {
   });
   return booking;
 };
+
 const updateStatusByTechnician = async (
   bookingId: string,
   userId: string,
-  status: BookingStatus,
+  newStatus: BookingStatus,
 ) => {
+  // Allowed transitions for the technician
+  const technicianRules: Record<BookingStatus, BookingStatus[]> = {
+    REQUESTED: ["ACCEPTED", "DECLINED"],
+    ACCEPTED: [],
+    PAID: ["IN_PROGRESS"],
+    IN_PROGRESS: ["COMPLETED"],
+    DECLINED: [],
+    CANCELED: [],
+    COMPLETED: [],
+  };
+  // technician profile
   const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId,
     },
   });
 
-  const booking = await prisma.booking.findFirstOrThrow({
+  //  booking and verify it belongs to this technician
+  const booking = await prisma.booking.findUnique({
     where: {
       id: bookingId,
-      service: {
-        technicianId: technicianProfile.id,
-      },
+    },
+    include: {
+      service: true,
     },
   });
-  if (booking.status === "DECLINED") {
-    throw new Error("Declined booking cannot be updated");
+
+  if (technicianProfile.id !== booking!.service.technicianId) {
+    throw new Error("You cannot change another technician booking");
   }
 
+  //  Validate the transition using the rules
+  const allowedNextStatuses = technicianRules[booking!.status];
+
+  if (!allowedNextStatuses.includes(newStatus)) {
+    throw new Error(
+      `Technician cannot change status from ${booking!.status} to ${newStatus}`,
+    );
+  }
+
+  // 4. Update the booking status
   const update = await prisma.booking.update({
     where: {
       id: bookingId,
     },
     data: {
-      status: status,
+      status: newStatus,
+    },
+    include: {
+      service: true,
     },
   });
 
-  return update;
+  return {
+    bookingId: update.id,
+    serviceName: update.service.title,
+    newStatus: update.status,
+  };
 };
+
 export const bookingService = {
   create,
   getAll,
