@@ -35,5 +35,10 @@ bookingRoute.patch(
   validate(updateBookingStatusPayload),
   bookingController.updateByTechnician,
 );
+bookingRoute.patch(
+  "/:id/cancel",
+  authMiddleware.auth(UserRole.CUSTOMER),
+  bookingController.cancelBookingByCustomer,
+);
 
 export default bookingRoute;

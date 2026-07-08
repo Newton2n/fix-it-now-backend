@@ -75,10 +75,33 @@ const updateByTechnician = catchAsync(
     });
   },
 );
+const cancelBookingByCustomer = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
+    const { id } = req.params;
+    if (!id) {
+      throw new Error("Booking id required");
+    }
+
+    const result = await bookingService.cancelBookingByCustomer(
+      user.id,
+      id as string,
+    );
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Booking Canceled successfully",
+      data: { booking: result },
+    });
+  },
+);
 
 export const bookingController = {
   create,
   getAll,
   getDetails,
   updateByTechnician,
+  cancelBookingByCustomer
 };

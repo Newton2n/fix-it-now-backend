@@ -161,9 +161,42 @@ const updateStatusByTechnician = async (
   };
 };
 
+const cancelBookingByCustomer = async (userId: string, bookingId: string) => {
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: {
+      id: bookingId,
+    },
+  });
+
+  if (booking.customerId !== userId) {
+    throw new Error("Sorry You can not cancel another customer booking");
+  }
+
+  if (booking.status === "CANCELED") {
+    throw new Error("This booking has been canceled.");
+  }
+
+  const allowedToCancel = ["REQUESTED", "ACCEPTED", "PAID"];
+
+  if (!allowedToCancel.includes(booking.status)) {
+    throw new Error("This booking cannot be canceled in its current state.");
+  }
+
+  const cancel = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status: "CANCELED",
+    }
+  });
+
+  return cancel
+};
 export const bookingService = {
   create,
   getAll,
   getDetails,
   updateStatusByTechnician,
+  cancelBookingByCustomer
 };
