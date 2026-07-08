@@ -17,5 +17,15 @@ paymentRoute.post(
   "/webhook",
   paymentController.webhookHandler,
 );
+paymentRoute.get(
+  "/",
+  authMiddleware.auth(UserRole.CUSTOMER),
+  paymentController.getAllByLogInUser
+);
+paymentRoute.get(
+  "/:paymentId",
+  authMiddleware.auth(UserRole.CUSTOMER),
+  paymentController.getById
+);
 
 export default paymentRoute;

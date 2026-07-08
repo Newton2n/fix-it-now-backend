@@ -93,7 +93,32 @@ const webhookHandler = async (payload: Buffer, signature: string) => {
   }
 };
 
+const getAllByLogInUser = async (userId: string) => {
+  const payment = await prisma.payment.findMany({
+    where: {
+      booking: {
+        customerId: userId,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return payment;
+};
+const getById = async (paymentId :string) => {
+  const payment = await prisma.payment.findUniqueOrThrow({
+    where: {
+      id :paymentId
+    }
+  });
+
+  return payment;
+};
 export const paymentService = {
   checkoutSession,
   webhookHandler,
+  getAllByLogInUser,
+  getById
 };

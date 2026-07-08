@@ -40,7 +40,49 @@ const webhookHandler = catchAsync(
   },
 );
 
+const getAllByLogInUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    if (!user?.id) {
+      throw new Error("Sorry user id required please log in");
+    }
+    const result = await paymentService.getAllByLogInUser(user.id as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Payment history Retrieve successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const getById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    if (!user?.id) {
+      throw new Error("Sorry user id required please log in");
+    }
+    const {paymentId} = req.params ;
+    if(!paymentId){
+      throw new Error("Sorry payment id required")
+    }
+    const result = await paymentService.getById(paymentId as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Payment Details Retrieve successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
 export const paymentController = {
   checkout,
   webhookHandler,
+  getAllByLogInUser,getById
 };
