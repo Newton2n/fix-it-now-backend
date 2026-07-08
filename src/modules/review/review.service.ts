@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { TCreateReviewPayload } from "./review.interface";
+import { TCreateReviewPayload, TUpdateReviewPayload } from "./review.interface";
 
 const create = async (customerId: string, payload: TCreateReviewPayload) => {
   const booking = await prisma.booking.findUniqueOrThrow({
@@ -46,7 +46,37 @@ const getById = async (reviewId: string) => {
   });
   return review;
 };
-const update = async () => {};
+const update = async (customerId: string, payload: TUpdateReviewPayload) => {
+  const isOneReviewExists = await prisma.review.findUnique({
+    where: {
+      bookingId: payload.bookingId,
+    },
+    include: {
+      booking: true,
+    },
+  });
+  if (isOneReviewExists?.booking.customerId !== customerId) {
+    throw new Error("Sorry you cannot update another review");
+  }
+
+  if (isOneReviewExists) {
+    throw new Error(
+      "Sorry this booking has already a review you can customize it only",
+    );
+  }
+
+  const { bookingId, ...restPayload } = payload;
+
+  const createReview = await prisma.review.update({
+    where: {
+      bookingId: payload.bookingId,
+    },
+    data: {
+      ...restPayload,
+    },
+  });
+  return createReview;
+};
 const remove = async () => {};
 const getAll = async () => {};
 

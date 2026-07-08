@@ -39,7 +39,22 @@ const getById = catchAsync(
   },
 );
 const update = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in ");
+    }
+
+    const payload = req.body;
+    const result = await reviewService.update(user?.id, payload);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Review updated successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 const remove = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
