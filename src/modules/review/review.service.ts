@@ -106,12 +106,25 @@ const remove = async (
   });
   return deleteReview;
 };
-const getAll = async () => {};
+const getAllMy = async (userId: string) => {
+  const review = await prisma.review.findMany({
+    where: {
+      booking: {
+        customerId: userId,
+      },
+    },
+    include: {
+      booking: true,
+    },
+  });
+
+  return review
+};
 
 export const reviewService = {
   create,
   getById,
   update,
   remove,
-  getAll,
+  getAllMy,
 };

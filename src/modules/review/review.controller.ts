@@ -79,8 +79,21 @@ const remove = catchAsync(
     });
   },
 );
-const getAllByCustomer = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+const getAllByMe = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in ");
+    }
+    const result = await reviewService.getAllMy(user?.id);
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "All review retrieved successfully",
+      data: {
+        result,
+      },
+    });
+  },
 );
 
 export const reviewController = {
@@ -88,5 +101,5 @@ export const reviewController = {
   getById,
   update,
   remove,
-  getAllByCustomer,
+  getAllByMe,
 };

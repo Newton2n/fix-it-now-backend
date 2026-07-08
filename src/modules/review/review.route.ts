@@ -26,6 +26,6 @@ reviewRoute.patch("/:id", authMiddleware.auth(UserRole.CUSTOMER),
 reviewRoute.delete("/:id",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN), reviewController.remove);
 
 //get all reviews log in customer
-reviewRoute.get("/me", reviewController.getAllByCustomer);
+reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN), reviewController.getAllByMe);
 
 export default reviewRoute;
