@@ -65,9 +65,9 @@ const getById = catchAsync(
     if (!user?.id) {
       throw new Error("Sorry user id required please log in");
     }
-    const {paymentId} = req.params ;
-    if(!paymentId){
-      throw new Error("Sorry payment id required")
+    const { paymentId } = req.params;
+    if (!paymentId) {
+      throw new Error("Sorry payment id required");
     }
     const result = await paymentService.getById(paymentId as string);
 
@@ -80,9 +80,22 @@ const getById = catchAsync(
     });
   },
 );
+const response = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const success = req.query.success;
+
+    if (success === "true") {
+      return res.send("<h1> Payment Successful</h1>");
+    }
+
+    res.send("<h1> Payment Cancelled</h1>");
+  },
+);
 
 export const paymentController = {
   checkout,
   webhookHandler,
-  getAllByLogInUser,getById
+  getAllByLogInUser,
+  getById,
+  response,
 };

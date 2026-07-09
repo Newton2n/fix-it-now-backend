@@ -9,6 +9,7 @@ const checkoutSession = async (
   userEmail: string,
   bookingId: string,
 ) => {
+  const appUrl =config.app_url
   const booking = await prisma.booking.findFirst({
     where: {
       id: bookingId,
@@ -67,8 +68,8 @@ const checkoutSession = async (
       userId: userId,
       bookingId: booking.id,
     },
-    success_url: "http://localhost:5000/api/payment?success=true",
-    cancel_url: "http://localhost:5000/api/payment?success=false",
+    success_url: `${appUrl}/api/payment/payment-response?success=true`,
+    cancel_url: `${appUrl}/api/payment/payment-response?success=false`,
   });
   return { checkoutUrl: session.url };
 };

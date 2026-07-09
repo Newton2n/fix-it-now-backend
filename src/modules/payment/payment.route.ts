@@ -13,19 +13,17 @@ paymentRoute.post(
   validate(createSession),
   paymentController.checkout,
 );
-paymentRoute.post(
-  "/webhook",
-  paymentController.webhookHandler,
-);
+paymentRoute.post("/webhook", paymentController.webhookHandler);
+paymentRoute.get("/payment-response", paymentController.response);
 paymentRoute.get(
   "/",
   authMiddleware.auth(UserRole.CUSTOMER),
-  paymentController.getAllByLogInUser
+  paymentController.getAllByLogInUser,
 );
 paymentRoute.get(
   "/:paymentId",
   authMiddleware.auth(UserRole.CUSTOMER),
-  paymentController.getById
+  paymentController.getById,
 );
 
 export default paymentRoute;
