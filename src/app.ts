@@ -11,6 +11,7 @@ import bookingRoute from "./modules/booking/booking.route";
 import reviewRoute from "./modules/review/review.route";
 import adminRoute from "./modules/admin/admin.route";
 import paymentRoute from "./modules/payment/payment.route";
+import userRoute from "./modules/user/user.route";
 const app: Application = express();
 
 
@@ -32,6 +33,7 @@ app.use("/api/technicians", technicianRoute);
 app.use("/api/service", serviceRoute);
 app.use("/api/booking", bookingRoute);
 app.use("/api/review", reviewRoute);
+app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/payment",paymentRoute);
 
