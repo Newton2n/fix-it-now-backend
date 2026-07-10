@@ -129,6 +129,14 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
           mode: "insensitive",
         },
       },
+      {
+        user: {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      },
     ];
   }
 
@@ -152,14 +160,14 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
   //skills match
   if (skills) {
     whereClause.skills = {
-      hasSome: skills.replace(/[\[\]"]/g, '').split(','),
+      hasSome: skills.replace(/[\[\]"]/g, "").split(","),
     };
   }
 
   //service area match
   if (serviceArea) {
     whereClause.serviceArea = {
-      hasSome: serviceArea.replace(/[\[\]"]/g, '').split(','),
+      hasSome: serviceArea.replace(/[\[\]"]/g, "").split(","),
     };
   }
 
@@ -169,7 +177,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
       ? { createdAt: sortOrder }
       : { yearsOfExperience: sortOrder };
 
-      console.log(whereClause.serviceArea)
+  console.log(whereClause.serviceArea);
   const profileCount = await prisma.technicianProfile.count({
     where: {
       AND: whereClause,
@@ -187,7 +195,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
 
   return {
     meta: {
-      page:page,
+      page: page,
       limit: itemPerPage,
       totalRow: profileCount,
       totalPage: Math.ceil(profileCount / itemPerPage),
