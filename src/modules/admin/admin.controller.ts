@@ -50,7 +50,8 @@ const getAllBooking = catchAsync(
 );
 const getAllCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllCategory();
+    const validatedQuery = req.validatedQuery
+    const result = await adminService.getAllCategory(validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,

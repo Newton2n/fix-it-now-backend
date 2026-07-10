@@ -195,7 +195,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
 
   return {
     meta: {
-      page: page,
+      page: pageNumber,
       limit: itemPerPage,
       totalRow: profileCount,
       totalPage: Math.ceil(profileCount / itemPerPage),

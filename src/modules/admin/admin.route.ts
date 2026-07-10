@@ -2,8 +2,9 @@ import { Router } from "express";
 import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
+import { validate, validateQuery } from "../../middleware/validate";
 import { updateUserStatus } from "./admin.schema";
+import { CategorySearchSchema } from "../category/category.schema";
 const adminRoute = Router();
 
 //get all user
@@ -32,6 +33,7 @@ adminRoute.get(
 adminRoute.get(
   "/categories",
   authMiddleware.auth(UserRole.ADMIN),
+  validateQuery(CategorySearchSchema),
   adminController.getAllCategory,
 );
 
