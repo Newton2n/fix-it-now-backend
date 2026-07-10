@@ -24,7 +24,7 @@ const updateUserStatus = catchAsync(
       throw new Error("Sorry user id required");
     }
     const status = req.body.status;
-    const result = await adminService.updateUserStatus(id as string,status);
+    const result = await adminService.updateUserStatus(id as string, status);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -37,7 +37,7 @@ const updateUserStatus = catchAsync(
 );
 const getAllBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllBooking();
+    const result = await adminService.getAllBooking(req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -50,7 +50,7 @@ const getAllBooking = catchAsync(
 );
 const getAllCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const validatedQuery = req.validatedQuery
+    const validatedQuery = req.validatedQuery;
     const result = await adminService.getAllCategory(validatedQuery);
 
     sendSuccessResponse(res, {

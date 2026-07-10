@@ -47,7 +47,7 @@ const getAll = async (queryPayload: TCategorySearchFilters) => {
   });
   return {
     meta: {
-      page: page,
+      currentPage: page,
       limit: itemPerPage,
       totalRow: categoriesCount,
       totalPage: Math.ceil(categoriesCount / itemPerPage),

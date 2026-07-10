@@ -90,7 +90,7 @@ const getAll = async (queryPayload: TSearchFilters) => {
 
   return {
     meta: {
-      page:page,
+      currentPage:page,
       limit: itemPerPage,
       totalRow: total,
       totalPage: Math.ceil(total / itemPerPage),

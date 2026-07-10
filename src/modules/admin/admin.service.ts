@@ -1,7 +1,11 @@
 import { UserActiveStatus } from "../../../generated/prisma/enums";
-import { CategoryWhereInput } from "../../../generated/prisma/models";
+import {
+  BookingWhereInput,
+  CategoryWhereInput,
+} from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import { TCategorySearchFilters } from "../category/category.interface";
+import { TBookingSearchQuery } from "./admin.interface";
 
 const getAllUser = async () => {
   const allUser = await prisma.user.findMany({
@@ -30,11 +34,84 @@ const updateUserStatus = async (
 
   return updateStatus;
 };
-const getAllBooking = async () => {
-  const allBooking = await prisma.booking.findMany();
-  return allBooking;
+
+// get all bookings
+const getAllBooking = async (queryPayload: TBookingSearchQuery) => {
+  const {
+    status,
+    paymentStatus,
+    customerId,
+    serviceId,
+    startDate,
+    endDate,
+    page,
+    limit,
+    sortBy,
+    sortOrder,
+  } = queryPayload;
+  console.log(queryPayload);
+  const itemPerPage = limit;
+  const skip = (page - 1) * itemPerPage;
+
+  const whereClause: BookingWhereInput = {};
+
+  if (status) {
+    whereClause.status = status;
+  }
+  // filter payment status
+  if (paymentStatus) {
+    whereClause.payment = {
+      status: paymentStatus,
+    };
+  }
+
+  if (customerId) {
+    whereClause.customerId = customerId;
+  }
+  if (serviceId) {
+    whereClause.serviceId = serviceId;
+  }
+
+  //date filtering (between if both)
+  if (startDate || endDate) {
+    whereClause.scheduledAt = {};
+
+    if (startDate) {
+      whereClause.scheduledAt.gte = startDate;
+    }
+    if (endDate) {
+      whereClause.scheduledAt.lte = endDate;
+    }
+  }
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : { scheduledAt: sortOrder };
+
+  const allBookingCount = await prisma.booking.count({
+    where: whereClause,
+  });
+  const allBookings = await prisma.booking.findMany({
+    //only filtering
+    where: whereClause,
+    skip: skip,
+    take: itemPerPage,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit: itemPerPage,
+      totalRow: allBookingCount,
+      totalPage: Math.ceil(allBookingCount / itemPerPage),
+    },
+    data: allBookings,
+  };
 };
-const getAllCategory = async (queryPayload:TCategorySearchFilters) => {
+
+// get all category
+const getAllCategory = async (queryPayload: TCategorySearchFilters) => {
   const { limit, page, sortBy, sortOrder, search } = queryPayload;
 
   const itemPerPage = limit;
@@ -75,7 +152,7 @@ const getAllCategory = async (queryPayload:TCategorySearchFilters) => {
   });
   return {
     meta: {
-      page: page,
+      currentPage: page,
       limit: itemPerPage,
       totalRow: categoriesCount,
       totalPage: Math.ceil(categoriesCount / itemPerPage),
@@ -83,6 +160,8 @@ const getAllCategory = async (queryPayload:TCategorySearchFilters) => {
     data: categories,
   };
 };
+
+// get all reviews
 const getAllReviews = async () => {
   const allReviews = await prisma.review.findMany();
   return allReviews;

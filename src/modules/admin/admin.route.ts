@@ -3,7 +3,7 @@ import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate, validateQuery } from "../../middleware/validate";
-import { updateUserStatus } from "./admin.schema";
+import { BookingSearchSchema, updateUserStatus } from "./admin.schema";
 import { CategorySearchSchema } from "../category/category.schema";
 const adminRoute = Router();
 
@@ -26,6 +26,7 @@ adminRoute.patch(
 adminRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.ADMIN),
+  validateQuery(BookingSearchSchema),
   adminController.getAllBooking,
 );
 
