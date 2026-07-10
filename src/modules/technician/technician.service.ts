@@ -3,6 +3,7 @@ import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
+  TTechnicianSearchFilters,
   TUpdateAvailabilityPayload,
   TUpdateTechnicianProfilePayload,
 } from "./technician.interface";
@@ -87,6 +88,7 @@ const getBooking = async (userId: string) => {
 
   return bookings;
 };
+// get all profile
 const getProfile = async (technicianProfileId: string) => {
   const technician = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
@@ -100,18 +102,101 @@ const getProfile = async (technicianProfileId: string) => {
   return technician;
 };
 
-const getAll = async () => {
- 
-  // const itemPerPage = Number(limit) || 10;
-  // let pageNumber = Number(page) || 1;
-  // let skipItem = (pageNumber - 1) * itemPerPage;
+const getAll = async (queryPayload: TTechnicianSearchFilters) => {
+  const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    isAvailable = "true",
+    minExperience,
+    search,
+    serviceArea,
+    skills,
+  } = queryPayload;
 
-  // const whereClause :TechnicianProfileWhereInput = []
+  const itemPerPage = limit || 10;
+  let pageNumber = page || 1;
+  let skipItem = (pageNumber - 1) * itemPerPage;
 
+  const whereClause: TechnicianProfileWhereInput = {};
 
-  const profile = await prisma.technicianProfile.findMany();
-  return profile;
+  if (search) {
+    whereClause.OR = [
+      {
+        bio: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (minExperience) {
+    whereClause.yearsOfExperience = {
+      gte: minExperience,
+    };
+  }
+
+  if (isAvailable !== "true" && isAvailable !== "false") {
+    throw new Error("Is available field can be true or false");
+  }
+
+  // default isAvailable
+  if (isAvailable === "false") {
+    whereClause.isAvailable = false;
+  } else if (isAvailable === "true") {
+    whereClause.isAvailable = true;
+  }
+
+  //skills match
+  if (skills) {
+    whereClause.skills = {
+      hasSome: skills.replace(/[\[\]"]/g, '').split(','),
+    };
+  }
+
+  //service area match
+  if (serviceArea) {
+    whereClause.serviceArea = {
+      hasSome: serviceArea.replace(/[\[\]"]/g, '').split(','),
+    };
+  }
+
+  //order by
+  const orderBy =
+    sortBy === "date"
+      ? { createdAt: sortOrder }
+      : { yearsOfExperience: sortOrder };
+
+      console.log(whereClause.serviceArea)
+  const profileCount = await prisma.technicianProfile.count({
+    where: {
+      AND: whereClause,
+    },
+  });
+
+  const profiles = await prisma.technicianProfile.findMany({
+    where: {
+      AND: whereClause,
+    },
+    take: itemPerPage,
+    skip: skipItem || 0,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      page:page,
+      limit: itemPerPage,
+      totalRow: profileCount,
+      totalPage: Math.ceil(profileCount / itemPerPage),
+    },
+    data: profiles,
+  };
 };
+
+// verify technician
 const verify = async (technicianId: string, newStatus: TechnicianStatus) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {

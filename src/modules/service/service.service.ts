@@ -22,11 +22,11 @@ const getAll = async (queryPayload: TSearchFilters) => {
   const itemPerPage = limit;
   const skip = (page - 1) * itemPerPage;
 
-  const whereCondition: ServiceWhereInput = {};
+  const whereClause: ServiceWhereInput = {};
 
   // Search
   if (search) {
-    whereCondition.OR = [
+    whereClause.OR = [
       {
         title: {
           contains: search,
@@ -44,19 +44,19 @@ const getAll = async (queryPayload: TSearchFilters) => {
 
   // Category Filter
   if (categoryId) {
-    whereCondition.categoryId = categoryId;
+    whereClause.categoryId = categoryId;
   }
 
   // Price Filter
   if (minPrice !== undefined || maxPrice !== undefined) {
-    whereCondition.price = {};
+    whereClause.price = {};
 
     if (minPrice !== undefined) {
-      whereCondition.price.gte = minPrice;
+      whereClause.price.gte = minPrice;
     }
 
     if (maxPrice !== undefined) {
-      whereCondition.price.lte = maxPrice;
+      whereClause.price.lte = maxPrice;
     }
   }
 
@@ -70,19 +70,19 @@ const getAll = async (queryPayload: TSearchFilters) => {
 
   // default isAvailable
   if (isAvailable === "false") {
-    whereCondition.isAvailable = false;
+    whereClause.isAvailable = false;
   } else if (isAvailable === "true") {
-    whereCondition.isAvailable = true;
+    whereClause.isAvailable = true;
   }
 
   // Total count
   const total = await prisma.service.count({
-    where: whereCondition,
+    where: whereClause,
   });
 
   // Get services
   const services = await prisma.service.findMany({
-    where: { AND: whereCondition },
+    where: { AND: whereClause },
     orderBy,
     skip,
     take: itemPerPage,
@@ -90,7 +90,7 @@ const getAll = async (queryPayload: TSearchFilters) => {
 
   return {
     meta: {
-      page: Number(page),
+      page:page,
       limit: itemPerPage,
       totalRow: total,
       totalPage: Math.ceil(total / itemPerPage),
