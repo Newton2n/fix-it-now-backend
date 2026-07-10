@@ -1,13 +1,105 @@
+import { ServiceWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateServicePayload,
+  TSearchFilters,
   TUpdateServicePayload,
 } from "./service.interface";
 
-const getAll = async () => {
-  const service = await prisma.service.findMany();
-  return service;
+const getAll = async (queryPayload: TSearchFilters) => {
+  const {
+    search,
+    page,
+    limit,
+    categoryId,
+    minPrice,
+    maxPrice,
+    isAvailable = "true",
+    sortBy,
+    sortOrder,
+  } = queryPayload;
+
+  const itemPerPage = limit;
+  const skip = (page - 1) * itemPerPage;
+
+  const whereCondition: ServiceWhereInput = {};
+
+  // Search
+  if (search) {
+    whereCondition.OR = [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  // Category Filter
+  if (categoryId) {
+    whereCondition.categoryId = categoryId;
+  }
+
+  // Price Filter
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    whereCondition.price = {};
+
+    if (minPrice !== undefined) {
+      whereCondition.price.gte = minPrice;
+    }
+
+    if (maxPrice !== undefined) {
+      whereCondition.price.lte = maxPrice;
+    }
+  }
+
+  // Sort
+  const orderBy =
+    sortBy === "price" ? { price: sortOrder } : { createdAt: sortOrder };
+
+  if (isAvailable !== "true" && isAvailable !== "false") {
+    throw new Error("Is available field can be true or false");
+  }
+
+  // default isAvailable
+  if (isAvailable === "false") {
+    whereCondition.isAvailable = false;
+  } else if (isAvailable === "true") {
+    whereCondition.isAvailable = true;
+  }
+
+  // Total count
+  const total = await prisma.service.count({
+    where: whereCondition,
+  });
+
+  // Get services
+  const services = await prisma.service.findMany({
+    where: { AND: whereCondition },
+    orderBy,
+    skip,
+    take: itemPerPage,
+  });
+
+  return {
+    meta: {
+      page: Number(page),
+      limit: itemPerPage,
+      totalRow: total,
+      totalPage: Math.ceil(total / itemPerPage),
+    },
+    data: services,
+  };
 };
+
+// get all service by technician by id
 const getAllByTechnicianId = async (technicianId: string) => {
   const isTechnicianProfileExist =
     await prisma.technicianProfile.findUniqueOrThrow({
@@ -23,6 +115,8 @@ const getAllByTechnicianId = async (technicianId: string) => {
   });
   return service;
 };
+
+// get by id
 const getById = async (serviceId: string) => {
   const service = await prisma.service.findUnique({
     where: {
@@ -35,6 +129,8 @@ const getById = async (serviceId: string) => {
 
   return service;
 };
+
+//create service
 const create = async (userId: string, payload: TCreateServicePayload) => {
   const isTechnicianProfileExist =
     await prisma.technicianProfile.findUniqueOrThrow({
@@ -61,6 +157,8 @@ const create = async (userId: string, payload: TCreateServicePayload) => {
 
   return createService;
 };
+
+//update service
 const update = async (
   userId: string,
   serviceId: string,
@@ -91,7 +189,7 @@ const update = async (
     throw new Error("You cannot edit another technician's service");
   }
 
-  const updateService = await prisma.service.update({
+  const update = await prisma.service.update({
     where: {
       id: serviceId,
     },
@@ -101,8 +199,10 @@ const update = async (
     },
   });
 
-  return updateService;
+  return update;
 };
+
+//remove service
 const remove = async (userId: string, serviceId: string) => {
   const isTechnicianProfileExist =
     await prisma.technicianProfile.findUniqueOrThrow({
@@ -131,6 +231,7 @@ const remove = async (userId: string, serviceId: string) => {
   return remove;
 };
 
+// get all review by single service
 const getAllReviews = async (serviceId: string) => {
   const reviews = await prisma.review.findMany({
     where: {

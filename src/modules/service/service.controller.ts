@@ -5,7 +5,10 @@ import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await serviceService.getAll();
+    const queryPayload = req.validatedQuery;
+    console.log("validated query",queryPayload)
+
+    const result = await serviceService.getAll(queryPayload);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -121,10 +124,9 @@ const remove = catchAsync(
 );
 const getAllReviews = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-
-    const {serviceId} = req.params ;
-    if(!serviceId) {
-      throw new Error("Sorry service id required")
+    const { serviceId } = req.params;
+    if (!serviceId) {
+      throw new Error("Sorry service id required");
     }
     const result = await serviceService.getAllReviews(serviceId as string);
 
@@ -145,5 +147,5 @@ export const serviceController = {
   update,
   remove,
   getAllByTechnicianId,
-  getAllReviews
+  getAllReviews,
 };

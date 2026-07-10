@@ -1,4 +1,5 @@
 import { TechnicianStatus } from "../../../generated/prisma/enums";
+import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
@@ -100,6 +101,14 @@ const getProfile = async (technicianProfileId: string) => {
 };
 
 const getAll = async () => {
+ 
+  // const itemPerPage = Number(limit) || 10;
+  // let pageNumber = Number(page) || 1;
+  // let skipItem = (pageNumber - 1) * itemPerPage;
+
+  // const whereClause :TechnicianProfileWhereInput = []
+
+
   const profile = await prisma.technicianProfile.findMany();
   return profile;
 };
