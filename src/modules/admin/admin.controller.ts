@@ -62,9 +62,9 @@ const findCategory = catchAsync(
     });
   },
 );
-const getAllReviews = catchAsync(
+const findReviews = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllReviews();
+    const result = await adminService.findReviews(req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -81,5 +81,5 @@ export const adminController = {
   updateUserStatus,
   findBooking,
   findCategory,
-  getAllReviews,
+  findReviews,
 };

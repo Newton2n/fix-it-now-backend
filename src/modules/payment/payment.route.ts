@@ -13,13 +13,21 @@ paymentRoute.post(
   validate(createSession),
   paymentController.checkout,
 );
+
+//webhook handler
 paymentRoute.post("/webhook", paymentController.webhookHandler);
+
+//response 
 paymentRoute.get("/payment-response", paymentController.response);
+
+//get all payment by login user
 paymentRoute.get(
   "/",
   authMiddleware.auth(UserRole.CUSTOMER),
   paymentController.getAllByLogInUser,
 );
+
+// get payment by id 
 paymentRoute.get(
   "/:paymentId",
   authMiddleware.auth(UserRole.CUSTOMER),

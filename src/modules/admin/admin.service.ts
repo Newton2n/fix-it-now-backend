@@ -2,11 +2,16 @@ import { UserActiveStatus } from "../../../generated/prisma/enums";
 import {
   BookingWhereInput,
   CategoryWhereInput,
+  ReviewWhereInput,
   UserWhereInput,
 } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import { TCategorySearchQuery } from "../category/category.interface";
-import { TBookingSearchQuery, TUserSearchQuery } from "./admin.interface";
+import {
+  TBookingSearchQuery,
+  TReviewSearchQuery,
+  TUserSearchQuery,
+} from "./admin.interface";
 
 // find user
 const findUser = async (queryPayload: TUserSearchQuery) => {
@@ -92,7 +97,6 @@ const findUser = async (queryPayload: TUserSearchQuery) => {
     data: users,
   };
 };
-
 
 //update user status
 const updateUserStatus = async (
@@ -244,9 +248,79 @@ const findCategory = async (queryPayload: TCategorySearchQuery) => {
 };
 
 // get all reviews
-const getAllReviews = async () => {
-  const allReviews = await prisma.review.findMany();
-  return allReviews;
+const findReviews = async (queryPayload: TReviewSearchQuery) => {
+  const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    maxRating,
+    minRating,
+    search,
+    serviceId,
+    customerId,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+
+  const whereClause: ReviewWhereInput = {};
+  if (search) {
+    whereClause.OR = [
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  //customer and service filter
+  if (customerId || serviceId) {
+    whereClause.booking = {};
+    if (customerId) {
+      whereClause.booking.customerId = customerId;
+    }
+    if (serviceId) {
+      whereClause.booking.serviceId = serviceId;
+    }
+  }
+
+
+  //rating filtering
+  if (minRating || maxRating) {
+    whereClause.rating = {};
+    if (minRating) {
+      whereClause.rating.gte = minRating;
+    }
+    if (maxRating) {
+      whereClause.rating.lte = maxRating;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt" ? { createdAt: sortOrder } : { rating: sortOrder };
+
+  const reviewsCount = await prisma.review.count({
+    where :whereClause
+  });
+  const reviews = await prisma.review.findMany({
+    where: {
+      AND: whereClause,
+    },
+    take: limit,
+    skip: skipRow,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: reviewsCount,
+      totalPage: Math.ceil(reviewsCount / limit),
+    },
+    data: reviews,
+  };
 };
 
 export const adminService = {
@@ -254,5 +328,5 @@ export const adminService = {
   updateUserStatus,
   findBooking,
   findCategory,
-  getAllReviews,
+  findReviews,
 };
