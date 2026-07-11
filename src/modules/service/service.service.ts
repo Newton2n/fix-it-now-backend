@@ -176,13 +176,6 @@ const update = async (
       },
     });
 
-  //category exist check
-  await prisma.category.findUniqueOrThrow({
-    where: {
-      id: payload.categoryId,
-    },
-  });
-
   const service = await prisma.service.findUniqueOrThrow({
     where: {
       id: serviceId,
