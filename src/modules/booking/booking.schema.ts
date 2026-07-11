@@ -40,9 +40,8 @@ export const UserBookingSearchSchema = z.object({
       BookingStatus.IN_PROGRESS,
       BookingStatus.REQUESTED,
     ])
-    .optional()
-    .default("COMPLETED"),
-  serviceId: z.string().optional(),
+    .optional(),
+  serviceId: z.uuid().optional(),
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
   page: z.coerce.number().int().positive().default(1),

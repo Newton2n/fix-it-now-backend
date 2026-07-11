@@ -28,8 +28,7 @@ export const AdminBookingSearchSchema = z.object({
       BookingStatus.IN_PROGRESS,
       BookingStatus.REQUESTED,
     ])
-    .optional()
-    .default("COMPLETED"),
+    .optional(),
   customerId: z.string().optional(),
   serviceId: z.string().optional(),
   startDate: z.coerce.date().optional(),
@@ -44,8 +43,7 @@ export const AdminBookingSearchSchema = z.object({
       PaymentStatus.FAILED,
       PaymentStatus.SUCCEEDED,
     ])
-    .optional()
-    .default("SUCCEEDED"),
+    .optional(),
 });
 
 //user search schema
@@ -71,13 +69,11 @@ export const UserSearchSchema = z.object({
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });
 
-
-
-//review search schema 
+//review search schema
 
 export const ReviewSearchSchema = z.object({
   customerId: z.uuid().optional(),
-  serviceId: z.uuid().optional(), 
+  serviceId: z.uuid().optional(),
   minRating: z.coerce.number().int().min(1).max(5).optional(),
   maxRating: z.coerce.number().int().min(1).max(5).optional(),
   search: z.string().optional(),
@@ -87,15 +83,20 @@ export const ReviewSearchSchema = z.object({
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });
 
-
-
 // payments search schema
-
 
 export const PaymentSearchSchema = z.object({
   transactionId: z.string().optional(),
-  status: z.enum([PaymentStatus.FAILED,PaymentStatus.PENDING,PaymentStatus.SUCCEEDED]).optional(),
-  provider: z.enum([PaymentProvider.SSLCOMMERZ,PaymentProvider.STRIPE]).optional(),
+  status: z
+    .enum([
+      PaymentStatus.FAILED,
+      PaymentStatus.PENDING,
+      PaymentStatus.SUCCEEDED,
+    ])
+    .optional(),
+  provider: z
+    .enum([PaymentProvider.SSLCOMMERZ, PaymentProvider.STRIPE])
+    .optional(),
   minAmount: z.coerce.number().positive().optional(),
   maxAmount: z.coerce.number().positive().optional(),
   sortBy: z.enum(["amount", "createdAt", "status"]).default("createdAt"),

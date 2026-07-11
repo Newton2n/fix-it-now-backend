@@ -3,6 +3,8 @@ import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
 import Stripe from "stripe";
 import { handlePaymentSuccess } from "./payment-utils";
+import { TUserPaymentSearchQuery } from "./payment.interface";
+import { PaymentWhereInput } from "../../../generated/prisma/models";
 
 const checkoutSession = async (
   userId: string,
@@ -94,19 +96,80 @@ const webhookHandler = async (payload: Buffer, signature: string) => {
   }
 };
 
-const getAllByLogInUser = async (userId: string) => {
-  const payment = await prisma.payment.findMany({
-    where: {
-      booking: {
-        customerId: userId,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+const getAllByLogInUser = async (userId: string,queryPayload :TUserPaymentSearchQuery) => {
+   const {
+     limit,
+     page,
+     sortBy,
+     sortOrder,
+     maxAmount,
+     minAmount,
+     provider,
+     status,
+     transactionId,
+   } = queryPayload;
+   const skipRow = (page - 1) * limit;
+ 
+   const whereClause: PaymentWhereInput = {};
+   whereClause.booking ={
+    customerId :userId
+   }
 
-  return payment;
+   //transaction id filter
+   if (transactionId) {
+     whereClause.transactionId = transactionId;
+   }
+ 
+   //provider filter
+   if (provider) {
+     whereClause.provider = provider;
+   }
+ 
+   //status filter
+   if (status) {
+     whereClause.status = status;
+   }
+ 
+   //rating filtering
+   if (minAmount || maxAmount) {
+     whereClause.amount = {};
+     if (minAmount) {
+       whereClause.amount.gte = minAmount;
+     }
+     if (maxAmount) {
+       whereClause.amount.lte = maxAmount;
+     }
+   }
+ 
+   const orderBy =
+     sortBy === "createdAt"
+       ? { createdAt: sortOrder }
+       : sortBy === "amount"
+         ? { amount: sortOrder }
+         : sortBy === "status"
+           ? { status: sortOrder }
+           : {};
+ 
+   const paymentCount = await prisma.payment.count({
+     where: whereClause,
+   });
+   const payment = await prisma.payment.findMany({
+     // only filtering
+     where: whereClause,
+     take: limit,
+     skip: skipRow,
+     orderBy,
+   });
+ 
+   return {
+     meta: {
+       currentPage: page,
+       limit,
+       totalRow: paymentCount,
+       totalPage: Math.ceil(paymentCount / limit),
+     },
+     data: payment,
+   };
 };
 const getById = async (paymentId :string) => {
   const payment = await prisma.payment.findUniqueOrThrow({

@@ -71,6 +71,7 @@ const getMe = async (userId: string) => {
   });
   return profile;
 };
+// get all booking by log in technician
 const getBooking = async (userId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
