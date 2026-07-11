@@ -2,10 +2,11 @@ import { Router } from "express";
 import { bookingController } from "./booking.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
+import { validate, validateQuery } from "../../middleware/validate";
 import {
   createBookingSchema,
   updateBookingStatusPayload,
+  UserBookingSearchSchema,
 } from "./booking.schema";
 const bookingRoute = Router();
 
@@ -19,7 +20,8 @@ bookingRoute.post(
 //get all booking by log in customer
 bookingRoute.get(
   "/",
-  authMiddleware.auth(UserRole.CUSTOMER, UserRole.TECHNICIAN),
+  authMiddleware.auth(UserRole.CUSTOMER, UserRole.TECHNICIAN,UserRole.ADMIN),
+  validateQuery(UserBookingSearchSchema),
   bookingController.getAll,
 );
 //get booking details

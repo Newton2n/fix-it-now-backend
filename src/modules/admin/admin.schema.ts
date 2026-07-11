@@ -17,7 +17,7 @@ export const updateUserStatus = z.object({
 });
 
 //query schema
-export const BookingSearchSchema = z.object({
+export const AdminBookingSearchSchema = z.object({
   status: z
     .enum([
       BookingStatus.ACCEPTED,

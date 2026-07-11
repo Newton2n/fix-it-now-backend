@@ -27,7 +27,7 @@ const getAll = catchAsync(
     if (!user?.id) {
       throw new Error("User id required please log in");
     }
-    const result = await bookingService.getAll(user.id);
+    const result = await bookingService.getAll(user.id,req.validatedQuery);
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "All Booking retrieved successfully",

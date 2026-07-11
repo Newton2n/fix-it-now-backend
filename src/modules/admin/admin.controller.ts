@@ -68,7 +68,7 @@ const findReviews = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Reviews retrieve successfully",
+      message: "Reviews retrieved successfully",
       data: {
         result,
       },
@@ -81,7 +81,7 @@ const findPayments = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Payments retrieve successfully",
+      message: "Payments retrieved successfully",
       data: {
         result,
       },

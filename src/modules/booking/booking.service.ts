@@ -1,8 +1,10 @@
 import { BookingStatus } from "../../../generated/prisma/enums";
+import { BookingWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateBookingPayload,
   TTechnicianTimeSchedule,
+  TUserBookingSearchQuery,
 } from "./booking.interface";
 
 const create = async (userId: string, payload: TCreateBookingPayload) => {
@@ -78,23 +80,85 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
 };
 
 // get all booking by log in user
-const getAll = async (userId: string) => {
-  const booking = await prisma.booking.findMany({
-    where: {
-      customerId: userId,
-    },
+const getAll = async (
+  userId: string,
+  queryPayload: TUserBookingSearchQuery,
+) => {
+  const {
+    limit,
+    page,
+    paymentStatus,
+    sortBy,
+    sortOrder,
+    status,
+    endDate,
+    serviceId,
+    startDate,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+  const whereClause: BookingWhereInput = {};
+  whereClause.customerId = userId;
+
+  if (status) {
+    whereClause.status = status;
+  }
+  if (paymentStatus) {
+    whereClause.payment = {
+      status: paymentStatus,
+    };
+  }
+  if (serviceId) {
+    whereClause.serviceId = serviceId;
+  }
+
+  //date filtering (between if both)
+  if (startDate || endDate) {
+    whereClause.scheduledAt = {};
+
+    if (startDate) {
+      whereClause.scheduledAt.gte = startDate;
+    }
+    if (endDate) {
+      whereClause.scheduledAt.lte = endDate;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : { scheduledAt: sortOrder };
+
+  const bookingsCount = await prisma.booking.count({
+    where: whereClause,
+  });
+  const bookings = await prisma.booking.findMany({
+    //only filtering
+    where: whereClause,
+    skip: skipRow,
+    take: limit,
+    orderBy,
   });
 
-  return booking;
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: bookingsCount,
+      totalPage: Math.ceil(bookingsCount / limit),
+    },
+    data: bookings,
+  };
 };
+
+//get booking details by id
 const getDetails = async (bookingId: string) => {
   const booking = await prisma.booking.findUniqueOrThrow({
     where: {
       id: bookingId,
     },
-    include :{
-      service :true
-    }
+    include: {
+      service: true,
+    },
   });
   return booking;
 };
@@ -191,15 +255,15 @@ const cancelBookingByCustomer = async (userId: string, bookingId: string) => {
     },
     data: {
       status: "CANCELED",
-    }
+    },
   });
 
-  return cancel
+  return cancel;
 };
 export const bookingService = {
   create,
   getAll,
   getDetails,
   updateStatusByTechnician,
-  cancelBookingByCustomer
+  cancelBookingByCustomer,
 };

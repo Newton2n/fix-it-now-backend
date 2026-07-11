@@ -176,10 +176,10 @@ const findBooking = async (queryPayload: TBookingSearchQuery) => {
       ? { createdAt: sortOrder }
       : { scheduledAt: sortOrder };
 
-  const allBookingCount = await prisma.booking.count({
+  const bookingsCount = await prisma.booking.count({
     where: whereClause,
   });
-  const allBookings = await prisma.booking.findMany({
+  const bookings = await prisma.booking.findMany({
     //only filtering
     where: whereClause,
     skip: skip,
@@ -191,10 +191,10 @@ const findBooking = async (queryPayload: TBookingSearchQuery) => {
     meta: {
       currentPage: page,
       limit: itemPerPage,
-      totalRow: allBookingCount,
-      totalPage: Math.ceil(allBookingCount / itemPerPage),
+      totalRow: bookingsCount,
+      totalPage: Math.ceil(bookingsCount / itemPerPage),
     },
-    data: allBookings,
+    data: bookings,
   };
 };
 
