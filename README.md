@@ -229,10 +229,6 @@ After a successful login, the server sets an HTTP-only cookie that is automatica
 
 Postman Documentation
 
-> Add your Postman Documentation URL here
-
-
-
 ```
 https://documenter.getpostman.com/view/53393171/2sBY4LQ2Ci
 ```
