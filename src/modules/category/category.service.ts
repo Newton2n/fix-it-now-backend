@@ -1,12 +1,12 @@
 import { CategoryWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
-  TCategorySearchFilters,
+  TCategorySearchQuery,
   TCreateCategoryPayload,
   TUpdateCategoryPayload,
 } from "./category.interface";
 
-const getAll = async (queryPayload: TCategorySearchFilters) => {
+const getAll = async (queryPayload: TCategorySearchQuery) => {
   const { limit, page, sortBy, sortOrder, search } = queryPayload;
 
   const itemPerPage = limit;
