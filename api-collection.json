@@ -2,10 +2,10 @@
   "info": {
     "_postman_id": "0898da48-3059-4922-8e8e-508e5fbe62a8",
     "name": "Fix It Now remote",
+    "description": "# 🛠️ Fix It Now API\n\n## Project Description\n\n**Fix It Now API** is a RESTful backend for a home service booking platform. Customers can book services, make Stripe payments, and leave reviews. Technicians manage their profiles and services, while admins verify technicians and manage categories. The API is built with **Express.js**, **TypeScript**, **Prisma**, **PostgreSQL**, **JWT**, **Zod**, and **Stripe**.\n\n## 📂 Modules\n\n- **Authentication** – Register, login, and JWT authentication.\n    \n- **User** – User profile management.\n    \n- **Technician** – Technician profile and verification.\n    \n- **Category** – Service category management.\n    \n- **Service** – Service CRUD operations.\n    \n- **Booking** – Booking creation and management.\n    \n- **Payment** – Stripe Checkout and webhook handling.\n    \n- **Review** – Review management.\n    \n- **Admin** – Technician verification and category management.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "53393171",
-    "_collection_link": "https://go.postman.co/collection/53393171-0898da48-3059-4922-8e8e-508e5fbe62a8?source=collection_link",
-    "remote": "https://documenter.getpostman.com/view/53393171/2sBY4LQ2Ci"
+    "_collection_link": "https://go.postman.co/collection/53393171-0898da48-3059-4922-8e8e-508e5fbe62a8?source=collection_link"
   },
   "item": [
     {
@@ -28,11 +28,105 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/auth/register",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "auth", "register"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "register",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\":\"Newton\",\r\n  \"email\":\"7@gmail.com\",\r\n  \"password\" :\"123456\",\r\n  \"role\": \"CUSTOMER\"  \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/auth/register",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 201
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Thu, 09 Jul 2026 10:08:17 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"13b-nFL+/9kwf6r4Do+QrCds/vuvkh8\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::wjsv2-1783591695076-d14e72802166"
+                },
+                {
+                  "key": "content-length",
+                  "value": "315"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User Created Successfully\",\n    \"data\": {\n        \"id\": \"64ab00fc-1a3f-4feb-be1a-b34afd919343\",\n        \"name\": \"Newton\",\n        \"phoneNumber\": null,\n        \"email\": \"7@gmail.com\",\n        \"role\": \"CUSTOMER\",\n        \"status\": \"ACTIVE\",\n        \"country\": null,\n        \"profilePicture\": null,\n        \"createdAt\": \"2026-07-09T10:08:15.541Z\",\n        \"updatedAt\": \"2026-07-09T10:08:15.541Z\"\n    }\n}"
+            }
+          ]
         },
         {
           "name": "login",
@@ -51,11 +145,113 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/auth/login",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "auth", "login"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "login",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\"email\": \"2@gmail.com\",\r\n\"password\": \"123456\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/auth/login",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:04:30 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"dd-VBUqHD3nHdANH4qiGyhXWYLNMHc\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "set-cookie",
+                  "value": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwNjA1OWJlLTBhOTYtNGRjZi04NmRhLTgwNDY3NzdiNjFkYyIsIm5hbWUiOiJOZXd0b24gQmVwYXJpIiwiZW1haWwiOiIyQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc4Mzc2Nzg3MCwiZXhwIjoxNzg0MzcyNjcwfQ.6NdRQ989cYz0gvtwgzV8YXiW4VIsRDxO6xHMeGR-Mbs; Max-Age=604800; Path=/; Expires=Sat, 18 Jul 2026 11:04:30 GMT; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "set-cookie",
+                  "value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcwNjA1OWJlLTBhOTYtNGRjZi04NmRhLTgwNDY3NzdiNjFkYyIsIm5hbWUiOiJOZXd0b24gQmVwYXJpIiwiZW1haWwiOiIyQGdtYWlsLmNvbSIsInJvbGUiOiJDVVNUT01FUiIsImlhdCI6MTc4Mzc2Nzg3MCwiZXhwIjoxNzgzODU0MjcwfQ.vGqf36xB673TC1shASj8-79BmOvMTS-fz7y3rasEvLg; Max-Age=86400; Path=/; Expires=Sun, 12 Jul 2026 11:04:30 GMT; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::l96bq-1783767867400-b634798bc9a8"
+                },
+                {
+                  "key": "content-length",
+                  "value": "221"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User logged in successfully and Access token generated successfully\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n            \"name\": \"Newton Bepari\",\n            \"email\": \"2@gmail.com\",\n            \"role\": \"CUSTOMER\"\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "refresh token generate",
@@ -65,8 +261,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/auth/refresh-token",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "auth", "refresh-token"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh-token"
+              ]
             }
           },
           "response": []
@@ -79,13 +283,22 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/auth/me",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "auth", "me"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
             }
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 🔐 Authentication\n\nThe Authentication module allows users to register and log in to the system. After a successful login, the API returns a JWT access token, which must be included in the `Authorization` header to access protected endpoints.\n\n**Access:** Public (Register & Login)  \n**Authentication Required:** No"
     },
     {
       "name": "category",
@@ -107,8 +320,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "categories", "admin"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "admin"
+              ]
             }
           },
           "response": []
@@ -119,13 +340,144 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/categories",
+              "raw": "https://fix-it-now-xi.vercel.app/api/categories?search=plumber&page=1&limit=10&sortBy=name&sortOrder=asc",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "categories"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "plumber"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/categories?search=plumber&page=1&limit=10&sortBy=name&sortOrder=asc",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "plumber"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "name"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "asc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:04:45 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"14e-omW45GpgIBNvfcLglQ3UYq5mmRY\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::cwlwt-1783767883211-739161dfc059"
+                },
+                {
+                  "key": "content-length",
+                  "value": "334"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Category Retrieve successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 1,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"name\": \"Plumber\",\n                    \"description\": \"In this Ac Repeir section\",\n                    \"createdAt\": \"2026-07-08T06:40:28.314Z\",\n                    \"updatedAt\": \"2026-07-08T06:40:28.314Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "update-category",
@@ -144,7 +496,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin/b9913b99-6832-437e-9428-8638131d4456",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "categories",
@@ -163,7 +519,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin/df7b1929-e041-4848-853d-afb9bb1372f8",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "categories",
@@ -174,7 +534,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 📂 Category\n\nThe Category module manages service categories used to organize services on the platform.\n\n- **View Categories:** Public\n    \n- **Create, Update, Delete:** Admin only\n    \n- **Authentication:** Requires a valid HTTP-only authentication cookie."
     },
     {
       "name": "Technician",
@@ -196,8 +557,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians", "profile"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "profile"
+              ]
             }
           },
           "response": []
@@ -219,8 +588,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians", "profile"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "profile"
+              ]
             }
           },
           "response": []
@@ -233,7 +610,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile/0b809079-eab9-49d4-a0cd-0931a5b0b552",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "technicians",
@@ -252,22 +633,38 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/me",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians", "me"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "me"
+              ]
             }
           },
           "response": []
         },
         {
-          "name": "get booking",
+          "name": "get all booking by log in technician",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/bookings",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians", "bookings"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "bookings"
+              ]
             }
           },
           "response": []
@@ -289,8 +686,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/availability",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians", "availability"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians",
+                "availability"
+              ]
             }
           },
           "response": []
@@ -301,13 +706,168 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/technicians",
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians?search=plumber&page=1&limit=1&minExperience=5&skills=[\"plumber\"]&serviceArea=[\"barishal\",\"dhaka\"]&sortOrder=desc&sortBy=experience",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "technicians"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "technicians"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "plumber"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "1"
+                },
+                {
+                  "key": "minExperience",
+                  "value": "5"
+                },
+                {
+                  "key": "skills",
+                  "value": "[\"plumber\"]"
+                },
+                {
+                  "key": "serviceArea",
+                  "value": "[\"barishal\",\"dhaka\"]"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "experience"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all technician",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/technicians?search=plumber&page=1&limit=1&minExperience=5&skills=[\"plumber\"]&serviceArea=[\"barishal\",\"dhaka\",\"queens\"]&sortOrder=desc&sortBy=experience",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "technicians"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "plumber"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1"
+                    },
+                    {
+                      "key": "minExperience",
+                      "value": "5"
+                    },
+                    {
+                      "key": "skills",
+                      "value": "[\"plumber\"]"
+                    },
+                    {
+                      "key": "serviceArea",
+                      "value": "[\"barishal\",\"dhaka\",\"queens\"]"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "experience"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:05:11 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"350-uBwN6Iz/kB8HKr3lPSgsOeyhYZw\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::hwjvr-1783767910845-6ab663b50ba0"
+                },
+                {
+                  "key": "content-length",
+                  "value": "848"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"All Technician Profile Retrieve Successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"page\": 1,\n                \"limit\": 1,\n                \"totalRow\": 1,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"34fa0397-68f3-4c6b-ab0c-aefb948e16b0\",\n                    \"userId\": \"9046c2dd-10f9-4499-98ae-97bb7982ca57\",\n                    \"bio\": \"i am super expert in plumbing and a plumber\",\n                    \"skills\": [\n                        \"HVAC Repair\",\n                        \"Electrical Wiring\",\n                        \"Appliance Maintenance\",\n                        \"plumber\"\n                    ],\n                    \"isAvailable\": true,\n                    \"yearsOfExperience\": \"10\",\n                    \"availability\": {\n                        \"friday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        },\n                        \"monday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        },\n                        \"tuesday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        },\n                        \"saturday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        },\n                        \"thursday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        },\n                        \"wednesday\": {\n                            \"end\": \"24 :00\",\n                            \"start\": \"01:00\"\n                        }\n                    },\n                    \"status\": \"VERIFIED\",\n                    \"serviceArea\": [\n                        \"dhaka\",\n                        \"Munsiganj\",\n                        \"barishal\"\n                    ],\n                    \"createdAt\": \"2026-07-08T06:13:49.655Z\",\n                    \"updatedAt\": \"2026-07-10T16:00:52.550Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "admin-update-status verify",
@@ -326,7 +886,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/admin/34fa0397-68f3-4c6b-ab0c-aefb948e16b0/verify",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "technicians",
@@ -346,7 +910,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/technicians/34fa0397-68f3-4c6b-ab0c-aefb948e16b0/reviews",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "technicians",
@@ -357,7 +925,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 👨‍🔧 Technician\n\nThe Technician module allows technicians to create and manage their profiles, update availability, manage bookings, and create services after admin verification. It also provides public access to technician profiles and reviews.\n\n- **Public:** View technicians, technician profiles, and reviews.\n    \n- **Technician:** Create/update profile, manage availability, view own profile and bookings.\n    \n- **Admin:** Verify technician profiles.\n    \n- **Authentication:** Protected routes require a valid HTTP-only authentication cookie."
     },
     {
       "name": "service",
@@ -379,8 +948,15 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "service"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "service"
+              ]
             }
           },
           "response": []
@@ -402,8 +978,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service/1dc50633-4619-410b-b858-789aa4bdaf85",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "service", "1dc50633-4619-410b-b858-789aa4bdaf85"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "service",
+                "1dc50633-4619-410b-b858-789aa4bdaf85"
+              ]
             }
           },
           "response": []
@@ -416,8 +1000,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service/1dc50633-4619-410b-b858-789aa4bdaf85",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "service", "1dc50633-4619-410b-b858-789aa4bdaf85"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "service",
+                "1dc50633-4619-410b-b858-789aa4bdaf85"
+              ]
             }
           },
           "response": []
@@ -428,13 +1020,160 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/service",
+              "raw": "https://fix-it-now-xi.vercel.app/api/service?search=dekstop repair&page=1&limit=10&minPrice=50&maxPrice=500&sortBy=price&sortOrder=asc",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "service"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "service"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "dekstop repair"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "50"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "500"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "price"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all service",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/service?search=dekstop repair&page=1&limit=10&minPrice=50&maxPrice=500&sortBy=price&sortOrder=asc",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "service"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "dekstop repair"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "minPrice",
+                      "value": "50"
+                    },
+                    {
+                      "key": "maxPrice",
+                      "value": "500"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "price"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "asc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:05:49 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"684-5FS2BN9w18Mg+B6lU+ArqENn3Cw\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::sgns5-1783767947833-00f6ac85f505"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Services retrieved Successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 4,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"85ca4e36-b50d-4aaa-9565-c2d9ead516c0\",\n                    \"categoryId\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"technicianId\": \"34fa0397-68f3-4c6b-ab0c-aefb948e16b0\",\n                    \"title\": \"dekstop repair\",\n                    \"description\": \"I fix you computer\",\n                    \"price\": 250,\n                    \"currency\": \"USD\",\n                    \"isAvailable\": true,\n                    \"thumbnailImage\": null,\n                    \"galleryImages\": [],\n                    \"createdAt\": \"2026-07-09T14:20:10.936Z\",\n                    \"updatedAt\": \"2026-07-09T14:20:10.936Z\"\n                },\n                {\n                    \"id\": \"7d9a0325-5b47-49f1-b3d5-094cdb1ce023\",\n                    \"categoryId\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"technicianId\": \"34fa0397-68f3-4c6b-ab0c-aefb948e16b0\",\n                    \"title\": \"dekstop repair\",\n                    \"description\": \"I fix you computer\",\n                    \"price\": 300,\n                    \"currency\": \"USD\",\n                    \"isAvailable\": true,\n                    \"thumbnailImage\": null,\n                    \"galleryImages\": [],\n                    \"createdAt\": \"2026-07-09T14:22:10.234Z\",\n                    \"updatedAt\": \"2026-07-09T14:22:10.234Z\"\n                },\n                {\n                    \"id\": \"1dbaf1e3-de64-4cb2-a386-5dda7a681327\",\n                    \"categoryId\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"technicianId\": \"34fa0397-68f3-4c6b-ab0c-aefb948e16b0\",\n                    \"title\": \"dekstop repair\",\n                    \"description\": \"I fix you computer\",\n                    \"price\": 500,\n                    \"currency\": \"USD\",\n                    \"isAvailable\": true,\n                    \"thumbnailImage\": null,\n                    \"galleryImages\": [],\n                    \"createdAt\": \"2026-07-09T14:22:09.248Z\",\n                    \"updatedAt\": \"2026-07-09T14:22:09.248Z\"\n                },\n                {\n                    \"id\": \"0cb1f055-2571-47ea-8c8e-4a7ad166c8d7\",\n                    \"categoryId\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"technicianId\": \"34fa0397-68f3-4c6b-ab0c-aefb948e16b0\",\n                    \"title\": \"dekstop repair\",\n                    \"description\": \"I fix you computer\",\n                    \"price\": 500,\n                    \"currency\": \"USD\",\n                    \"isAvailable\": true,\n                    \"thumbnailImage\": null,\n                    \"galleryImages\": [],\n                    \"createdAt\": \"2026-07-09T14:22:11.157Z\",\n                    \"updatedAt\": \"2026-07-09T14:22:11.157Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "delete service",
@@ -444,8 +1183,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service/d3af7098-bf00-4504-9d8b-297a6295dc83",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "service", "d3af7098-bf00-4504-9d8b-297a6295dc83"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "service",
+                "d3af7098-bf00-4504-9d8b-297a6295dc83"
+              ]
             }
           },
           "response": []
@@ -458,7 +1205,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service/0b809079-eab9-49d4-a0cd-0931a5b0b552/technician",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "service",
@@ -477,7 +1228,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/service/aa96659f-e804-437c-a852-8c9711d1abe4/reviews",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "service",
@@ -486,9 +1241,92 @@
               ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all reviews by service id",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/service/aa96659f-e804-437c-a852-8c9711d1abe4/reviews",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "service",
+                    "aa96659f-e804-437c-a852-8c9711d1abe4",
+                    "reviews"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:06:08 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"21b-7BzNRXs1HOEJ8xwC25CpvDIVy4I\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::kjwgj-1783767966425-75a640eb8c7f"
+                },
+                {
+                  "key": "content-length",
+                  "value": "539"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Service Reviews retrieved Successfully\",\n    \"data\": {\n        \"result\": [\n            {\n                \"id\": \"81f6293d-ebff-43fc-8563-9f1138b92b6c\",\n                \"bookingId\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                \"description\": \"that was excellent work\",\n                \"rating\": 5,\n                \"createdAt\": \"2026-07-08T16:08:55.008Z\",\n                \"updatedAt\": \"2026-07-08T16:17:41.890Z\"\n            },\n            {\n                \"id\": \"6f93cfe3-ac63-42ef-9f12-a3f6f824158c\",\n                \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\n                \"description\": \"that was excellent work\",\n                \"rating\": 5,\n                \"createdAt\": \"2026-07-09T06:23:00.984Z\",\n                \"updatedAt\": \"2026-07-09T06:23:00.984Z\"\n            }\n        ]\n    }\n}"
+            }
+          ]
         }
-      ]
+      ],
+      "description": "## 🛠️ Service\n\nThe Service module allows verified technicians to create and manage their service listings. Customers and other users can browse available services, view service details, and read customer reviews.\n\n- **Public:** View all services and service reviews.\n    \n- **Customer:** View service details.\n    \n- **Technician:** Create, update, delete, and manage their own services.\n    \n- **Admin:** View service details.\n    \n- **Authentication:** Protected routes require a valid HTTP-only authentication cookie."
     },
     {
       "name": "booking",
@@ -510,8 +1348,15 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/booking",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "booking"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "booking"
+              ]
             }
           },
           "response": []
@@ -522,13 +1367,152 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/booking",
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking?status=ACCEPTED&paymentStatus=SUCCEEDED&sortBy=createdAt&sortOrder=desc&page=1&limit=5",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "booking"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "booking"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ACCEPTED"
+                },
+                {
+                  "key": "paymentStatus",
+                  "value": "SUCCEEDED"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all booking by log in user",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/booking?status=ACCEPTED&paymentStatus=SUCCEEDED&sortBy=createdAt&sortOrder=desc&page=1&limit=5",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "booking"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "ACCEPTED"
+                    },
+                    {
+                      "key": "paymentStatus",
+                      "value": "SUCCEEDED"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:07:09 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"1f2-SJYstu+DlMCdZ390Ieo6uC4maZE\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::5m9wc-1783768028324-a1c9d283f310"
+                },
+                {
+                  "key": "content-length",
+                  "value": "498"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"All Booking retrieved successfully\",\n    \"data\": {\n        \"bookings\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 5,\n                \"totalRow\": 1,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"41e6e71e-dfff-4383-a1e2-85bd1d3b74d0\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"ACCEPTED\",\n                    \"scheduledAt\": \"2026-07-21T10:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-08T06:41:34.155Z\",\n                    \"updatedAt\": \"2026-07-08T06:52:38.238Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "get booking by id",
@@ -538,8 +1522,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "booking", "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "booking",
+                "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"
+              ]
             }
           },
           "response": []
@@ -561,8 +1553,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "booking", "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "booking",
+                "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"
+              ]
             }
           },
           "response": []
@@ -575,7 +1575,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0/cancel",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "booking",
@@ -586,7 +1590,8 @@
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 📅 Booking\n\nThe Booking module allows customers to book services and manage their bookings. Technicians can view assigned bookings and update their status, while customers can cancel bookings before they are completed.\n\n- **Customer:** Create bookings, view bookings, view booking details, and cancel bookings.\n    \n- **Technician:** View assigned bookings and update booking status.\n    \n- **Admin:** View booking details.\n    \n- **Authentication:** Protected routes require a valid HTTP-only authentication cookie."
     },
     {
       "name": "admin",
@@ -608,7 +1613,11 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/admin/users/706059be-0a96-4dcf-86da-8046777b61dc",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
               "path": [
                 "api",
                 "admin",
@@ -625,13 +1634,154 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/admin/users/",
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/users?status=ACTIVE&page=1&limit=10&sortBy=name&sortOrder=asc&search=newton",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "admin", "users", ""]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ACTIVE"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                },
+                {
+                  "key": "search",
+                  "value": "newton"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all user",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/admin/users?status=ACTIVE&page=1&limit=10&sortBy=name&sortOrder=asc&search=newton",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "ACTIVE"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "name"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "search",
+                      "value": "newton"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 09:31:47 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"7ab-ZwD8dsaL8Oc+gMJNbM2cVh0w5cI\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::jl2qp-1783762306135-b4a099d8a16b"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Users Retrieved successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 7,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"09902fa9-91a0-4cdb-8035-e9f8e54cd242\",\n                    \"name\": \"Newton\",\n                    \"phoneNumber\": null,\n                    \"email\": \"5@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-09T12:27:16.478Z\",\n                    \"updatedAt\": \"2026-07-09T12:27:16.478Z\"\n                },\n                {\n                    \"id\": \"048c5544-a8bf-410d-8301-82450a9c4903\",\n                    \"name\": \"Newton\",\n                    \"phoneNumber\": null,\n                    \"email\": \"3@gmail.com\",\n                    \"role\": \"TECHNICIAN\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-08T06:44:13.644Z\",\n                    \"updatedAt\": \"2026-07-08T06:44:13.644Z\"\n                },\n                {\n                    \"id\": \"6aa35c10-f2ac-4f0e-8ed5-4d9a4fdd2a7b\",\n                    \"name\": \"Newton\",\n                    \"phoneNumber\": null,\n                    \"email\": \"4@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-08T07:22:07.692Z\",\n                    \"updatedAt\": \"2026-07-08T07:22:07.692Z\"\n                },\n                {\n                    \"id\": \"9046c2dd-10f9-4499-98ae-97bb7982ca57\",\n                    \"name\": \"Newton\",\n                    \"phoneNumber\": \"00000000121\",\n                    \"email\": \"1@gmail.com\",\n                    \"role\": \"TECHNICIAN\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-08T06:11:45.126Z\",\n                    \"updatedAt\": \"2026-07-08T06:11:45.126Z\"\n                },\n                {\n                    \"id\": \"64ab00fc-1a3f-4feb-be1a-b34afd919343\",\n                    \"name\": \"Newton\",\n                    \"phoneNumber\": null,\n                    \"email\": \"7@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-09T10:08:15.541Z\",\n                    \"updatedAt\": \"2026-07-09T10:08:15.541Z\"\n                },\n                {\n                    \"id\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"name\": \"Newton Bepari\",\n                    \"phoneNumber\": \"0000000011\",\n                    \"email\": \"2@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-08T06:12:00.598Z\",\n                    \"updatedAt\": \"2026-07-09T07:50:27.409Z\"\n                },\n                {\n                    \"id\": \"c1653f59-9fd1-4d11-ae80-76c5c76871b9\",\n                    \"name\": \"Newton Bepari\",\n                    \"phoneNumber\": null,\n                    \"email\": \"admin@gmail.com\",\n                    \"role\": \"ADMIN\",\n                    \"status\": \"ACTIVE\",\n                    \"country\": null,\n                    \"profilePicture\": null,\n                    \"createdAt\": \"2026-07-08T06:32:59.704Z\",\n                    \"updatedAt\": \"2026-07-09T12:34:51.806Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "get all booking",
@@ -639,13 +1789,154 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/admin/bookings",
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/bookings?startDate=2026-01-01&endDate=2026-07-10&page=1&limit=10&sortBy=scheduledAt&sortOrder=desc",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "admin", "bookings"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-07-10"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "scheduledAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all booking",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/admin/bookings?startDate=2026-01-01&endDate=2026-07-10&page=1&limit=10&sortBy=scheduledAt&sortOrder=desc",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "bookings"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2026-07-10"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "scheduledAt"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 09:32:18 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"88d-qPNURSHZGe7TKDdZvQLTVWqVqPQ\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::hdkkb-1783762336124-56dc47767271"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Bookings Retrieved successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 6,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"COMPLETED\",\n                    \"scheduledAt\": \"2026-05-21T10:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-08T16:06:47.495Z\",\n                    \"updatedAt\": \"2026-07-08T16:07:46.058Z\"\n                },\n                {\n                    \"id\": \"b567ded1-7651-4956-a983-ec807cac2429\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"CANCELED\",\n                    \"scheduledAt\": \"2026-04-21T10:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-08T06:42:14.642Z\",\n                    \"updatedAt\": \"2026-07-08T07:16:36.756Z\"\n                },\n                {\n                    \"id\": \"d8821be5-93cb-406a-aefd-f89bb48f9132\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"PAID\",\n                    \"scheduledAt\": \"2026-01-22T13:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-09T06:48:46.996Z\",\n                    \"updatedAt\": \"2026-07-09T06:49:33.502Z\"\n                },\n                {\n                    \"id\": \"83b6eb43-4ac6-4bc1-b44c-28c4746ef0fb\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"PAID\",\n                    \"scheduledAt\": \"2026-01-22T11:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-09T06:42:11.200Z\",\n                    \"updatedAt\": \"2026-07-09T06:42:49.699Z\"\n                },\n                {\n                    \"id\": \"3dd470bb-a834-43fb-bfc5-85c3ded89398\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"PAID\",\n                    \"scheduledAt\": \"2026-01-22T10:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-09T06:39:08.386Z\",\n                    \"updatedAt\": \"2026-07-09T06:39:47.077Z\"\n                },\n                {\n                    \"id\": \"fb79151d-ce5b-4a46-bde5-215010234767\",\n                    \"customerId\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n                    \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\n                    \"status\": \"PAID\",\n                    \"scheduledAt\": \"2026-01-21T10:00:00.000Z\",\n                    \"location\": \"Dhaka\",\n                    \"customerNote\": \"Please come frist\",\n                    \"createdAt\": \"2026-07-09T06:36:08.765Z\",\n                    \"updatedAt\": \"2026-07-09T07:37:28.276Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "get all category",
@@ -653,13 +1944,146 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/admin/categories",
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/categories?search=plumber&page=1&limit=10&sortBy=name&sortOrder=asc",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "admin", "categories"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "plumber"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "name"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "asc"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all category",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/admin/categories?search=plumber&page=1&limit=10&sortBy=name&sortOrder=asc",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "plumber"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "name"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "asc"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 09:33:11 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"150-dhKqFfHZpUt0d7FFUVElfrFxgE4\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::w49qh-1783762388985-80f5451eda28"
+                },
+                {
+                  "key": "content-length",
+                  "value": "336"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Categories Retrieve successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 1,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"b9913b99-6832-437e-9428-8638131d4456\",\n                    \"name\": \"Plumber\",\n                    \"description\": \"In this Ac Repeir section\",\n                    \"createdAt\": \"2026-07-08T06:40:28.314Z\",\n                    \"updatedAt\": \"2026-07-08T06:40:28.314Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "get all reviews",
@@ -667,15 +2091,346 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/admin/reviews",
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/reviews?minRating=4&maxRating=5&search=excellent&sortBy=createdAt&sortOrder=desc&page=1&limit=10",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "admin", "reviews"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "minRating",
+                  "value": "4"
+                },
+                {
+                  "key": "maxRating",
+                  "value": "5"
+                },
+                {
+                  "key": "serviceId",
+                  "value": "service uuid",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "excellent"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all reviews",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/admin/reviews?minRating=4&maxRating=5&search=excellent&sortBy=createdAt&sortOrder=desc&page=1&limit=10",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "reviews"
+                  ],
+                  "query": [
+                    {
+                      "key": "minRating",
+                      "value": "4"
+                    },
+                    {
+                      "key": "maxRating",
+                      "value": "5"
+                    },
+                    {
+                      "key": "serviceId",
+                      "value": "service uuid",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "excellent"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 09:33:46 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"25b-wecz/JHwE3FhNUgTOk/NRhdh6fs\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::kjwgj-1783762426067-9d96187bb0d1"
+                },
+                {
+                  "key": "content-length",
+                  "value": "603"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Reviews retrieved successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 2,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"6f93cfe3-ac63-42ef-9f12-a3f6f824158c\",\n                    \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\n                    \"description\": \"that was excellent work\",\n                    \"rating\": 5,\n                    \"createdAt\": \"2026-07-09T06:23:00.984Z\",\n                    \"updatedAt\": \"2026-07-09T06:23:00.984Z\"\n                },\n                {\n                    \"id\": \"81f6293d-ebff-43fc-8563-9f1138b92b6c\",\n                    \"bookingId\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                    \"description\": \"that was excellent work\",\n                    \"rating\": 5,\n                    \"createdAt\": \"2026-07-08T16:08:55.008Z\",\n                    \"updatedAt\": \"2026-07-08T16:17:41.890Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "get all payments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/payments?status=SUCCEEDED&provider=STRIPE&minAmount=50&maxAmount=500&sortBy=amount&sortOrder=desc&page=1&limit=20",
+              "protocol": "https",
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SUCCEEDED"
+                },
+                {
+                  "key": "provider",
+                  "value": "STRIPE"
+                },
+                {
+                  "key": "minAmount",
+                  "value": "50"
+                },
+                {
+                  "key": "maxAmount",
+                  "value": "500"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "amount"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "get all payments",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/admin/payments?status=SUCCEEDED&provider=STRIPE&minAmount=50&maxAmount=500&sortBy=amount&sortOrder=desc&page=1&limit=20",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "admin",
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "SUCCEEDED"
+                    },
+                    {
+                      "key": "provider",
+                      "value": "STRIPE"
+                    },
+                    {
+                      "key": "minAmount",
+                      "value": "50"
+                    },
+                    {
+                      "key": "maxAmount",
+                      "value": "500"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "amount"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 09:34:54 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"a68-940iRoEIvl3/yYs7ggYMp1ub6z8\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::v4bp8-1783762491532-c4fdeee2a809"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Payments retrieved successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 20,\n                \"totalRow\": 8,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"282b4996-d654-4f0f-94de-0c31f082793b\",\n                    \"transactionId\": \"pi_3TqxZt3NZ7eZz1kR0wMQ2VfY\",\n                    \"bookingId\": \"41e6e71e-dfff-4383-a1e2-85bd1d3b74d0\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-08T15:28:56.508Z\",\n                    \"updatedAt\": \"2026-07-08T15:40:01.804Z\"\n                },\n                {\n                    \"id\": \"f88bdcae-cb40-4d72-a44d-223d4835c5d5\",\n                    \"transactionId\": \"pi_3Tqy0i3NZ7eZz1kR1D0skC0c\",\n                    \"bookingId\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-08T16:07:34.458Z\",\n                    \"updatedAt\": \"2026-07-08T16:07:46.002Z\"\n                },\n                {\n                    \"id\": \"4460d428-44cd-4d38-b432-54c3c3075220\",\n                    \"transactionId\": \"pi_3TrBH73NZ7eZz1kR1Zcdj8u7\",\n                    \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:17:11.692Z\",\n                    \"updatedAt\": \"2026-07-09T06:17:54.297Z\"\n                },\n                {\n                    \"id\": \"eb0ae36e-ffd0-4439-b7c8-75ca77b60b99\",\n                    \"transactionId\": \"pi_3TrBYZ3NZ7eZz1kR1o8gBqQV\",\n                    \"bookingId\": \"eb08b018-1af1-4c86-86c8-29c6bf94470e\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:35:24.832Z\",\n                    \"updatedAt\": \"2026-07-09T06:35:40.791Z\"\n                },\n                {\n                    \"id\": \"5b449245-849d-450e-b18e-7ae4d49f89f3\",\n                    \"transactionId\": \"pi_3TrBca3NZ7eZz1kR1tiC4WzA\",\n                    \"bookingId\": \"3dd470bb-a834-43fb-bfc5-85c3ded89398\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:39:32.940Z\",\n                    \"updatedAt\": \"2026-07-09T06:39:46.845Z\"\n                },\n                {\n                    \"id\": \"2da48d67-d603-425f-b369-ce3a6540bfac\",\n                    \"transactionId\": \"pi_3TrBfW3NZ7eZz1kR1Vdcom54\",\n                    \"bookingId\": \"83b6eb43-4ac6-4bc1-b44c-28c4746ef0fb\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:42:37.050Z\",\n                    \"updatedAt\": \"2026-07-09T06:42:49.454Z\"\n                },\n                {\n                    \"id\": \"70db85a6-b44d-47bf-89c7-0bffdc0f4271\",\n                    \"transactionId\": \"pi_3TrBm33NZ7eZz1kR0N5icJTE\",\n                    \"bookingId\": \"d8821be5-93cb-406a-aefd-f89bb48f9132\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:49:22.909Z\",\n                    \"updatedAt\": \"2026-07-09T06:49:33.269Z\"\n                },\n                {\n                    \"id\": \"90176e74-a040-4aa4-ba03-08a04755d886\",\n                    \"transactionId\": \"pi_3TrBZr3NZ7eZz1kR0Ig4eZA8\",\n                    \"bookingId\": \"fb79151d-ce5b-4a46-bde5-215010234767\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:36:46.365Z\",\n                    \"updatedAt\": \"2026-07-09T07:37:28.030Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         }
-      ]
+      ],
+      "description": "## 👑 Admin\n\nThe Admin module provides platform management features. Administrators can manage users, monitor bookings, view categories and reviews, and control user account status.\n\n- **Access:** Admin only.\n    \n- **Features:** Manage users, update user status, view all bookings, categories, and reviews.\n    \n- **Authentication:** Requires a valid HTTP-only authentication cookie."
     },
     {
       "name": "payment",
@@ -697,8 +2452,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/payment/checkout",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "payment", "checkout"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payment",
+                "checkout"
+              ]
             }
           },
           "response": []
@@ -716,13 +2479,172 @@
               "raw": "{\r\n\"email\": \"2@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
             },
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/payment",
+              "raw": "https://fix-it-now-xi.vercel.app/api/payment?status=SUCCEEDED&provider=STRIPE&minAmount=50&maxAmount=500&sortBy=amount&sortOrder=desc&page=1&limit=10",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "payment"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payment"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SUCCEEDED"
+                },
+                {
+                  "key": "provider",
+                  "value": "STRIPE"
+                },
+                {
+                  "key": "minAmount",
+                  "value": "50"
+                },
+                {
+                  "key": "maxAmount",
+                  "value": "500"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "amount"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all payment by log in user",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\"email\": \"2@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
+                },
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/payment?status=SUCCEEDED&provider=STRIPE&minAmount=50&maxAmount=500&sortBy=amount&sortOrder=desc&page=1&limit=10",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "payment"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "SUCCEEDED"
+                    },
+                    {
+                      "key": "provider",
+                      "value": "STRIPE"
+                    },
+                    {
+                      "key": "minAmount",
+                      "value": "50"
+                    },
+                    {
+                      "key": "maxAmount",
+                      "value": "500"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "amount"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:08:16 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"a6e-yfAXZ9/B1uhvplg5HShIyURNBck\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::h2xtc-1783768094232-65796c29f5b1"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Payment history Retrieve successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 8,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"282b4996-d654-4f0f-94de-0c31f082793b\",\n                    \"transactionId\": \"pi_3TqxZt3NZ7eZz1kR0wMQ2VfY\",\n                    \"bookingId\": \"41e6e71e-dfff-4383-a1e2-85bd1d3b74d0\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-08T15:28:56.508Z\",\n                    \"updatedAt\": \"2026-07-08T15:40:01.804Z\"\n                },\n                {\n                    \"id\": \"f88bdcae-cb40-4d72-a44d-223d4835c5d5\",\n                    \"transactionId\": \"pi_3Tqy0i3NZ7eZz1kR1D0skC0c\",\n                    \"bookingId\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-08T16:07:34.458Z\",\n                    \"updatedAt\": \"2026-07-08T16:07:46.002Z\"\n                },\n                {\n                    \"id\": \"4460d428-44cd-4d38-b432-54c3c3075220\",\n                    \"transactionId\": \"pi_3TrBH73NZ7eZz1kR1Zcdj8u7\",\n                    \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:17:11.692Z\",\n                    \"updatedAt\": \"2026-07-09T06:17:54.297Z\"\n                },\n                {\n                    \"id\": \"eb0ae36e-ffd0-4439-b7c8-75ca77b60b99\",\n                    \"transactionId\": \"pi_3TrBYZ3NZ7eZz1kR1o8gBqQV\",\n                    \"bookingId\": \"eb08b018-1af1-4c86-86c8-29c6bf94470e\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:35:24.832Z\",\n                    \"updatedAt\": \"2026-07-09T06:35:40.791Z\"\n                },\n                {\n                    \"id\": \"90176e74-a040-4aa4-ba03-08a04755d886\",\n                    \"transactionId\": \"pi_3TrBZr3NZ7eZz1kR0Ig4eZA8\",\n                    \"bookingId\": \"fb79151d-ce5b-4a46-bde5-215010234767\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:36:46.365Z\",\n                    \"updatedAt\": \"2026-07-09T07:37:28.030Z\"\n                },\n                {\n                    \"id\": \"5b449245-849d-450e-b18e-7ae4d49f89f3\",\n                    \"transactionId\": \"pi_3TrBca3NZ7eZz1kR1tiC4WzA\",\n                    \"bookingId\": \"3dd470bb-a834-43fb-bfc5-85c3ded89398\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:39:32.940Z\",\n                    \"updatedAt\": \"2026-07-09T06:39:46.845Z\"\n                },\n                {\n                    \"id\": \"2da48d67-d603-425f-b369-ce3a6540bfac\",\n                    \"transactionId\": \"pi_3TrBfW3NZ7eZz1kR1Vdcom54\",\n                    \"bookingId\": \"83b6eb43-4ac6-4bc1-b44c-28c4746ef0fb\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:42:37.050Z\",\n                    \"updatedAt\": \"2026-07-09T06:42:49.454Z\"\n                },\n                {\n                    \"id\": \"70db85a6-b44d-47bf-89c7-0bffdc0f4271\",\n                    \"transactionId\": \"pi_3TrBm33NZ7eZz1kR0N5icJTE\",\n                    \"bookingId\": \"d8821be5-93cb-406a-aefd-f89bb48f9132\",\n                    \"amount\": 50,\n                    \"currency\": \"USD\",\n                    \"paymentMethod\": \"card\",\n                    \"provider\": \"STRIPE\",\n                    \"status\": \"SUCCEEDED\",\n                    \"createdAt\": \"2026-07-09T06:49:22.909Z\",\n                    \"updatedAt\": \"2026-07-09T06:49:33.269Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         },
         {
           "name": "get payment details by payment id",
@@ -732,13 +2654,22 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/payment/282b4996-d654-4f0f-94de-0c31f082793b",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "payment", "282b4996-d654-4f0f-94de-0c31f082793b"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "payment",
+                "282b4996-d654-4f0f-94de-0c31f082793b"
+              ]
             }
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 💳 Payment\n\nThe Payment module manages Stripe payment processing for accepted bookings. Customers can create a Stripe Checkout session, view their payment history, and access payment details. Stripe webhooks automatically verify successful payments and update the payment and booking status.\n\n- **Customer:** Create checkout sessions and view payment history/details.\n    \n- **Stripe:** Sends webhook events for payment verification.\n    \n- **Public:** Payment success/cancel response page.\n    \n- **Authentication:** Protected customer routes require a valid HTTP-only authentication cookie."
     },
     {
       "name": "reviews",
@@ -760,8 +2691,15 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/review",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "review"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review"
+              ]
             }
           },
           "response": []
@@ -783,8 +2721,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/review/81f6293d-ebff-43fc-8563-9f1138b92b6c",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "review", "81f6293d-ebff-43fc-8563-9f1138b92b6c"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review",
+                "81f6293d-ebff-43fc-8563-9f1138b92b6c"
+              ]
             }
           },
           "response": []
@@ -797,8 +2743,16 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/review/81f6293d-ebff-43fc-8563-9f1138b92b6ee",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "review", "81f6293d-ebff-43fc-8563-9f1138b92b6ee"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review",
+                "81f6293d-ebff-43fc-8563-9f1138b92b6ee"
+              ]
             }
           },
           "response": []
@@ -809,15 +2763,175 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://fix-it-now-xi.vercel.app/api/review/me",
+              "raw": "https://fix-it-now-xi.vercel.app/api/review/me?minRating=5&maxRating=5&search=excellent&sortBy=createdAt&sortOrder=desc&page=1&limit=10",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "review", "me"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review",
+                "me"
+              ],
+              "query": [
+                {
+                  "key": "minRating",
+                  "value": "5"
+                },
+                {
+                  "key": "maxRating",
+                  "value": "5"
+                },
+                {
+                  "key": "serviceId",
+                  "value": "service uuid",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "excellent"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "get all reviews by log in user",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/review/me?minRating=5&maxRating=5&search=excellent&sortBy=createdAt&sortOrder=desc&page=1&limit=10",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "review",
+                    "me"
+                  ],
+                  "query": [
+                    {
+                      "key": "minRating",
+                      "value": "5"
+                    },
+                    {
+                      "key": "maxRating",
+                      "value": "5"
+                    },
+                    {
+                      "key": "serviceId",
+                      "value": "service uuid",
+                      "disabled": true
+                    },
+                    {
+                      "key": "search",
+                      "value": "excellent"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "createdAt"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "age",
+                  "value": "0"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:08:39 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"25e-ozRwj0bQepuTfn36L3P9eKpNRTo\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::gzcsl-1783768117616-7474bb260b1c"
+                },
+                {
+                  "key": "content-length",
+                  "value": "606"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"All review retrieved successfully\",\n    \"data\": {\n        \"result\": {\n            \"meta\": {\n                \"currentPage\": 1,\n                \"limit\": 10,\n                \"totalRow\": 2,\n                \"totalPage\": 1\n            },\n            \"data\": [\n                {\n                    \"id\": \"6f93cfe3-ac63-42ef-9f12-a3f6f824158c\",\n                    \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\n                    \"description\": \"that was excellent work\",\n                    \"rating\": 5,\n                    \"createdAt\": \"2026-07-09T06:23:00.984Z\",\n                    \"updatedAt\": \"2026-07-09T06:23:00.984Z\"\n                },\n                {\n                    \"id\": \"81f6293d-ebff-43fc-8563-9f1138b92b6c\",\n                    \"bookingId\": \"8603009b-bb8b-4812-b3c9-569f5f1d4af0\",\n                    \"description\": \"that was excellent work\",\n                    \"rating\": 5,\n                    \"createdAt\": \"2026-07-08T16:08:55.008Z\",\n                    \"updatedAt\": \"2026-07-08T16:17:41.890Z\"\n                }\n            ]\n        }\n    }\n}"
+            }
+          ]
         }
-      ]
+      ],
+      "description": "## ⭐ Review\n\nThe Review module allows customers to share feedback after completing a service. Customers can create, update, and delete their own reviews, while all users can view review details.\n\n- **Public:** View review details.\n    \n- **Customer:** Create, update, delete, and view their own reviews.\n    \n- **Admin:** Delete any review.\n    \n- **Authentication:** Protected routes require a valid HTTP-only authentication cookie."
     },
     {
       "name": "user",
@@ -839,11 +2953,105 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/user/update",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "user", "update"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "user",
+                "update"
+              ]
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "update-info",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\" :\"Newton Bepari\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://fix-it-now-xi.vercel.app/api/user/update",
+                  "protocol": "https",
+                  "host": [
+                    "fix-it-now-xi",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "user",
+                    "update"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 201
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sat, 11 Jul 2026 11:09:11 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"156-+q/tHq8zqvAulgQ4dQasizlI1xw\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::bghs4-1783768148786-77983b94cc1b"
+                },
+                {
+                  "key": "content-length",
+                  "value": "342"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User Information Updated Successfully\",\n    \"data\": {\n        \"id\": \"706059be-0a96-4dcf-86da-8046777b61dc\",\n        \"name\": \"Newton Bepari\",\n        \"phoneNumber\": \"0000000011\",\n        \"email\": \"2@gmail.com\",\n        \"role\": \"CUSTOMER\",\n        \"status\": \"ACTIVE\",\n        \"country\": null,\n        \"profilePicture\": null,\n        \"createdAt\": \"2026-07-08T06:12:00.598Z\",\n        \"updatedAt\": \"2026-07-11T11:09:11.035Z\"\n    }\n}"
+            }
+          ]
         },
         {
           "name": "update-password",
@@ -862,13 +3070,22 @@
             "url": {
               "raw": "https://fix-it-now-xi.vercel.app/api/user/update-password",
               "protocol": "https",
-              "host": ["fix-it-now-xi", "vercel", "app"],
-              "path": ["api", "user", "update-password"]
+              "host": [
+                "fix-it-now-xi",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "user",
+                "update-password"
+              ]
             }
           },
           "response": []
         }
-      ]
+      ],
+      "description": "## 👤 User\n\nThe User module allows authenticated users to manage their account information, including updating their profile details and changing their password.\n\n- **Access:** Authenticated users (Admin, Customer, Technician).\n    \n- **Features:** Update profile information and change account password.\n    \n- **Authentication:** Requires a valid HTTP-only authentication cookie."
     }
   ]
 }
