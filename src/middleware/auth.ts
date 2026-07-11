@@ -47,7 +47,7 @@ const auth = (...requiredRoles: UserRole[]) => {
 
     const { email, name, id, role } = verifyAccessToken.data as JwtPayload;
 
-    console.log(email, name, id, role);
+    
 
     if (requiredRoles.length && !requiredRoles.includes(role)) {
       throw new Error(

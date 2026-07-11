@@ -50,7 +50,6 @@ const getMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
-    console.log("user from request", user);
     if (!user?.id) {
       throw new Error("Can not fetch user please log in again");
     }

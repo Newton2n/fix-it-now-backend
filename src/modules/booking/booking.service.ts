@@ -29,7 +29,7 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
    if(customerBookingDate < today){
     throw new Error("Sorry you can not book at previous date")
   }
-  console.log("booking date raw with new Date", customerBookingDate);
+  
   const bookingMinute = customerBookingDate.getMinutes();
 
   if (bookingMinute !== 0 && bookingMinute !== 30) {
@@ -43,7 +43,7 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
     })
     .toLowerCase();
 
-  console.log("weekday", weekDay);
+  
 
   const todayAvailability = technicianAvailability[weekDay];
 
@@ -53,7 +53,7 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
 
   const bookingTime = customerBookingDate.toTimeString().slice(0, 5);
 
-  console.log("booking exact time", bookingTime);
+  
 
   if (
     bookingTime < todayAvailability.start ||

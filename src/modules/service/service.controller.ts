@@ -6,7 +6,7 @@ import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const queryPayload = req.validatedQuery;
-    console.log("validated query",queryPayload)
+    
 
     const result = await serviceService.getAll(queryPayload);
 

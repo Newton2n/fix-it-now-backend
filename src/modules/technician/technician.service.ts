@@ -180,7 +180,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
       ? { createdAt: sortOrder }
       : { yearsOfExperience: sortOrder };
 
-  console.log(whereClause.serviceArea);
+  
   const profileCount = await prisma.technicianProfile.count({
     where: {
       AND: whereClause,

@@ -137,7 +137,6 @@ const findBooking = async (queryPayload: TBookingSearchQuery) => {
     sortBy,
     sortOrder,
   } = queryPayload;
-  console.log(queryPayload);
   const itemPerPage = limit;
   const skip = (page - 1) * itemPerPage;
 

@@ -7,7 +7,6 @@ import { BookingStatus } from "../../../generated/prisma/enums";
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log("user in req", user);
     if (!user?.id) {
       throw new Error("User id required please log in");
     }
@@ -23,7 +22,6 @@ const create = catchAsync(
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log("user in req", user);
     if (!user?.id) {
       throw new Error("User id required please log in");
     }

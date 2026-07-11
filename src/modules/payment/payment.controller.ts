@@ -43,7 +43,7 @@ const webhookHandler = catchAsync(
 const getAllByLogInUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log(user)
+  
 
     if (!user?.id) {
       throw new Error("Sorry user id required please log in");

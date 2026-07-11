@@ -45,7 +45,6 @@ const login = async (payload: TLoginPayload) => {
     role: user.role,
   };
 
-  console.log("jwt payload", jwtPayload);
   // jwt access token generate
   const accessToken = jwtUtils.createToken(
     jwtPayload,

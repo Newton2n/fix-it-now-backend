@@ -65,7 +65,7 @@ const updateAvailability = catchAsync(
     const user = req.user;
     const payload = req.body;
 
-    console.log("payload", payload);
+    
     if (!user?.id) {
       throw new Error("User id required Please log in");
     }
