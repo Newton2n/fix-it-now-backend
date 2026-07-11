@@ -54,6 +54,5 @@ export const UserBookingSearchSchema = z.object({
       PaymentStatus.FAILED,
       PaymentStatus.SUCCEEDED,
     ])
-    .optional()
-    .default("SUCCEEDED"),
+    .optional(),
 });

@@ -17,10 +17,18 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
     },
   });
 
+  const today = new Date()
+
+ 
+
   const technicianAvailability = service.technician
     .availability as TTechnicianTimeSchedule;
 
   const customerBookingDate = new Date(payload.scheduledAt);
+
+   if(customerBookingDate < today){
+    throw new Error("Sorry you can not book at previous date")
+  }
   console.log("booking date raw with new Date", customerBookingDate);
   const bookingMinute = customerBookingDate.getMinutes();
 
