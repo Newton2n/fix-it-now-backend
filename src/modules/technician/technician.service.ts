@@ -88,7 +88,7 @@ const getBooking = async (userId: string) => {
 
   return bookings;
 };
-// get all profile
+// get single profile
 const getProfile = async (technicianProfileId: string) => {
   const technician = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
@@ -102,6 +102,7 @@ const getProfile = async (technicianProfileId: string) => {
   return technician;
 };
 
+// get all profile
 const getAll = async (queryPayload: TTechnicianSearchFilters) => {
   const {
     limit,

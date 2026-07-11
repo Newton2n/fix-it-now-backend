@@ -3,6 +3,7 @@ import {
   BookingStatus,
   PaymentStatus,
   UserActiveStatus,
+  UserRole,
 } from "../../../generated/prisma/enums";
 export const updateUserStatus = z.object({
   body: z.object({
@@ -45,3 +46,25 @@ export const BookingSearchSchema = z.object({
     .optional()
     .default("SUCCEEDED"),
 });
+
+
+
+
+
+
+//user search schema
+
+export const UserSearchSchema = z.object({
+  search : z.string().optional(),
+  phoneNumber :z.string().optional(),
+  email :z.email().optional(),
+  role :z.enum([UserRole.ADMIN,UserRole.TECHNICIAN,UserRole.CUSTOMER]).optional(),
+  status :z.enum([UserActiveStatus.ACTIVE,UserActiveStatus.BLOCKED,UserActiveStatus.INACTIVE]).optional().default("ACTIVE"),
+  country :z.string().optional(),
+   page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().default(10),
+  sortBy: z.enum(["name", "role","createdAt"]).default("createdAt"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
+})
+
+

@@ -9,4 +9,4 @@ export type TUpdateCategoryPayload = z.infer<
 >["body"];
 
 //query type
-export type TCategorySearchFilters = z.infer<typeof CategorySearchSchema>;
+export type TCategorySearchQuery = z.infer<typeof CategorySearchSchema>;

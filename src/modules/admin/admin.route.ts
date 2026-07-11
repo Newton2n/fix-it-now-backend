@@ -3,7 +3,7 @@ import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate, validateQuery } from "../../middleware/validate";
-import { BookingSearchSchema, updateUserStatus } from "./admin.schema";
+import { BookingSearchSchema, updateUserStatus, UserSearchSchema } from "./admin.schema";
 import { CategorySearchSchema } from "../category/category.schema";
 const adminRoute = Router();
 
@@ -11,7 +11,8 @@ const adminRoute = Router();
 adminRoute.get(
   "/users",
   authMiddleware.auth(UserRole.ADMIN),
-  adminController.getAllUser,
+  validateQuery(UserSearchSchema),
+  adminController.findUser,
 );
 
 //Update user status
@@ -27,7 +28,7 @@ adminRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.ADMIN),
   validateQuery(BookingSearchSchema),
-  adminController.getAllBooking,
+  adminController.findBooking,
 );
 
 //get all category
@@ -35,7 +36,7 @@ adminRoute.get(
   "/categories",
   authMiddleware.auth(UserRole.ADMIN),
   validateQuery(CategorySearchSchema),
-  adminController.getAllCategory,
+  adminController.findCategory,
 );
 
 //get all reviews

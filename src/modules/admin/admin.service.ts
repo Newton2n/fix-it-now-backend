@@ -2,17 +2,99 @@ import { UserActiveStatus } from "../../../generated/prisma/enums";
 import {
   BookingWhereInput,
   CategoryWhereInput,
+  UserWhereInput,
 } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import { TCategorySearchFilters } from "../category/category.interface";
-import { TBookingSearchQuery } from "./admin.interface";
+import { TCategorySearchQuery } from "../category/category.interface";
+import { TBookingSearchQuery, TUserSearchQuery } from "./admin.interface";
 
-const getAllUser = async () => {
-  const allUser = await prisma.user.findMany({
+// find user
+const findUser = async (queryPayload: TUserSearchQuery) => {
+  const {
+    limit,
+    page,
+    role,
+    sortBy,
+    sortOrder,
+    status,
+    country,
+    email,
+    phoneNumber,
+    search,
+  } = queryPayload;
+
+  const skipItem = (page - 1) * limit;
+  const whereClause: UserWhereInput = {};
+
+  if (search) {
+    whereClause.OR = [
+      {
+        name: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        email: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+  if (email) {
+    whereClause.email = {
+      contains: email,
+      mode: "insensitive",
+    };
+  }
+  if (phoneNumber) {
+    whereClause.phoneNumber = phoneNumber;
+  }
+  if (country) {
+    whereClause.country = country;
+  }
+  if (status) {
+    whereClause.status = status;
+  }
+  if (role) {
+    whereClause.role = role;
+  }
+
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : sortBy === "name"
+        ? { name: sortOrder }
+        : sortBy === "role"
+          ? { role: sortOrder }
+          : {};
+
+  const usersCount = await prisma.user.count({
+    where: whereClause,
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      AND: whereClause,
+    },
+    take: limit,
+    skip: skipItem,
+    orderBy,
     omit: { password: true },
   });
-  return allUser;
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: usersCount,
+      totalPage: Math.ceil(usersCount / limit),
+    },
+    data: users,
+  };
 };
+
+
+//update user status
 const updateUserStatus = async (
   userId: string,
   newStatus: UserActiveStatus,
@@ -35,8 +117,8 @@ const updateUserStatus = async (
   return updateStatus;
 };
 
-// get all bookings
-const getAllBooking = async (queryPayload: TBookingSearchQuery) => {
+// find bookings
+const findBooking = async (queryPayload: TBookingSearchQuery) => {
   const {
     status,
     paymentStatus,
@@ -110,8 +192,8 @@ const getAllBooking = async (queryPayload: TBookingSearchQuery) => {
   };
 };
 
-// get all category
-const getAllCategory = async (queryPayload: TCategorySearchFilters) => {
+// find category
+const findCategory = async (queryPayload: TCategorySearchQuery) => {
   const { limit, page, sortBy, sortOrder, search } = queryPayload;
 
   const itemPerPage = limit;
@@ -168,9 +250,9 @@ const getAllReviews = async () => {
 };
 
 export const adminService = {
-  getAllUser,
+  findUser,
   updateUserStatus,
-  getAllBooking,
-  getAllCategory,
+  findBooking,
+  findCategory,
   getAllReviews,
 };
