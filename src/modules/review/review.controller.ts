@@ -93,7 +93,7 @@ const getAllByMe = catchAsync(
     if (!user?.id) {
       throw new Error("User id required please log in ");
     }
-    const result = await reviewService.getAllMy(user?.id);
+    const result = await reviewService.getAllMy(user?.id,req.validatedQuery);
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "All review retrieved successfully",

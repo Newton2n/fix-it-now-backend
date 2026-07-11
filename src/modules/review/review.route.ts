@@ -2,8 +2,8 @@ import { Router } from "express";
 import { reviewController } from "./review.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
-import { createReviewSchema, updateReviewSchema } from "./review.schema";
+import { validate, validateQuery } from "../../middleware/validate";
+import { createReviewSchema, updateReviewSchema, UserReviewSearchSchema } from "./review.schema";
 
 const reviewRoute = Router();
 
@@ -16,7 +16,7 @@ reviewRoute.post(
 );
 
 //get all reviews log in customer
-reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN), reviewController.getAllByMe);
+reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN),validateQuery(UserReviewSearchSchema), reviewController.getAllByMe);
 //get review by id review
 reviewRoute.get("/:id", reviewController.getById);
 
