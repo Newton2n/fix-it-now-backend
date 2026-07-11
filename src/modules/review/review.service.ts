@@ -1,6 +1,11 @@
 import { UserRole } from "../../../generated/prisma/enums";
+import { ReviewWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import { TCreateReviewPayload, TUpdateReviewPayload } from "./review.interface";
+import {
+  TCreateReviewPayload,
+  TUpdateReviewPayload,
+  TUserReviewSearchQuery,
+} from "./review.interface";
 
 const create = async (customerId: string, payload: TCreateReviewPayload) => {
   const booking = await prisma.booking.findUniqueOrThrow({
@@ -46,13 +51,17 @@ const getById = async (reviewId: string) => {
   });
   return review;
   return {
-    name :"hello"
-  }
+    name: "hello",
+  };
 };
-const update = async (customerId: string, reviewId :string,payload: TUpdateReviewPayload) => {
+const update = async (
+  customerId: string,
+  reviewId: string,
+  payload: TUpdateReviewPayload,
+) => {
   const isOneReviewExists = await prisma.review.findUniqueOrThrow({
     where: {
-      id :reviewId,
+      id: reviewId,
     },
     include: {
       booking: true,
@@ -61,8 +70,6 @@ const update = async (customerId: string, reviewId :string,payload: TUpdateRevie
   if (isOneReviewExists?.booking.customerId !== customerId) {
     throw new Error("Sorry you cannot update another review");
   }
-
-
 
   const updateReview = await prisma.review.update({
     where: {
@@ -102,19 +109,80 @@ const remove = async (
   });
   return deleteReview;
 };
-const getAllMy = async (userId: string) => {
-  const review = await prisma.review.findMany({
-    where: {
-      booking: {
-        customerId: userId,
+// get all reviews by login user
+const getAllMy = async (
+  userId: string,
+  queryPayload: TUserReviewSearchQuery,
+) => {
+  const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    maxRating,
+    minRating,
+    search,
+    serviceId,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+
+  const whereClause: ReviewWhereInput = {};
+
+  //customer and service filter
+
+  whereClause.booking = {};
+  whereClause.booking.customerId = userId;
+
+  if (serviceId) {
+    whereClause.booking.serviceId = serviceId;
+  }
+
+  if (search) {
+    whereClause.OR = [
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
       },
+    ];
+  }
+
+  //rating filtering
+  if (minRating || maxRating) {
+    whereClause.rating = {};
+    if (minRating) {
+      whereClause.rating.gte = minRating;
+    }
+    if (maxRating) {
+      whereClause.rating.lte = maxRating;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt" ? { createdAt: sortOrder } : { rating: sortOrder };
+
+  const reviewsCount = await prisma.review.count({
+    where: whereClause,
+  });
+  const reviews = await prisma.review.findMany({
+    where: {
+      AND: whereClause,
     },
-    include: {
-      booking: true,
-    },
+    take: limit,
+    skip: skipRow,
+    orderBy,
   });
 
-  return review;
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: reviewsCount,
+      totalPage: Math.ceil(reviewsCount / limit),
+    },
+    data: reviews,
+  };
 };
 
 export const reviewService = {

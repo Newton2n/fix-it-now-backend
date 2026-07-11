@@ -19,6 +19,7 @@ declare global {
   }
 }
 
+
 const auth = (...requiredRoles: UserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // get access token via header ,cookies

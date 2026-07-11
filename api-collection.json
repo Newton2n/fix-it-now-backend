@@ -1,0 +1,874 @@
+{
+  "info": {
+    "_postman_id": "0898da48-3059-4922-8e8e-508e5fbe62a8",
+    "name": "Fix It Now remote",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53393171",
+    "_collection_link": "https://go.postman.co/collection/53393171-0898da48-3059-4922-8e8e-508e5fbe62a8?source=collection_link",
+    "remote": "https://documenter.getpostman.com/view/53393171/2sBY4LQ2Ci"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\":\"Newton\",\r\n  \"email\":\"7@gmail.com\",\r\n  \"password\" :\"123456\",\r\n  \"role\": \"CUSTOMER\"  \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/auth/register",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"email\": \"7@gmail.com\",\r\n\"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/auth/login",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh token generate",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/auth/refresh-token",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "auth", "refresh-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/auth/me",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "category",
+      "item": [
+        {
+          "name": "create-category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" :\"Plumber\",\r\n    \"description\" :\"In this Ac Repeir section\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "categories", "admin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/categories",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-category",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"plum\",\r\n    \"description\" :\"this is plumbing category\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin/b9913b99-6832-437e-9428-8638131d4456",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "b9913b99-6832-437e-9428-8638131d4456"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/categories/admin/df7b1929-e041-4848-853d-afb9bb1372f8",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "df7b1929-e041-4848-853d-afb9bb1372f8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Technician",
+      "item": [
+        {
+          "name": "create  technician profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"bio\": \"Certified HVAC specialist with an advanced degree in residential electronics repair.\",\r\n  \"skills\": [\"HVAC Repair\", \"Electrical Wiring\", \"Appliance Maintenance\"],\r\n  \"yearsOfExperience\": 10,\r\n  \"availability\": {\r\n    \"monday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"tuesday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"wednesday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"thursday\":{\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"friday\":{\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"saturday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    }\r\n  },\r\n  \"serviceArea\": [\"Manhattan\", \"Brooklyn\", \"Queens\"]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update technician profile",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \r\n  \"serviceArea\": [\"dhaka\",\"Munsiganj\",\"barishal\"]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get random technician profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/profile/0b809079-eab9-49d4-a0cd-0931a5b0b552",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "technicians",
+                "profile",
+                "0b809079-eab9-49d4-a0cd-0931a5b0b552"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get technician me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/me",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get booking",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/bookings",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update availability",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"availability\" :{\r\n    \"monday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"tuesday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"wednesday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"thursday\":{\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"friday\":{\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    },\r\n    \"saturday\": {\r\n        \"start\" :\"01:00\",\r\n        \"end\" :\"24 :00\"\r\n    }\r\n\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/availability",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians", "availability"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all technician",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "technicians"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "admin-update-status verify",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\" :\"VERIFIED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/admin/34fa0397-68f3-4c6b-ab0c-aefb948e16b0/verify",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "technicians",
+                "admin",
+                "34fa0397-68f3-4c6b-ab0c-aefb948e16b0",
+                "verify"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all reviews by technician id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/technicians/34fa0397-68f3-4c6b-ab0c-aefb948e16b0/reviews",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "technicians",
+                "34fa0397-68f3-4c6b-ab0c-aefb948e16b0",
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "item": [
+        {
+          "name": "create service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Ac Repair3\",\r\n  \"description\": \"Fix leaking pipes\",\r\n  \"categoryId\": \"b9913b99-6832-437e-9428-8638131d4456\",\r\n  \"price\": 50,\r\n  \"currency\": \"USD\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "service"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-service",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"I repair ac with 100 percent garranty\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service/1dc50633-4619-410b-b858-789aa4bdaf85",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "service", "1dc50633-4619-410b-b858-789aa4bdaf85"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get service by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service/1dc50633-4619-410b-b858-789aa4bdaf85",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "service", "1dc50633-4619-410b-b858-789aa4bdaf85"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "service"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service/d3af7098-bf00-4504-9d8b-297a6295dc83",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "service", "d3af7098-bf00-4504-9d8b-297a6295dc83"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all service by technician id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service/0b809079-eab9-49d4-a0cd-0931a5b0b552/technician",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "service",
+                "0b809079-eab9-49d4-a0cd-0931a5b0b552",
+                "technician"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all reviews by service id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/service/aa96659f-e804-437c-a852-8c9711d1abe4/reviews",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "service",
+                "aa96659f-e804-437c-a852-8c9711d1abe4",
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "booking",
+      "item": [
+        {
+          "name": "create booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"serviceId\": \"aa96659f-e804-437c-a852-8c9711d1abe4\",\r\n \"scheduledAt\":\"2026-01-22T13:00:00.000Z\",\r\n \"location\": \"Dhaka\",\r\n \"customerNote\":\"Please come frist\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "booking"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all booking by log in user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "booking"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get booking by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "booking", "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update status by technician",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "booking", "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cancel booking by customer",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/booking/41e6e71e-dfff-4383-a1e2-85bd1d3b74d0/cancel",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "booking",
+                "41e6e71e-dfff-4383-a1e2-85bd1d3b74d0",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "update user status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\" :\"INACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/users/706059be-0a96-4dcf-86da-8046777b61dc",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": [
+                "api",
+                "admin",
+                "users",
+                "706059be-0a96-4dcf-86da-8046777b61dc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/users/",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "admin", "users", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all booking",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/bookings",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "admin", "bookings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/categories",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "admin", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/admin/reviews",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "admin", "reviews"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "item": [
+        {
+          "name": "checkout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookingId\" :\"83b6eb43-4ac6-4bc1-b44c-28c4746ef0fb\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/payment/checkout",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "payment", "checkout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all payment by log in user",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"email\": \"2@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/payment",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "payment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get payment details by payment id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/payment/282b4996-d654-4f0f-94de-0c31f082793b",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "payment", "282b4996-d654-4f0f-94de-0c31f082793b"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "reviews",
+      "item": [
+        {
+          "name": "create review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"bookingId\": \"33aa2d3f-b599-4f65-8798-65c15639f944\",\r\n        \"rating\": 5,\r\n        \"description\": \"that was excellent work\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/review",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "review"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update review",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n        \"rating\": 5,\r\n        \"description\": \"that was excellent work\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/review/81f6293d-ebff-43fc-8563-9f1138b92b6c",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "review", "81f6293d-ebff-43fc-8563-9f1138b92b6c"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get review by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/review/81f6293d-ebff-43fc-8563-9f1138b92b6ee",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "review", "81f6293d-ebff-43fc-8563-9f1138b92b6ee"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all reviews by log in user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/review/me",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "review", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "update-info",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\" :\"Newton Bepari\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/user/update",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "user", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-password",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"oldPassword\" :\"123456\",\r\n    \"newPassword\" :\"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fix-it-now-xi.vercel.app/api/user/update-password",
+              "protocol": "https",
+              "host": ["fix-it-now-xi", "vercel", "app"],
+              "path": ["api", "user", "update-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

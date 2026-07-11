@@ -4,6 +4,7 @@ import { technicianService } from "./technician.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../lib/prisma";
+import { TTechnicianSearchFilters } from "./technician.interface";
 
 const create = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -120,7 +121,9 @@ const getProfile = catchAsync(
 
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await technicianService.getAll();
+    const validateQuery = req.validatedQuery;
+
+    const result = await technicianService.getAll(validateQuery);
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "All Technician Profile Retrieve Successfully",
@@ -159,12 +162,14 @@ const verify = catchAsync(
 // get all review by a technician
 const getAllReviews = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-  const {technicianId} = req.params;
-  if(!technicianId){
-    throw new Error("Sorry technician id required")
-  }
+    const { technicianId } = req.params;
+    if (!technicianId) {
+      throw new Error("Sorry technician id required");
+    }
 
-    const result = await technicianService.getAllReviews(technicianId as string);
+    const result = await technicianService.getAllReviews(
+      technicianId as string,
+    );
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "All reviews Retrieve Successfully",
@@ -184,5 +189,5 @@ export const technicianController = {
   getProfile,
   getAll,
   verify,
-  getAllReviews
+  getAllReviews,
 };

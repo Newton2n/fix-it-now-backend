@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createCategorySchema, updateCategorySchema } from "./category.schema";
+import { CategorySearchSchema, createCategorySchema, updateCategorySchema } from "./category.schema";
 
 export type TCreateCategoryPayload = z.infer<
   typeof createCategorySchema
@@ -7,3 +7,6 @@ export type TCreateCategoryPayload = z.infer<
 export type TUpdateCategoryPayload = z.infer<
   typeof updateCategorySchema
 >["body"];
+
+//query type
+export type TCategorySearchQuery = z.infer<typeof CategorySearchSchema>;

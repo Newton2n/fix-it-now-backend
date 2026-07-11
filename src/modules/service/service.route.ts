@@ -2,12 +2,20 @@ import { Router } from "express";
 import { serviceController } from "./service.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
-import { createServiceSchema, updateServiceSchema } from "./service.schema";
+import { validate, validateQuery } from "../../middleware/validate";
+import {
+  createServiceSchema,
+  ServiceSearchFiltersSchema,
+  updateServiceSchema,
+} from "./service.schema";
 const serviceRoute = Router();
 
 //get all service
-serviceRoute.get("/", serviceController.getAll);
+serviceRoute.get(
+  "/",
+  validateQuery(ServiceSearchFiltersSchema),
+  serviceController.getAll,
+);
 
 //get single service details
 serviceRoute.get(

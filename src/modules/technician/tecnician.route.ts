@@ -1,18 +1,21 @@
 import { Router } from "express";
 import { technicianController } from "./technician.controller";
 import { authMiddleware } from "../../middleware/auth";
-import { validate } from "../../middleware/validate";
+import { validate, validateQuery } from "../../middleware/validate";
 import { UserRole } from "../../../generated/prisma/enums";
 import {
   changeAvailabilityPayload,
+  GetTechniciansSchema,
   technicianProfileUpdateStatus,
   technicianRegisterSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
 const technicianRoute = Router();
 
-//create technician profile
-technicianRoute.get("/", technicianController.getAll);
+//get all technician profile
+technicianRoute.get("/",validateQuery(GetTechniciansSchema), technicianController.getAll);
+
+
 //create technician profile
 technicianRoute.post(
   "/profile",

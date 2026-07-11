@@ -3,13 +3,13 @@ import catchAsync from "../../utils/catch-async";
 import { adminService } from "./admin.service";
 import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
-const getAllUser = catchAsync(
+const findUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllUser();
+    const result = await adminService.findUser(req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "All user Retrieved successfully",
+      message: "Users Retrieved successfully",
       data: {
         result,
       },
@@ -24,50 +24,64 @@ const updateUserStatus = catchAsync(
       throw new Error("Sorry user id required");
     }
     const status = req.body.status;
-    const result = await adminService.updateUserStatus(id as string,status);
+    const result = await adminService.updateUserStatus(id as string, status);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Category Retrieve successfully",
+      message: "Category updated successfully",
       data: {
         result,
       },
     });
   },
 );
-const getAllBooking = catchAsync(
+const findBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllBooking();
+    const result = await adminService.findBooking(req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "All Bookings Retrieved successfully",
+      message: "Bookings Retrieved successfully",
       data: {
         result,
       },
     });
   },
 );
-const getAllCategory = catchAsync(
+const findCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllCategory();
+    const validatedQuery = req.validatedQuery;
+    const result = await adminService.findCategory(validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "Category Retrieve successfully",
+      message: "Categories Retrieve successfully",
       data: {
         result,
       },
     });
   },
 );
-const getAllReviews = catchAsync(
+const findReviews = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.getAllReviews();
+    const result = await adminService.findReviews(req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "All reviews retrieve successfully",
+      message: "Reviews retrieved successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const findPayments = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.findPayments(req.validatedQuery);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Payments retrieved successfully",
       data: {
         result,
       },
@@ -76,9 +90,10 @@ const getAllReviews = catchAsync(
 );
 
 export const adminController = {
-  getAllUser,
+  findUser,
   updateUserStatus,
-  getAllBooking,
-  getAllCategory,
-  getAllReviews,
+  findBooking,
+  findCategory,
+  findReviews,
+  findPayments
 };

@@ -5,7 +5,8 @@ import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await categoryService.getAll();
+    const validatedQuery = req.validatedQuery
+    const result = await categoryService.getAll(validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,

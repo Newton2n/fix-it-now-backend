@@ -2,15 +2,17 @@ import { Router } from "express";
 import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
-import { updateUserStatus } from "./admin.schema";
+import { validate, validateQuery } from "../../middleware/validate";
+import { AdminBookingSearchSchema, PaymentSearchSchema, ReviewSearchSchema, updateUserStatus, UserSearchSchema } from "./admin.schema";
+import { CategorySearchSchema } from "../category/category.schema";
 const adminRoute = Router();
 
 //get all user
 adminRoute.get(
   "/users",
   authMiddleware.auth(UserRole.ADMIN),
-  adminController.getAllUser,
+  validateQuery(UserSearchSchema),
+  adminController.findUser,
 );
 
 //Update user status
@@ -25,21 +27,31 @@ adminRoute.patch(
 adminRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.ADMIN),
-  adminController.getAllBooking,
+  validateQuery(AdminBookingSearchSchema),
+  adminController.findBooking,
 );
 
 //get all category
 adminRoute.get(
   "/categories",
   authMiddleware.auth(UserRole.ADMIN),
-  adminController.getAllCategory,
+  validateQuery(CategorySearchSchema),
+  adminController.findCategory,
 );
 
 //get all reviews
 adminRoute.get(
   "/reviews",
   authMiddleware.auth(UserRole.ADMIN),
-  adminController.getAllReviews,
+  validateQuery(ReviewSearchSchema),
+  adminController.findReviews,
+);
+//get all payment
+adminRoute.get(
+  "/payments",
+  authMiddleware.auth(UserRole.ADMIN),
+  validateQuery(PaymentSearchSchema),
+  adminController.findPayments,
 );
 
 

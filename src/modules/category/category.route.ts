@@ -2,12 +2,12 @@ import { Router } from "express";
 import { categoryController } from "./category.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { validate } from "../../middleware/validate";
-import { createCategorySchema, updateCategorySchema } from "./category.schema";
+import { validate, validateQuery } from "../../middleware/validate";
+import { CategorySearchSchema, createCategorySchema, updateCategorySchema } from "./category.schema";
 const categoryRoute = Router();
 
 //get all
-categoryRoute.get("/", categoryController.getAll);
+categoryRoute.get("/",validateQuery(CategorySearchSchema), categoryController.getAll);
 //create category
 categoryRoute.post(
   "/admin",
