@@ -23,7 +23,7 @@ async function main() {
 
   // Hash  password
   const hashedPassword = await bcrypt.hash(
-    "123456",
+    config.admin_password,
     Number(config.bcrypt_salt_rounds),
   );
 

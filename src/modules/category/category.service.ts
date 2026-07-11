@@ -94,9 +94,7 @@ const remove = async (categoryId: string) => {
     where: { id: categoryId },
   });
 
-  return {
-    name: isCategoryExist.name,
-  };
+  return remove;
 };
 
 export const categoryService = {

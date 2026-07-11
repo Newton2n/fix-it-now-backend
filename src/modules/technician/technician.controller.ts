@@ -168,11 +168,11 @@ const getAllReviews = catchAsync(
     }
 
     const result = await technicianService.getAllReviews(
-      technicianId as string,
+      technicianId as string,req.validatedQuery
     );
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "All reviews Retrieve Successfully",
+      message: "Reviews Retrieve Successfully",
       data: {
         result,
       },

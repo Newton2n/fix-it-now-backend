@@ -34,17 +34,6 @@ export const technicianUpdateSchema = z.object({
       .min(0, "Experience cannot be negative")
       .max(100)
       .optional(),
-    availability: z
-      .object({
-        monday: daySchema.optional(),
-        tuesday: daySchema.optional(),
-        wednesday: daySchema.optional(),
-        thursday: daySchema.optional(),
-        friday: daySchema.optional(),
-        saturday: daySchema.optional(),
-        sunday: daySchema.optional(),
-      })
-      .optional(),
     serviceArea: z
       .array(z.string({ error: "Service areas must be strings" }))
       .optional(),
@@ -89,5 +78,20 @@ export const GetTechniciansSchema = z.object({
   skills: z.string().optional(), 
   serviceArea: z.string().optional(),
   sortBy: z.enum(["experience", "date"]).default("date"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
+});
+
+
+
+
+// review search schema
+export const TechnicianReviewSearchSchema = z.object({
+  serviceId: z.uuid().optional(),
+  minRating: z.coerce.number().int().min(1).max(5).optional(),
+  maxRating: z.coerce.number().int().min(1).max(5).optional(),
+  search: z.string().optional(),
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().default(10),
+  sortBy: z.enum(["rating", "createdAt"]).default("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });

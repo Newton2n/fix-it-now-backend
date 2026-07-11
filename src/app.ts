@@ -14,9 +14,10 @@ import paymentRoute from "./modules/payment/payment.route";
 import userRoute from "./modules/user/user.route";
 const app: Application = express();
 
-
+//accept all req
 app.use(cors());
 
+//special webhook middleware
 app.post(
   "/api/payment/webhook",
   express.raw({ type: "application/json" }),
@@ -27,6 +28,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+//al route
 app.use("/api/auth", authRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/technicians", technicianRoute);

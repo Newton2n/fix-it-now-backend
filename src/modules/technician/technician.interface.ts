@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { changeAvailabilityPayload, GetTechniciansSchema, technicianRegisterSchema, technicianUpdateSchema } from "./technician.schema";
+import { changeAvailabilityPayload, GetTechniciansSchema, technicianRegisterSchema, TechnicianReviewSearchSchema, technicianUpdateSchema } from "./technician.schema";
 
 export type TCreateTechnicianProfilePayload = z.infer<
   typeof technicianRegisterSchema
@@ -16,3 +16,5 @@ export type TUpdateAvailabilityPayload = z.infer<
 export type TTechnicianSearchFilters = z.infer<
   typeof GetTechniciansSchema
 >
+
+export type TTechnicianReviewSearchQuery = z.infer<typeof TechnicianReviewSearchSchema>;

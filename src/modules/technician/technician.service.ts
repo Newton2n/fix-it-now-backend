@@ -1,8 +1,9 @@
 import { TechnicianStatus } from "../../../generated/prisma/enums";
-import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
+import { ReviewWhereInput, TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
+  TTechnicianReviewSearchQuery,
   TTechnicianSearchFilters,
   TUpdateAvailabilityPayload,
   TUpdateTechnicianProfilePayload,
@@ -232,27 +233,83 @@ const verify = async (technicianId: string, newStatus: TechnicianStatus) => {
   };
 };
 
-const getAllReviews = async (technicianId: string) => {
-  const reviews = await prisma.review.findMany({
-    where: {
-      booking: {
-        service: { technicianId: technicianId },
+const getAllReviews = async (technicianId: string,queryPayload :TTechnicianReviewSearchQuery) => {
+   const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    maxRating,
+    minRating,
+    search,
+    serviceId,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+
+  const whereClause: ReviewWhereInput = {
+    booking : {
+      service :{
+        technicianId :technicianId
+      }
+    }
+  };
+
+  // service filter
+  if (serviceId) {
+    whereClause.booking = {
+      serviceId,
+      service: {
+        technicianId,
       },
-    },
-    select: {
-      id: true,
-      description: true,
-      rating: true,
-      createdAt: true,
-      updatedAt: true,
-      booking: {
-        select: {
-          service: true,
+    };
+  }
+
+  if (search) {
+    whereClause.OR = [
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
         },
       },
-    },
+    ];
+  }
+
+  //rating filtering
+  if (minRating || maxRating) {
+    whereClause.rating = {};
+    if (minRating) {
+      whereClause.rating.gte = minRating;
+    }
+    if (maxRating) {
+      whereClause.rating.lte = maxRating;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt" ? { createdAt: sortOrder } : { rating: sortOrder };
+
+  const reviewsCount = await prisma.review.count({
+    where: whereClause,
   });
-  return reviews;
+  const reviews = await prisma.review.findMany({
+    where: {
+      AND: whereClause,
+    },
+    take: limit,
+    skip: skipRow,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: reviewsCount,
+      totalPage: Math.ceil(reviewsCount / limit),
+    },
+    data: reviews,
+  };
 };
 export const technicianService = {
   create,

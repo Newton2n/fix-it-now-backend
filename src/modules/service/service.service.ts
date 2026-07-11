@@ -90,7 +90,7 @@ const getAll = async (queryPayload: TSearchFilters) => {
 
   return {
     meta: {
-      currentPage:page,
+      currentPage: page,
       limit: itemPerPage,
       totalRow: total,
       totalPage: Math.ceil(total / itemPerPage),
@@ -132,12 +132,17 @@ const getById = async (serviceId: string) => {
 
 //create service
 const create = async (userId: string, payload: TCreateServicePayload) => {
-  const isTechnicianProfileExist =
-    await prisma.technicianProfile.findUniqueOrThrow({
-      where: {
-        userId: userId,
-      },
-    });
+  const isTechnicianProfileExist = await prisma.technicianProfile.findUnique({
+    where: {
+      userId: userId,
+    },
+  });
+
+  if (!isTechnicianProfileExist) {
+    throw new Error(
+      "Please create a technician profile before creating a service.",
+    );
+  }
   if (isTechnicianProfileExist.status !== "VERIFIED") {
     throw new Error("Technician is not verified yet");
   }

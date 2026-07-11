@@ -8,6 +8,7 @@ import {
   GetTechniciansSchema,
   technicianProfileUpdateStatus,
   technicianRegisterSchema,
+  TechnicianReviewSearchSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
 const technicianRoute = Router();
@@ -34,6 +35,8 @@ technicianRoute.patch(
   validate(technicianUpdateSchema),
   technicianController.updateProfile,
 );
+
+//update availability
 technicianRoute.patch(
   "/availability",
   authMiddleware.auth(UserRole.TECHNICIAN),
@@ -57,6 +60,7 @@ technicianRoute.get(
 // get all reviews for a technician
 technicianRoute.get(
   "/:technicianId/reviews",
+  validateQuery(TechnicianReviewSearchSchema),
   technicianController.getAllReviews,
 );
 //verify technician profile
