@@ -2,6 +2,7 @@ import { UserActiveStatus } from "../../../generated/prisma/enums";
 import {
   BookingWhereInput,
   CategoryWhereInput,
+  PaymentWhereInput,
   ReviewWhereInput,
   UserWhereInput,
 } from "../../../generated/prisma/models";
@@ -9,6 +10,7 @@ import { prisma } from "../../lib/prisma";
 import { TCategorySearchQuery } from "../category/category.interface";
 import {
   TBookingSearchQuery,
+  TPaymentSearchQuery,
   TReviewSearchQuery,
   TUserSearchQuery,
 } from "./admin.interface";
@@ -285,7 +287,6 @@ const findReviews = async (queryPayload: TReviewSearchQuery) => {
     }
   }
 
-
   //rating filtering
   if (minRating || maxRating) {
     whereClause.rating = {};
@@ -301,7 +302,7 @@ const findReviews = async (queryPayload: TReviewSearchQuery) => {
     sortBy === "createdAt" ? { createdAt: sortOrder } : { rating: sortOrder };
 
   const reviewsCount = await prisma.review.count({
-    where :whereClause
+    where: whereClause,
   });
   const reviews = await prisma.review.findMany({
     where: {
@@ -323,10 +324,84 @@ const findReviews = async (queryPayload: TReviewSearchQuery) => {
   };
 };
 
+//find payment
+const findPayments = async (queryPayload: TPaymentSearchQuery) => {
+  const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    maxAmount,
+    minAmount,
+    provider,
+    status,
+    transactionId,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+
+  const whereClause: PaymentWhereInput = {};
+  //transaction id filter
+  if (transactionId) {
+    whereClause.transactionId = transactionId;
+  }
+
+  //provider filter
+  if (provider) {
+    whereClause.provider = provider;
+  }
+
+  //status filter
+  if (status) {
+    whereClause.status = status;
+  }
+
+  //rating filtering
+  if (minAmount || maxAmount) {
+    whereClause.amount = {};
+    if (minAmount) {
+      whereClause.amount.gte = minAmount;
+    }
+    if (maxAmount) {
+      whereClause.amount.lte = maxAmount;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : sortBy === "amount"
+        ? { amount: sortOrder }
+        : sortBy === "status"
+          ? { status: sortOrder }
+          : {};
+
+  const paymentCount = await prisma.payment.count({
+    where: whereClause,
+  });
+  const payment = await prisma.payment.findMany({
+    // only filtering
+    where: whereClause,
+    take: limit,
+    skip: skipRow,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: paymentCount,
+      totalPage: Math.ceil(paymentCount / limit),
+    },
+    data: payment,
+  };
+};
+
 export const adminService = {
   findUser,
   updateUserStatus,
   findBooking,
   findCategory,
   findReviews,
+  findPayments,
 };

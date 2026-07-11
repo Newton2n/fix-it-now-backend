@@ -3,7 +3,7 @@ import { adminController } from "./admin.controller";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 import { validate, validateQuery } from "../../middleware/validate";
-import { BookingSearchSchema, ReviewSearchSchema, updateUserStatus, UserSearchSchema } from "./admin.schema";
+import { BookingSearchSchema, PaymentSearchSchema, ReviewSearchSchema, updateUserStatus, UserSearchSchema } from "./admin.schema";
 import { CategorySearchSchema } from "../category/category.schema";
 const adminRoute = Router();
 
@@ -45,6 +45,13 @@ adminRoute.get(
   authMiddleware.auth(UserRole.ADMIN),
   validateQuery(ReviewSearchSchema),
   adminController.findReviews,
+);
+//get all payment
+adminRoute.get(
+  "/payments",
+  authMiddleware.auth(UserRole.ADMIN),
+  validateQuery(PaymentSearchSchema),
+  adminController.findPayments,
 );
 
 

@@ -68,7 +68,20 @@ const findReviews = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "All reviews retrieve successfully",
+      message: "Reviews retrieve successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const findPayments = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.findPayments(req.validatedQuery);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Payments retrieve successfully",
       data: {
         result,
       },
@@ -82,4 +95,5 @@ export const adminController = {
   findBooking,
   findCategory,
   findReviews,
+  findPayments
 };
