@@ -37,6 +37,41 @@ A RESTful backend API for a home service booking platform where customers can bo
 - CORS
 
 ---
+# 📦 Dependencies
+
+## Production Dependencies
+
+| Package | Purpose |
+|---------|---------|
+| `express` | Web framework for building the REST API |
+| `@prisma/client` | Prisma ORM client for database operations |
+| `@prisma/adapter-pg` | PostgreSQL adapter for Prisma |
+| `pg` | PostgreSQL client for Node.js |
+| `bcryptjs` | Password hashing |
+| `jsonwebtoken` | JWT-based authentication |
+| `cookie-parser` | Parse HTTP cookies for authentication |
+| `cors` | Enable Cross-Origin Resource Sharing |
+| `dotenv` | Load environment variables from `.env` |
+| `http-status` | HTTP status code constants |
+| `stripe` | Stripe payment and checkout integration |
+| `zod` | Request data validation and schema validation |
+| `tsup` | TypeScript application bundling |
+
+## Development Dependencies
+
+| Package | Purpose |
+|---------|---------|
+| `typescript` | Type-safe JavaScript development |
+| `tsx` | Run TypeScript files and watch for changes during development |
+| `prisma` | Prisma CLI for database migrations and Prisma Client generation |
+| `@types/node` | TypeScript type definitions for Node.js |
+| `@types/express` | TypeScript type definitions for Express |
+| `@types/cookie-parser` | TypeScript type definitions for Cookie Parser |
+| `@types/cors` | TypeScript type definitions for CORS |
+| `@types/jsonwebtoken` | TypeScript type definitions for JSON Web Token |
+| `@types/pg` | TypeScript type definitions for PostgreSQL |
+
+----
 
 # 📁 Project Structure
 
@@ -61,6 +96,9 @@ src
 ├── app.ts
 └── server.ts
 ```
+
+PROJECT STRUCTURE 
+![API Preview](./project-structure.png)
 
 ---
 
@@ -228,11 +266,8 @@ After a successful login, the server sets an HTTP-only cookie that is automatica
 
 # 📖 API Documentation
 
-Postman Documentation
+[View Postman API Documentation](https://documenter.getpostman.com/view/53393171/2sBY4LQ2Ci)
 
-```
-https://documenter.getpostman.com/view/53393171/2sBY4LQ2Ci
-```
 
 ---
 
@@ -256,8 +291,9 @@ Payment Gateway
 Stripe
 ```
 
-# 🌐 Live API :https://fix-it-now-xi.vercel.app
+# 🌐 Live API
 
+[https://fix-it-now-xi.vercel.app](https://fix-it-now-xi.vercel.app)
 
 
 ---
