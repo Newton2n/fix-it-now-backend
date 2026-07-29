@@ -12,6 +12,7 @@ import reviewRoute from "./modules/review/review.route";
 import adminRoute from "./modules/admin/admin.route";
 import paymentRoute from "./modules/payment/payment.route";
 import userRoute from "./modules/user/user.route";
+import homeRoute from "../landing-page/home-page";
 const app: Application = express();
 
 //accept all req
@@ -30,6 +31,9 @@ app.use(cookieParser());
 
 
 //al route
+
+
+app.use("/", homeRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/technicians", technicianRoute);

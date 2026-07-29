@@ -6,6 +6,16 @@ import {
   TUpdateServicePayload,
 } from "./service.interface";
 
+const getAllByCategoryId = async (categoryId: string) => {
+  // Get services
+  const services = await prisma.service.findMany({
+    where: { categoryId: categoryId },
+  });
+
+  return {
+    data: services,
+  };
+};
 const getAll = async (queryPayload: TSearchFilters) => {
   const {
     search,
@@ -243,6 +253,7 @@ const getAllReviews = async (serviceId: string) => {
 
 export const serviceService = {
   getAll,
+  getAllByCategoryId,
   getById,
   create,
   update,

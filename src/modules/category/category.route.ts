@@ -8,6 +8,8 @@ const categoryRoute = Router();
 
 //get all
 categoryRoute.get("/",validateQuery(CategorySearchSchema), categoryController.getAll);
+//get category details
+categoryRoute.get("/:categoryId", categoryController.getDetails);
 //create category
 categoryRoute.post(
   "/admin",

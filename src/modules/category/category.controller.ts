@@ -5,8 +5,26 @@ import { sendSuccessResponse } from "../../utils/response";
 import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const validatedQuery = req.validatedQuery
+    const validatedQuery = req.validatedQuery;
     const result = await categoryService.getAll(validatedQuery);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Category Retrieve successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
+const getDetails = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { categoryId } = req.params;
+    if (!categoryId) {
+      throw new Error("Category id required");
+    }
+    const result = await categoryService.getDetails(categoryId as string);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -55,12 +73,12 @@ const remove = catchAsync(
     if (!id) {
       throw new Error("Category id required");
     }
-    const result =await categoryService.remove(id as string);
+    const result = await categoryService.remove(id as string);
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "Category deleted Successfully",
       data: {
-        result
+        result,
       },
     });
   },
@@ -68,6 +86,7 @@ const remove = catchAsync(
 
 export const categoryController = {
   getAll,
+  getDetails,
   create,
   update,
   remove,

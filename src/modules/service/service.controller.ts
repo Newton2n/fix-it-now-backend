@@ -6,9 +6,27 @@ import { StatusCodes } from "http-status-codes";
 const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const queryPayload = req.validatedQuery;
-    
 
     const result = await serviceService.getAll(queryPayload);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Services retrieved Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const getAllByCategoryId = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { categoryId } = req.params;
+    if (!categoryId && typeof categoryId === "string") {
+      throw new Error("Category Id required");
+    }
+    const result = await serviceService.getAllByCategoryId(
+      categoryId as string,
+    );
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -142,6 +160,7 @@ const getAllReviews = catchAsync(
 
 export const serviceController = {
   getAll,
+  getAllByCategoryId,
   getById,
   create,
   update,

@@ -17,6 +17,12 @@ serviceRoute.get(
   serviceController.getAll,
 );
 
+//get all service
+serviceRoute.get(
+  "/category/:categoryId",
+  serviceController.getAllByCategoryId,
+);
+
 //get single service details
 serviceRoute.get(
   "/:id",

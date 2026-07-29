@@ -38,9 +38,12 @@ const login = catchAsync(
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message: "User logged in successfully and Access token generated successfully",
+      message:
+        "User logged in successfully and Access token generated successfully",
       data: {
         user: jwtPayload,
+        accessToken,
+        refreshToken,
       },
     });
   },

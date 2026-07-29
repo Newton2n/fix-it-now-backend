@@ -56,6 +56,17 @@ const getAll = async (queryPayload: TCategorySearchQuery) => {
   };
 };
 
+// get details
+const getDetails = async (categoryId: string) => {
+  const category = await prisma.category.findUniqueOrThrow({
+    where: {
+      id: categoryId,
+    },
+  });
+  return {
+    data: category,
+  };
+};
 
 // create category
 const create = async (payload: TCreateCategoryPayload) => {
@@ -99,6 +110,7 @@ const remove = async (categoryId: string) => {
 
 export const categoryService = {
   getAll,
+  getDetails,
   create,
   update,
   remove,
