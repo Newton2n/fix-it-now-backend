@@ -26,7 +26,7 @@ technicianRoute.post(
 );
 
 // get random technician profile details public
-technicianRoute.post("/profile/:id", technicianController.getProfile);
+technicianRoute.get("/profile/:id", technicianController.getProfile);
 
 //update profile
 technicianRoute.patch(
