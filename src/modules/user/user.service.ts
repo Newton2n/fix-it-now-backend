@@ -69,7 +69,23 @@ const updatePassword = async (
   return passwordTransaction;
 };
 
+
+// get single profile
+const getUser = async (userId: string) => {
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id :userId
+    },
+    omit :{
+      password :true
+    }
+  });
+
+  return user;
+};
+
 export const userService = {
   update,
   updatePassword,
+  getUser
 };

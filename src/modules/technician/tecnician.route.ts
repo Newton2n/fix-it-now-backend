@@ -57,6 +57,12 @@ technicianRoute.get(
   authMiddleware.auth(UserRole.TECHNICIAN),
   technicianController.getBookings,
 );
+// get services by log in technician
+technicianRoute.get(
+  "/services",
+  authMiddleware.auth(UserRole.TECHNICIAN),
+  technicianController.getServices,
+);
 // get all reviews for a technician
 technicianRoute.get(
   "/:technicianId/reviews",

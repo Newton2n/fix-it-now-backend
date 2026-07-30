@@ -90,6 +90,22 @@ const getBooking = async (userId: string) => {
 
   return bookings;
 };
+// get all booking by log in technician
+const getServices = async (userId: string) => {
+  const profile = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      userId: userId,
+    },
+  });
+
+  const services = await prisma.service.findMany({
+    where: {
+      technicianId :profile.id
+    },
+  });
+
+  return services;
+};
 // get single profile
 const getProfile = async (technicianProfileId: string) => {
   const technician = await prisma.technicianProfile.findUniqueOrThrow({
@@ -321,4 +337,5 @@ export const technicianService = {
   getAll,
   verify,
   getAllReviews,
+  getServices
 };

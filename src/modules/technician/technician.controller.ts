@@ -98,6 +98,25 @@ const getBookings = catchAsync(
     });
   },
 );
+const getServices = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+
+    if (!user?.id) {
+      throw new Error("User id required Please log in");
+    }
+
+    const result = await technicianService.getServices(user.id);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Your Services Retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
 const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const technicianProfileId = req.params?.id;
@@ -190,4 +209,5 @@ export const technicianController = {
   getAll,
   verify,
   getAllReviews,
+  getServices
 };

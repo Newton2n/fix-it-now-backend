@@ -20,6 +20,28 @@ const update = catchAsync(
     });
   },
 );
+const getUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+      const userId = req.params?.id;
+
+    if (!userId) {
+      throw new Error("technicianProfileId id required ");
+    }
+
+    const user = req.user
+    if(!user){
+        throw new Error("User Not log in please log in")
+    }
+
+    const result = await userService.getUser(userId as string);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.CREATED,
+      message: "User Information Retrieved Successfully",
+      data: result,
+    });
+  },
+);
 const updatePassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
@@ -41,5 +63,6 @@ const updatePassword = catchAsync(
 
 export const userController = {
   update,
-  updatePassword
+  updatePassword,
+  getUser
 };
