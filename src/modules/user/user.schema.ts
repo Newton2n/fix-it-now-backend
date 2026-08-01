@@ -7,7 +7,10 @@ export const userUpdateSchema = z.object({
     role: z.enum(["CUSTOMER", "TECHNICIAN"]).optional(),
     status: z.enum(["ACTIVE", "INACTIVE"]).optional(),
     country: z.string().optional(),
-    profilePicture: z.url({ error: "Invalid image URL layout" }).optional(),
+    profilePicture: z
+      .url("Invalid image URL layout")
+      .optional()
+      .or(z.literal("")),
   }),
 });
 
