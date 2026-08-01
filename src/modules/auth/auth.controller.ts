@@ -87,6 +87,7 @@ const refreshToken = catchAsync(
       statusCode: StatusCodes.OK,
       message: "Access token generate successfully",
       data: {
+        accessToken,
         user: jwtPayload,
       },
     });

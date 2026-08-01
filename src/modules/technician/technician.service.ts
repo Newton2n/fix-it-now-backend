@@ -90,7 +90,7 @@ const getBooking = async (userId: string) => {
 
   return bookings;
 };
-// get all booking by log in technician
+// get all services by log in technician
 const getServices = async (userId: string) => {
   const profile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
@@ -102,6 +102,9 @@ const getServices = async (userId: string) => {
     where: {
       technicianId :profile.id
     },
+    orderBy :{
+      createdAt : "desc"
+    }
   });
 
   return services;
