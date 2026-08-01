@@ -17,19 +17,17 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
     },
   });
 
-  const today = new Date()
-
- 
+  const today = new Date();
 
   const technicianAvailability = service.technician
     .availability as TTechnicianTimeSchedule;
 
   const customerBookingDate = new Date(payload.scheduledAt);
 
-   if(customerBookingDate < today){
-    throw new Error("Sorry you can not book at previous date")
+  if (customerBookingDate < today) {
+    throw new Error("Sorry you can not book at previous date");
   }
-  
+
   const bookingMinute = customerBookingDate.getMinutes();
 
   if (bookingMinute !== 0 && bookingMinute !== 30) {
@@ -43,8 +41,6 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
     })
     .toLowerCase();
 
-  
-
   const todayAvailability = technicianAvailability[weekDay];
 
   if (!todayAvailability) {
@@ -52,8 +48,6 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
   }
 
   const bookingTime = customerBookingDate.toTimeString().slice(0, 5);
-
-  
 
   if (
     bookingTime < todayAvailability.start ||
@@ -217,23 +211,44 @@ const updateStatusByTechnician = async (
   }
 
   // 4. Update the booking status
-  const update = await prisma.booking.update({
-    where: {
-      id: bookingId,
-    },
-    data: {
-      status: newStatus,
-    },
-    include: {
-      service: true,
-    },
-  });
+  if (newStatus === "DECLINED") {
+    const update = await prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status: newStatus,
+        scheduledAt: null,
+      },
+      include: {
+        service: true,
+      },
+    });
 
-  return {
-    bookingId: update.id,
-    serviceName: update.service.title,
-    newStatus: update.status,
-  };
+    return {
+      bookingId: update.id,
+      serviceName: update.service.title,
+      newStatus: update.status,
+    };
+  } else {
+    const update = await prisma.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status: newStatus,
+      },
+      include: {
+        service: true,
+      },
+    });
+
+    return {
+      bookingId: update.id,
+      serviceName: update.service.title,
+      newStatus: update.status,
+    };
+  }
 };
 
 const cancelBookingByCustomer = async (userId: string, bookingId: string) => {
@@ -263,6 +278,7 @@ const cancelBookingByCustomer = async (userId: string, bookingId: string) => {
     },
     data: {
       status: "CANCELED",
+      scheduledAt: null,
     },
   });
 

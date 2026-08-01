@@ -3,7 +3,7 @@ model Booking {
     customerId   String
     serviceId    String
     status       BookingStatus @default(REQUESTED)
-    scheduledAt DateTime
+    scheduledAt DateTime?
     location     String
     customerNote String?
     review       Review?
