@@ -12,18 +12,18 @@ const checkoutSession = async (
   bookingId: string,
 ) => {
   const appUrl =config.app_url
-  const booking = await prisma.booking.findFirst({
+  const booking = await prisma.booking.findUniqueOrThrow({
     where: {
       id: bookingId,
-      customerId: userId,
     },
     include: {
       service: true,
     },
   });
 
-  if (!booking) {
-    throw new Error("Sorry booking is not available");
+
+  if (booking.customerId !== userId) {
+    throw new Error("Sorry you can not pay for another customer booking");
   }
   if (booking.status !== "ACCEPTED") {
     throw new Error(
