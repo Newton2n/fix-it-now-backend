@@ -17,8 +17,8 @@ reviewRoute.post(
 
 //get all reviews log in customer
 reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN),validateQuery(UserReviewSearchSchema), reviewController.getAllByMe);
-//get review by id review
-reviewRoute.get("/:id", reviewController.getById);
+//get review by booking id
+reviewRoute.get("/:bookingId", reviewController.getByBookingId);
 
 //update review by owner
 reviewRoute.patch("/:reviewId", authMiddleware.auth(UserRole.CUSTOMER),

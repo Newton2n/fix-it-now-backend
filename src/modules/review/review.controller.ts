@@ -21,14 +21,14 @@ const create = catchAsync(
     });
   },
 );
-const getById = catchAsync(
+const getByBookingId = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if (!id) {
-      throw new Error("Sorry review id required");
+    const { bookingId } = req.params;
+    if (!bookingId) {
+      throw new Error("Sorry booking id required");
     }
 
-    const result = await reviewService.getById(id as string);
+    const result = await reviewService.getByBookingId(bookingId as string);
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
       message: "Review retrieved successfully",
@@ -106,7 +106,7 @@ const getAllByMe = catchAsync(
 
 export const reviewController = {
   create,
-  getById,
+  getByBookingId,
   update,
   remove,
   getAllByMe,

@@ -43,16 +43,13 @@ const create = async (customerId: string, payload: TCreateReviewPayload) => {
   });
   return createReviewTransaction;
 };
-const getById = async (reviewId: string) => {
+const getByBookingId = async (bookingId: string) => {
   const review = await prisma.review.findUniqueOrThrow({
     where: {
-      id: reviewId,
+      bookingId: bookingId,
     },
   });
   return review;
-  return {
-    name: "hello",
-  };
 };
 const update = async (
   customerId: string,
@@ -187,7 +184,7 @@ const getAllMy = async (
 
 export const reviewService = {
   create,
-  getById,
+  getByBookingId,
   update,
   remove,
   getAllMy,

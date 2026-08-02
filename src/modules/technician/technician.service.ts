@@ -86,6 +86,9 @@ const getBooking = async (userId: string) => {
         technicianId: profile.id,
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return bookings;

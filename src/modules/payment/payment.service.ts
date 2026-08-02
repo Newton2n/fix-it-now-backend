@@ -11,8 +11,7 @@ const checkoutSession = async (
   userEmail: string,
   bookingId: string,
 ) => {
-  const appUrl =config.app_url
-  const frontendUrl = config.frontend_url
+  const frontendUrl = config.frontend_url;
   const booking = await prisma.booking.findUniqueOrThrow({
     where: {
       id: bookingId,
@@ -21,7 +20,6 @@ const checkoutSession = async (
       service: true,
     },
   });
-
 
   if (booking.customerId !== userId) {
     throw new Error("Sorry you can not pay for another customer booking");
@@ -71,8 +69,8 @@ const checkoutSession = async (
       userId: userId,
       bookingId: booking.id,
     },
-    success_url: `${frontendUrl}/dashboard/customer/payment/d7d52502-e463-4acf-b6e5-87ea91157a5b/success`,
-    cancel_url: `${frontendUrl}/dashboard/customer/payment/d7d52502-e463-4acf-b6e5-87ea91157a5b/cancel`,
+    success_url: `${frontendUrl}/dashboard/customer/payment/${booking.id}/success`,
+    cancel_url: `${frontendUrl}/dashboard/customer/payment/${booking.id}/cancel`,
   });
   return { checkoutUrl: session.url };
 };
@@ -97,83 +95,85 @@ const webhookHandler = async (payload: Buffer, signature: string) => {
   }
 };
 
-const getAllByLogInUser = async (userId: string,queryPayload :TUserPaymentSearchQuery) => {
-   const {
-     limit,
-     page,
-     sortBy,
-     sortOrder,
-     maxAmount,
-     minAmount,
-     provider,
-     status,
-     transactionId,
-   } = queryPayload;
-   const skipRow = (page - 1) * limit;
- 
-   const whereClause: PaymentWhereInput = {};
-   whereClause.booking ={
-    customerId :userId
-   }
+const getAllByLogInUser = async (
+  userId: string,
+  queryPayload: TUserPaymentSearchQuery,
+) => {
+  const {
+    limit,
+    page,
+    sortBy,
+    sortOrder,
+    maxAmount,
+    minAmount,
+    provider,
+    status,
+    transactionId,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
 
-   //transaction id filter
-   if (transactionId) {
-     whereClause.transactionId = transactionId;
-   }
- 
-   //provider filter
-   if (provider) {
-     whereClause.provider = provider;
-   }
- 
-   //status filter
-   if (status) {
-     whereClause.status = status;
-   }
- 
-   //rating filtering
-   if (minAmount || maxAmount) {
-     whereClause.amount = {};
-     if (minAmount) {
-       whereClause.amount.gte = minAmount;
-     }
-     if (maxAmount) {
-       whereClause.amount.lte = maxAmount;
-     }
-   }
- 
-   const orderBy =
-     sortBy === "createdAt"
-       ? { createdAt: sortOrder }
-       : sortBy === "amount"
-         ? { amount: sortOrder }
-         : sortBy === "status"
-           ? { status: sortOrder }
-           : {};
- 
-   const paymentCount = await prisma.payment.count({
-     where: whereClause,
-   });
-   const payment = await prisma.payment.findMany({
-     // only filtering
-     where: whereClause,
-     take: limit,
-     skip: skipRow,
-     orderBy,
-   });
- 
-   return {
-     meta: {
-       currentPage: page,
-       limit,
-       totalRow: paymentCount,
-       totalPage: Math.ceil(paymentCount / limit),
-     },
-     data: payment,
-   };
+  const whereClause: PaymentWhereInput = {};
+  whereClause.booking = {
+    customerId: userId,
+  };
+
+  //transaction id filter
+  if (transactionId) {
+    whereClause.transactionId = transactionId;
+  }
+
+  //provider filter
+  if (provider) {
+    whereClause.provider = provider;
+  }
+
+  //status filter
+  if (status) {
+    whereClause.status = status;
+  }
+
+  //rating filtering
+  if (minAmount || maxAmount) {
+    whereClause.amount = {};
+    if (minAmount) {
+      whereClause.amount.gte = minAmount;
+    }
+    if (maxAmount) {
+      whereClause.amount.lte = maxAmount;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : sortBy === "amount"
+        ? { amount: sortOrder }
+        : sortBy === "status"
+          ? { status: sortOrder }
+          : {};
+
+  const paymentCount = await prisma.payment.count({
+    where: whereClause,
+  });
+  const payment = await prisma.payment.findMany({
+    // only filtering
+    where: whereClause,
+    take: limit,
+    skip: skipRow,
+    orderBy,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: paymentCount,
+      totalPage: Math.ceil(paymentCount / limit),
+    },
+    data: payment,
+  };
 };
-const getByBookingId = async (bookingId :string, userId:string) => {
-
+const getByBookingId = async (bookingId: string, userId: string) => {
   const booking = await prisma.booking.findUniqueOrThrow({
     where: {
       id: bookingId,
@@ -181,13 +181,15 @@ const getByBookingId = async (bookingId :string, userId:string) => {
   });
 
   if (booking.customerId !== userId) {
-    throw new Error("Sorry you can not view payment for another customer booking");
+    throw new Error(
+      "Sorry you can not view payment for another customer booking",
+    );
   }
-  
+
   const payment = await prisma.payment.findUniqueOrThrow({
     where: {
-      bookingId :bookingId
-    }
+      bookingId: bookingId,
+    },
   });
 
   return payment;
@@ -196,5 +198,5 @@ export const paymentService = {
   checkoutSession,
   webhookHandler,
   getAllByLogInUser,
-  getByBookingId
+  getByBookingId,
 };
