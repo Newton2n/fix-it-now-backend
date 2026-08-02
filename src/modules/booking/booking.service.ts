@@ -136,6 +136,9 @@ const getAll = async (
   const bookings = await prisma.booking.findMany({
     //only filtering
     where: whereClause,
+    include: {
+      review: true,
+    },
     skip: skipRow,
     take: limit,
     orderBy,

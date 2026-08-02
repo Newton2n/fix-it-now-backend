@@ -12,7 +12,7 @@ export const createReviewSchema = z.object({
 });
 export const updateReviewSchema = z.object({
   body: z.object({
-    rating :z.number().min(1,"Minimum 1 rating needed").max(5,"Maximum 5 star rating").optional(),
+    rating :z.number().min(1,"Minimum 1 rating needed").max(5,"Maximum 5 star rating"),
     description: z
       .string()
       .min(5, "Description must be at least 5 letters long")
