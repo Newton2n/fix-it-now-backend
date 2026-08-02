@@ -12,6 +12,7 @@ const checkoutSession = async (
   bookingId: string,
 ) => {
   const appUrl =config.app_url
+  const frontendUrl = config.frontend_url
   const booking = await prisma.booking.findUniqueOrThrow({
     where: {
       id: bookingId,
@@ -70,8 +71,8 @@ const checkoutSession = async (
       userId: userId,
       bookingId: booking.id,
     },
-    success_url: `${appUrl}/api/payment/payment-response?success=true`,
-    cancel_url: `${appUrl}/api/payment/payment-response?success=false`,
+    success_url: `${frontendUrl}/dashboard/customer/payment/d7d52502-e463-4acf-b6e5-87ea91157a5b/success`,
+    cancel_url: `${frontendUrl}/dashboard/customer/payment/d7d52502-e463-4acf-b6e5-87ea91157a5b/cancel`,
   });
   return { checkoutUrl: session.url };
 };
@@ -171,10 +172,10 @@ const getAllByLogInUser = async (userId: string,queryPayload :TUserPaymentSearch
      data: payment,
    };
 };
-const getById = async (paymentId :string) => {
+const getByBookingId = async (bookingId :string) => {
   const payment = await prisma.payment.findUniqueOrThrow({
     where: {
-      id :paymentId
+      bookingId :bookingId
     }
   });
 
@@ -184,5 +185,5 @@ export const paymentService = {
   checkoutSession,
   webhookHandler,
   getAllByLogInUser,
-  getById
+  getByBookingId
 };

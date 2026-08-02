@@ -30,9 +30,9 @@ paymentRoute.get(
 
 // get payment by id 
 paymentRoute.get(
-  "/:paymentId",
+  "/:bookingId",
   authMiddleware.auth(UserRole.CUSTOMER),
-  paymentController.getById,
+  paymentController.getByBookingId,
 );
 
 export default paymentRoute;

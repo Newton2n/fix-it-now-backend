@@ -59,18 +59,18 @@ const getAllByLogInUser = catchAsync(
     });
   },
 );
-const getById = catchAsync(
+const getByBookingId = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
 
     if (!user?.id) {
       throw new Error("Sorry user id required please log in");
     }
-    const { paymentId } = req.params;
-    if (!paymentId) {
-      throw new Error("Sorry payment id required");
+    const { bookingId } = req.params;
+    if (!bookingId) {
+      throw new Error("Sorry booking id required");
     }
-    const result = await paymentService.getById(paymentId as string);
+    const result = await paymentService.getByBookingId(bookingId as string);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -97,6 +97,6 @@ export const paymentController = {
   checkout,
   webhookHandler,
   getAllByLogInUser,
-  getById,
+  getByBookingId,
   response,
 };
