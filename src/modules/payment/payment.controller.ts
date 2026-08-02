@@ -70,7 +70,7 @@ const getByBookingId = catchAsync(
     if (!bookingId) {
       throw new Error("Sorry booking id required");
     }
-    const result = await paymentService.getByBookingId(bookingId as string);
+    const result = await paymentService.getByBookingId(bookingId as string,user.id as string);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,

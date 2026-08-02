@@ -172,7 +172,18 @@ const getAllByLogInUser = async (userId: string,queryPayload :TUserPaymentSearch
      data: payment,
    };
 };
-const getByBookingId = async (bookingId :string) => {
+const getByBookingId = async (bookingId :string, userId:string) => {
+
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: {
+      id: bookingId,
+    },
+  });
+
+  if (booking.customerId !== userId) {
+    throw new Error("Sorry you can not view payment for another customer booking");
+  }
+  
   const payment = await prisma.payment.findUniqueOrThrow({
     where: {
       bookingId :bookingId
