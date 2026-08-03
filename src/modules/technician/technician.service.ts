@@ -193,6 +193,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
   if (serviceArea) {
     whereClause.serviceArea = {
       hasSome: serviceArea.replace(/[\[\]"]/g, "").split(","),
+      
     };
   }
 

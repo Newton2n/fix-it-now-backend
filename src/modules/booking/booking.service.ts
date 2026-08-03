@@ -7,7 +7,10 @@ import {
   TUserBookingSearchQuery,
 } from "./booking.interface";
 
-const create = async (userId: string, payload: TCreateBookingPayload) => {
+const create = async (
+  userId: string,
+  payload: TCreateBookingPayload,
+) => {
   const service = await prisma.service.findUniqueOrThrow({
     where: {
       id: payload.serviceId,
@@ -17,41 +20,100 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
     },
   });
 
-  const today = new Date();
-
-  const technicianAvailability = service.technician
-    .availability as TTechnicianTimeSchedule;
+  const technicianAvailability =
+    service.technician.availability as TTechnicianTimeSchedule;
 
   const customerBookingDate = new Date(payload.scheduledAt);
 
-  if (customerBookingDate < today) {
-    throw new Error("Sorry you can not book at previous date");
+  if (Number.isNaN(customerBookingDate.getTime())) {
+    throw new Error("Invalid booking date and time");
   }
 
-  const bookingMinute = customerBookingDate.getMinutes();
+  // Make sure the booking is in the future.
+  if (customerBookingDate <= new Date()) {
+    throw new Error("Sorry you cannot book a previous date or time");
+  }
+
+  /*
+   * IMPORTANT:
+   * Your application schedule is based on Bangladesh time.
+   *
+   * Do not use the server's local timezone here.
+   */
+  const dhakaDateParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Dhaka",
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(customerBookingDate);
+
+  const weekDay = dhakaDateParts
+    .find((part) => part.type === "weekday")
+    ?.value.toLowerCase();
+
+  const hour = Number(
+    dhakaDateParts.find((part) => part.type === "hour")?.value,
+  );
+
+  const minute = Number(
+    dhakaDateParts.find((part) => part.type === "minute")?.value,
+  );
+
+  if (!weekDay || Number.isNaN(hour) || Number.isNaN(minute)) {
+    throw new Error("Unable to determine booking date and time");
+  }
+
+  const bookingMinute = minute;
 
   if (bookingMinute !== 0 && bookingMinute !== 30) {
-    throw new Error("Bookings are only available every 30 minutes");
+    throw new Error(
+      "Bookings are only available every 30 minutes",
+    );
   }
-
-  // give week day like (saturday,friday)
-  const weekDay = customerBookingDate
-    .toLocaleDateString("en-US", {
-      weekday: "long",
-    })
-    .toLowerCase();
 
   const todayAvailability = technicianAvailability[weekDay];
 
   if (!todayAvailability) {
-    throw new Error(`Technician unavailable on ${weekDay}`);
+    throw new Error(
+      `Technician unavailable on ${weekDay}`,
+    );
   }
 
-  const bookingTime = customerBookingDate.toTimeString().slice(0, 5);
+  const bookingMinutes = hour * 60 + minute;
+
+
+  const timeToMinutes = (time: string) => {
+    const match = time
+      .trim()
+      .toUpperCase()
+      .match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/);
+
+    if (!match) {
+      throw new Error(`Invalid availability time: ${time}`);
+    }
+
+    let hours = Number(match[1]);
+    const minutes = Number(match[2]);
+    const period = match[3];
+
+    if (period === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    if (period === "PM" && hours !== 12) {
+      hours += 12;
+    }
+
+    return hours * 60 + minutes;
+  };
+
+  const startMinutes = timeToMinutes(todayAvailability.start);
+  const endMinutes = timeToMinutes(todayAvailability.end);
 
   if (
-    bookingTime < todayAvailability.start ||
-    bookingTime > todayAvailability.end
+    bookingMinutes < startMinutes ||
+    bookingMinutes > endMinutes
   ) {
     throw new Error("Outside working hours");
   }
@@ -69,7 +131,7 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
   });
 
   if (bookingExists) {
-    throw new Error(`${customerBookingDate} Time slot already booked`);
+    throw new Error("This time slot is already booked");
   }
 
   const booking = await prisma.booking.create({
@@ -78,6 +140,7 @@ const create = async (userId: string, payload: TCreateBookingPayload) => {
       ...payload,
     },
   });
+
   return booking;
 };
 
