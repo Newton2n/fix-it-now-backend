@@ -7,6 +7,7 @@ import {
   TUserBookingSearchQuery,
 } from "./booking.interface";
 
+// create booking
 const create = async (
   userId: string,
   payload: TCreateBookingPayload,
@@ -25,21 +26,19 @@ const create = async (
 
   const customerBookingDate = new Date(payload.scheduledAt);
 
+  // Validate date
   if (Number.isNaN(customerBookingDate.getTime())) {
     throw new Error("Invalid booking date and time");
   }
 
-  // Make sure the booking is in the future.
+  // Booking must be in the future
   if (customerBookingDate <= new Date()) {
-    throw new Error("Sorry you cannot book a previous date or time");
+    throw new Error(
+      "Sorry, you cannot book a previous date or time",
+    );
   }
 
-  /*
-   * IMPORTANT:
-   * Your application schedule is based on Bangladesh time.
-   *
-   * Do not use the server's local timezone here.
-   */
+  
   const dhakaDateParts = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Dhaka",
     weekday: "long",
@@ -60,18 +59,24 @@ const create = async (
     dhakaDateParts.find((part) => part.type === "minute")?.value,
   );
 
-  if (!weekDay || Number.isNaN(hour) || Number.isNaN(minute)) {
-    throw new Error("Unable to determine booking date and time");
+  if (
+    !weekDay ||
+    Number.isNaN(hour) ||
+    Number.isNaN(minute)
+  ) {
+    throw new Error(
+      "Unable to determine booking date and time",
+    );
   }
 
-  const bookingMinute = minute;
-
-  if (bookingMinute !== 0 && bookingMinute !== 30) {
+  
+  if (minute !== 0 && minute !== 30) {
     throw new Error(
       "Bookings are only available every 30 minutes",
     );
   }
 
+  // Get technician availability for selected weekday
   const todayAvailability = technicianAvailability[weekDay];
 
   if (!todayAvailability) {
@@ -80,44 +85,56 @@ const create = async (
     );
   }
 
-  const bookingMinutes = hour * 60 + minute;
-
-
+ 
   const timeToMinutes = (time: string) => {
-    const match = time
+    const [hoursString, minutesString] = time
       .trim()
-      .toUpperCase()
-      .match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/);
+      .split(":");
 
-    if (!match) {
+    const hours = Number(hoursString);
+    const minutes = Number(minutesString);
+
+    if (
+      Number.isNaN(hours) ||
+      Number.isNaN(minutes) ||
+      hours < 0 ||
+      hours > 24 ||
+      minutes < 0 ||
+      minutes > 59 ||
+      (hours === 24 && minutes !== 0)
+    ) {
       throw new Error(`Invalid availability time: ${time}`);
     }
 
-    let hours = Number(match[1]);
-    const minutes = Number(match[2]);
-    const period = match[3];
-
-    if (period === "AM" && hours === 12) {
-      hours = 0;
-    }
-
-    if (period === "PM" && hours !== 12) {
-      hours += 12;
+    // 24:00 = midnight at the end of the day
+    if (hours === 24 && minutes === 0) {
+      return 24 * 60;
     }
 
     return hours * 60 + minutes;
   };
 
-  const startMinutes = timeToMinutes(todayAvailability.start);
-  const endMinutes = timeToMinutes(todayAvailability.end);
+  // Convert selected booking time into minutes
+  const bookingMinutes = hour * 60 + minute;
 
+  // Convert technician availability into minutes
+  const startMinutes = timeToMinutes(
+    todayAvailability.start,
+  );
+
+  const endMinutes = timeToMinutes(
+    todayAvailability.end,
+  );
+
+  // Check working hours
   if (
     bookingMinutes < startMinutes ||
-    bookingMinutes > endMinutes
+    bookingMinutes >= endMinutes
   ) {
     throw new Error("Outside working hours");
   }
 
+  
   const bookingExists = await prisma.booking.findFirst({
     where: {
       service: {
@@ -134,6 +151,7 @@ const create = async (
     throw new Error("This time slot is already booked");
   }
 
+  // Create booking
   const booking = await prisma.booking.create({
     data: {
       customerId: userId,
@@ -143,6 +161,7 @@ const create = async (
 
   return booking;
 };
+
 
 // get all booking by log in user
 const getAll = async (
