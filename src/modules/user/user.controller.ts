@@ -25,13 +25,10 @@ const getUser = catchAsync(
       const userId = req.params?.id;
 
     if (!userId) {
-      throw new Error("technicianProfileId id required ");
+      throw new Error("User id required ");
     }
 
-    const user = req.user
-    if(!user){
-        throw new Error("User Not log in please log in")
-    }
+  
 
     const result = await userService.getUser(userId as string);
 

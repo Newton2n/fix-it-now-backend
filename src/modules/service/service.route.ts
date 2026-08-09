@@ -26,7 +26,6 @@ serviceRoute.get(
 //get single service details
 serviceRoute.get(
   "/:id",
-  authMiddleware.auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
   serviceController.getById,
 );
 //Create service

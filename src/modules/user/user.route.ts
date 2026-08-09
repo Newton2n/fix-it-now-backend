@@ -18,7 +18,6 @@ userRoute.patch(
 //get user by id
 userRoute.get(
   "/:id",
-  authMiddleware.auth(UserRole.ADMIN,UserRole.CUSTOMER,UserRole.TECHNICIAN),
   userController.getUser,
 );
 //update user
