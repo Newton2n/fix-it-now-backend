@@ -1,5 +1,8 @@
 import { TechnicianStatus } from "../../../generated/prisma/enums";
-import { ReviewWhereInput, TechnicianProfileWhereInput } from "../../../generated/prisma/models";
+import {
+  ReviewWhereInput,
+  TechnicianProfileWhereInput,
+} from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
@@ -103,11 +106,11 @@ const getServices = async (userId: string) => {
 
   const services = await prisma.service.findMany({
     where: {
-      technicianId :profile.id
+      technicianId: profile.id,
     },
-    orderBy :{
-      createdAt : "desc"
-    }
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return services;
@@ -193,9 +196,11 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
   if (serviceArea) {
     whereClause.serviceArea = {
       hasSome: serviceArea.replace(/[\[\]"]/g, "").split(","),
-      
     };
   }
+  whereClause.status = {
+    equals: "VERIFIED",
+  };
 
   //order by
   const orderBy =
@@ -203,7 +208,6 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
       ? { createdAt: sortOrder }
       : { yearsOfExperience: sortOrder };
 
-  
   const profileCount = await prisma.technicianProfile.count({
     where: {
       AND: whereClause,
@@ -256,8 +260,11 @@ const verify = async (technicianId: string, newStatus: TechnicianStatus) => {
   };
 };
 
-const getAllReviews = async (technicianId: string,queryPayload :TTechnicianReviewSearchQuery) => {
-   const {
+const getAllReviews = async (
+  technicianId: string,
+  queryPayload: TTechnicianReviewSearchQuery,
+) => {
+  const {
     limit,
     page,
     sortBy,
@@ -270,11 +277,11 @@ const getAllReviews = async (technicianId: string,queryPayload :TTechnicianRevie
   const skipRow = (page - 1) * limit;
 
   const whereClause: ReviewWhereInput = {
-    booking : {
-      service :{
-        technicianId :technicianId
-      }
-    }
+    booking: {
+      service: {
+        technicianId: technicianId,
+      },
+    },
   };
 
   // service filter
@@ -344,5 +351,5 @@ export const technicianService = {
   getAll,
   verify,
   getAllReviews,
-  getServices
+  getServices,
 };
