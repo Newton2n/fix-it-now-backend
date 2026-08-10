@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma";
 
-const getAll = async (categoryId: string) => {
+const getAll = async () => {
   // Get services
   const servicesCount = await prisma.service.count();
   const verifiedTechnicianCount = await prisma.technicianProfile.count({

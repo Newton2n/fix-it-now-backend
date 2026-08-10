@@ -7,7 +7,7 @@ const getAll = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const queryPayload = req.validatedQuery;
 
-    const result = await statsService.getAll(queryPayload);
+    const result = await statsService.getAll();
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
