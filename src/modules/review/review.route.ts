@@ -14,6 +14,11 @@ reviewRoute.post(
   validate(createReviewSchema),
   reviewController.create,
 );
+//create review
+reviewRoute.get(
+  "/latest",
+  reviewController.getLatest,
+);
 
 //get all reviews log in customer
 reviewRoute.get("/me",authMiddleware.auth(UserRole.CUSTOMER,UserRole.ADMIN,UserRole.TECHNICIAN),validateQuery(UserReviewSearchSchema), reviewController.getAllByMe);

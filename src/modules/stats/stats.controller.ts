@@ -18,5 +18,58 @@ const getAll = catchAsync(
     });
   },
 );
+const admin = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
 
-export const statsController = {getAll}
+    const result = await statsService.admin();
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Platform stats retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
+const technician = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
+    const result = await statsService.technician(user?.id);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Your stats retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+const customer = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user?.id) {
+      throw new Error("User id required please log in");
+    }
+    const result = await statsService.customer(user?.id);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "Your stats retrieve Successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
+
+export const statsController = { getAll, admin,customer ,technician};

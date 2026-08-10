@@ -103,6 +103,19 @@ const getAllByMe = catchAsync(
     });
   },
 );
+const getLatest = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    
+    const result = await reviewService.getLatest();
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "New reviews retrieved successfully",
+      data: {
+        result,
+      },
+    });
+  },
+);
 
 export const reviewController = {
   create,
@@ -110,4 +123,5 @@ export const reviewController = {
   update,
   remove,
   getAllByMe,
+  getLatest
 };

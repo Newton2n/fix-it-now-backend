@@ -2,7 +2,7 @@ model Category {
     id          String @id @default(uuid())
     name        String @db.VarChar(100) @unique
     description String
-
+    imageUrl    String?
     service            Service[]
 
     createdAt DateTime @default(now())

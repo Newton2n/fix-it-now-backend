@@ -181,6 +181,21 @@ const getAllMy = async (
     data: reviews,
   };
 };
+// get latest review
+const getLatest = async () => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      rating: {
+        gte: 3,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 6,
+  });
+  return reviews
+};
 
 export const reviewService = {
   create,
@@ -188,4 +203,5 @@ export const reviewService = {
   update,
   remove,
   getAllMy,
+  getLatest
 };
