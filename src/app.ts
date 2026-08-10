@@ -14,6 +14,7 @@ import paymentRoute from "./modules/payment/payment.route";
 import userRoute from "./modules/user/user.route";
 import homeRoute from "../landing-page/home-page";
 import config from "./config";
+import statsRoute from "./modules/stats/stats.route";
 const app: Application = express();
 
 //accept all req
@@ -48,6 +49,7 @@ app.use("/api/review", reviewRoute);
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/payment",paymentRoute);
+app.use("/api/stats",statsRoute);
 
 
 // error handle

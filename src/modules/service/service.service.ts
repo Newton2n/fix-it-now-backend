@@ -96,7 +96,9 @@ const getAll = async (queryPayload: TSearchFilters) => {
     orderBy,
     skip,
     take: itemPerPage,
+
   });
+ 
 
   return {
     meta: {
@@ -126,18 +128,31 @@ const getAllByTechnicianId = async (technicianId: string) => {
   return service;
 };
 
-// get by id
+//get by id
 const getById = async (serviceId: string) => {
-  const service = await prisma.service.findUnique({
-    where: {
-      id: serviceId,
+ 
+  const serviceRecord = await prisma.service.findUnique({
+    where: { id: serviceId },
+    include: {
+      booking: {
+        include: {
+          review: true, 
+        },
+      },
     },
   });
-  if (!service) {
+
+  if (!serviceRecord) {
     throw new Error("Service does not exist");
   }
 
-  return service;
+  
+  const { booking, ...service } = serviceRecord;
+
+  // 3. Flatten all reviews from the bookings into a single clean array
+  const review = booking.flatMap((b) => b.review);
+
+  return { service, review };
 };
 
 //create service
