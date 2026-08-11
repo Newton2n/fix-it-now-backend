@@ -101,15 +101,14 @@ const google = catchAsync(
     if (!payload?.idToken) {
       throw new Error("Google id token required");
     }
-    console.log("google login paylaod", payload);
 
-    const { accessToken, refreshToken, jwtPayload } =
-      await authService.google(payload?.idToken);
+    const { accessToken, refreshToken, jwtPayload } = await authService.google(
+      payload?.idToken,
+    );
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
-      message:
-        "User logged in successfully and Access token generated successfully",
+      message: "User logged in successfully",
       data: {
         user: jwtPayload,
         accessToken,

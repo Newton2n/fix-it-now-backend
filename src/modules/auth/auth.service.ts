@@ -131,7 +131,6 @@ const google = async (idToken: string) => {
   if (!userPayload) {
     throw new Error("Google token verification failed");
   }
-  console.log("verify token", userPayload);
 
   const isUserExist = await prisma.user.findUnique({
     where: {
