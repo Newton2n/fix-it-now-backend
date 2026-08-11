@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authController } from "./auth.controller";
 import { validate } from "../../middleware/validate";
-import { userLoginSchema, userRegisterSchema } from "./auth.schema";
+import { userGoogleLoginSchema, userLoginSchema, userRegisterSchema } from "./auth.schema";
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
 
@@ -28,5 +28,8 @@ authRoute.get(
 //refresh token
 
 authRoute.post("/refresh-token", authController.refreshToken);
+
+// google login
+authRoute.post("/google",validate(userGoogleLoginSchema), authController.google);
 
 export default authRoute;

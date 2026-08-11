@@ -1,13 +1,18 @@
 model User {
-    id             String           @id @default(uuid())
-    name           String           @db.VarChar(100)
-    phoneNumber    String?          @db.VarChar(100)
-    email          String           @unique @db.VarChar(200)
-    password       String           @db.Text()
-    role           UserRole         @default(CUSTOMER)
-    status         UserActiveStatus @default(ACTIVE)
-    country        String?          @db.VarChar(120)
-    profilePicture String?
+    id                 String           @id @default(uuid())
+    name               String           @db.VarChar(100)
+    phoneNumber        String?          @db.VarChar(100)
+    email              String           @unique @db.VarChar(200)
+    password           String?          @db.Text()
+    role               UserRole         @default(CUSTOMER)
+    status             UserActiveStatus @default(ACTIVE)
+    country            String?          @db.VarChar(120)
+    profilePicture     String?
+    socialId           String?
+    emailVerified      Boolean          @default(false)
+    needPasswordChange Boolean          @default(false)
+
+    authProvider AuthProvider @default(CREDENTIAL)
 
     booking           Booking[]
     technicianProfile TechnicianProfile?
@@ -15,5 +20,6 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@unique([authProvider, socialId])
     @@map("users")
 }

@@ -3,6 +3,7 @@ import { TLoginPayload, TRegistrationPayload } from "./auth.interface";
 import bcrypt from "bcryptjs";
 import config from "../../config";
 import { jwtUtils } from "../../utils/jwt";
+import { verifyGoogleToken } from "../../utils/google-verify";
 
 //register user
 const register = async (payload: TRegistrationPayload) => {
@@ -122,4 +123,39 @@ const refreshToken = async (refreshToken: string) => {
   return { accessToken, jwtPayload };
 };
 
-export const authService = { register, login, getMe, refreshToken };
+
+//log in via google
+const google = async (idToken :string) => {
+const verifyToken = await verifyGoogleToken(idToken)
+
+
+  
+
+  // const jwtPayload = {
+  //   id: user.id,
+  //   name: user.name,
+  //   email: user.email,
+  //   role: user.role,
+  // };
+
+  // jwt access token generate
+  // const accessToken = jwtUtils.createToken(
+  //   jwtPayload,
+  //   config.jwt_access_secret,
+  //   config.jwt_access_expires_in,
+  // );
+
+  // //jwt refreshToken generate
+  // const refreshToken = jwtUtils.createToken(
+  //   jwtPayload,
+  //   config.jwt_refresh_secret,
+  //   config.jwt_refresh_expires_in,
+  // );
+
+  // return {
+  //   accessToken,
+  //   refreshToken,
+  //   jwtPayload,
+  // };
+};
+export const authService = { register, login, getMe, refreshToken ,google };

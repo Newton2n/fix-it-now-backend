@@ -1,9 +1,14 @@
-import {z } from "zod";
+import { z } from "zod";
 
 export const userLoginSchema = z.object({
   body: z.object({
     email: z.email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 letters long"),
+  }),
+});
+export const userGoogleLoginSchema = z.object({
+  body: z.object({
+    idToken: z.string("Google id token required"),
   }),
 });
 
