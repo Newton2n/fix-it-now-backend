@@ -93,9 +93,34 @@ const refreshToken = catchAsync(
     });
   },
 );
+
+///login via google
+const google = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    if (!payload?.idToken) {
+      throw new Error("Google id token required");
+    }
+
+    const { accessToken, refreshToken, jwtPayload } = await authService.google(
+      payload?.idToken,
+    );
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message: "User logged in successfully",
+      data: {
+        user: jwtPayload,
+        accessToken,
+        refreshToken,
+      },
+    });
+  },
+);
 export const authController = {
   register,
   login,
   getMe,
   refreshToken,
+  google,
 };

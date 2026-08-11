@@ -16,4 +16,5 @@ export default {
   stripe_webhook_secret :process.env.STRIPE_WEBHOOK_SECRET!,
   admin_password :process.env.ADMIN_PASSWORD!,
   frontend_url : process.env.FRONTEND_URL!,
+  google_client_id :process.env.GOOGLE_CLIENT_ID
 };
