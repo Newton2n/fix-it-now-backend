@@ -34,7 +34,10 @@ const login = async (payload: TLoginPayload) => {
     },
   });
 
-  const checkPassword = await bcrypt.compare(payload.password, user.password);
+  if (user.status === "BLOCKED") {
+    throw new Error("Sorry you are blocked contact support");
+  }
+  const checkPassword = await bcrypt.compare(payload.password, user?.password!);
   if (!checkPassword) {
     throw new Error("Invalid Credential");
   }
@@ -77,9 +80,6 @@ const getMe = async (userId: string) => {
       password: true,
     },
   });
-  if (user.status !== "ACTIVE") {
-    throw new Error("Your account is not active. Please contact support");
-  }
   return user;
 };
 
@@ -123,39 +123,89 @@ const refreshToken = async (refreshToken: string) => {
   return { accessToken, jwtPayload };
 };
 
-
 //log in via google
-const google = async (idToken :string) => {
-const verifyToken = await verifyGoogleToken(idToken)
+const google = async (idToken: string) => {
+  console.log("google id token", idToken);
+  let user = null;
+  const userPayload = await verifyGoogleToken(idToken);
+  if (!userPayload) {
+    throw new Error("Google token verification failed");
+  }
+  console.log("verify token", userPayload);
 
+  const isUserExist = await prisma.user.findUnique({
+    where: {
+      email: userPayload.email,
+    },
+  });
 
-  
+  if (!userPayload.name || !userPayload.email) {
+    throw new Error("Email verification failed invalid email or name");
+  }
 
-  // const jwtPayload = {
-  //   id: user.id,
-  //   name: user.name,
-  //   email: user.email,
-  //   role: user.role,
-  // };
+  //register new user
+  if (!isUserExist) {
+    user = await prisma.user.create({
+      data: {
+        name: userPayload?.name,
+        email: userPayload?.email,
+        role: "CUSTOMER",
+        authProvider: "GOOGLE",
+        emailVerified: true,
+        socialId: userPayload.sub,
+        needPasswordChange: true,
+      },
+    });
+  } else {
+    //user exist
+    if (isUserExist.role !== "CUSTOMER" && isUserExist.role !== "TECHNICIAN") {
+      throw new Error("Sorry admin can not login via google");
+    }
+    if (isUserExist.status === "BLOCKED") {
+      throw new Error("Sorry you are blocked contact support");
+    }
+
+    //update user
+    if (!isUserExist.socialId) {
+      user = await prisma.user.update({
+        where: {
+          id: isUserExist.id,
+        },
+        data: {
+          emailVerified: true,
+          socialId: userPayload.sub,
+        },
+      });
+    } else {
+      user = isUserExist;
+    }
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
 
   // jwt access token generate
-  // const accessToken = jwtUtils.createToken(
-  //   jwtPayload,
-  //   config.jwt_access_secret,
-  //   config.jwt_access_expires_in,
-  // );
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in,
+  );
 
-  // //jwt refreshToken generate
-  // const refreshToken = jwtUtils.createToken(
-  //   jwtPayload,
-  //   config.jwt_refresh_secret,
-  //   config.jwt_refresh_expires_in,
-  // );
+  //jwt refreshToken generate
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expires_in,
+  );
 
-  // return {
-  //   accessToken,
-  //   refreshToken,
-  //   jwtPayload,
-  // };
+  return {
+    accessToken,
+    refreshToken,
+    jwtPayload,
+  };
 };
-export const authService = { register, login, getMe, refreshToken ,google };
+export const authService = { register, login, getMe, refreshToken, google };

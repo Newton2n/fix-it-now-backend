@@ -98,35 +98,24 @@ const refreshToken = catchAsync(
 const google = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
+    if (!payload?.idToken) {
+      throw new Error("Google id token required");
+    }
     console.log("google login paylaod", payload);
-    const result = await authService.google(payload);
 
-    // const { accessToken, refreshToken, jwtPayload } =
-    //   await authService.google(payload);
+    const { accessToken, refreshToken, jwtPayload } =
+      await authService.google(payload?.idToken);
 
-    // res.cookie("refreshToken", refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "strict",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: "strict",
-    //   maxAge: 24 * 60 * 60 * 1000,
-    // });
-
-    // sendSuccessResponse(res, {
-    //   statusCode: StatusCodes.OK,
-    //   message:
-    //     "User logged in successfully and Access token generated successfully",
-    //   data: {
-    //     user: jwtPayload,
-    //     accessToken,
-    //     refreshToken,
-    //   },
-    // });
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.OK,
+      message:
+        "User logged in successfully and Access token generated successfully",
+      data: {
+        user: jwtPayload,
+        accessToken,
+        refreshToken,
+      },
+    });
   },
 );
 export const authController = {
