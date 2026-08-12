@@ -84,12 +84,16 @@ const update = async (categoryId: string, payload: TUpdateCategoryPayload) => {
     },
   });
 
+  const { imageUrl, ...othersPayload } = payload;
+
+  const payloadData = imageUrl !== undefined ? payload : othersPayload;
+
   const update = await prisma.category.update({
     where: {
       id: categoryId,
     },
     data: {
-      ...payload,
+      ...payloadData,
     },
   });
   return update;

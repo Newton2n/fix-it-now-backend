@@ -10,6 +10,7 @@ export const createCategorySchema = z.object({
       .string()
       .min(6, "Description must be at least 6 letters long")
       .max(255, "description  must be less than 101 letters"),
+    imageUrl: z.url({message :"Valid image url needed"}),
   }),
 });
 export const updateCategorySchema = z.object({
@@ -17,16 +18,16 @@ export const updateCategorySchema = z.object({
     name: z
       .string()
       .min(3, "category name must be at least 3 letters long")
-      .max(100, "category name must be less than 101 letters").optional()
-      ,
+      .max(100, "category name must be less than 101 letters")
+      .optional(),
     description: z
       .string()
       .min(6, "Description must be at least 10 letters long")
-      .max(255, "description  must be less than 101 letters").optional()
-      ,
+      .max(255, "description  must be less than 101 letters")
+      .optional(),
+    imageUrl: z.url({message :"Valid image url needed"}).optional(),
   }),
 });
-
 
 // query schema
 
@@ -37,6 +38,3 @@ export const CategorySearchSchema = z.object({
   sortBy: z.enum(["name", "createdAt"]).default("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });
-
-
-
