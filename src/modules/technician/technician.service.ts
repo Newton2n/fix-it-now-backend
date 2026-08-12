@@ -2,9 +2,11 @@ import { TechnicianStatus } from "../../../generated/prisma/enums";
 import {
   BookingWhereInput,
   ReviewWhereInput,
+  ServiceWhereInput,
   TechnicianProfileWhereInput,
 } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
+import { TSearchFilters } from "../service/service.interface";
 import {
   TCreateTechnicianProfilePayload,
   TTechnicianBookingSearchQuery,
@@ -101,8 +103,8 @@ const getBooking = async (
   const skipRow = (page - 1) * limit;
   const whereClause: BookingWhereInput = {};
   whereClause.service = {
-    technicianId :technicianProfile.id
-  }
+    technicianId: technicianProfile.id,
+  };
 
   if (status) {
     whereClause.status = status;
@@ -158,23 +160,103 @@ const getBooking = async (
   };
 };
 // get all services by log in technician
-const getServices = async (userId: string) => {
-  const profile = await prisma.technicianProfile.findUniqueOrThrow({
+const getServices = async (userId: string, queryPayload: TSearchFilters) => {
+  const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
   });
 
-  const services = await prisma.service.findMany({
-    where: {
-      technicianId: profile.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+  const {
+    search,
+    page,
+    limit,
+    categoryId,
+    minPrice,
+    maxPrice,
+    isAvailable = "true",
+    sortBy,
+    sortOrder,
+  } = queryPayload;
+
+  const itemPerPage = limit;
+  const skip = (page - 1) * itemPerPage;
+
+  const whereClause: ServiceWhereInput = {};
+  whereClause.technicianId = technicianProfile.id;
+  // Search
+  if (search) {
+    whereClause.OR = [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  // Category Filter
+  if (categoryId) {
+    whereClause.categoryId = categoryId;
+  }
+
+  // Price Filter
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    whereClause.price = {};
+
+    if (minPrice !== undefined) {
+      whereClause.price.gte = minPrice;
+    }
+
+    if (maxPrice !== undefined) {
+      whereClause.price.lte = maxPrice;
+    }
+  }
+
+  // Sort
+  const orderBy =
+    sortBy === "price" ? { price: sortOrder } : { createdAt: sortOrder };
+
+  if (isAvailable !== "true" && isAvailable !== "false") {
+    throw new Error("Is available field can be true or false");
+  }
+
+  // default isAvailable
+  if (isAvailable === "false") {
+    whereClause.isAvailable = false;
+  } else if (isAvailable === "true") {
+    whereClause.isAvailable = true;
+  }
+
+  // Total count
+  const total = await prisma.service.count({
+    where: whereClause,
   });
 
-  return services;
+  // Get services
+  const services = await prisma.service.findMany({
+    where: { AND: whereClause },
+    orderBy,
+    skip,
+    take: itemPerPage,
+  });
+
+  return {
+    meta: {
+      currentPage: page,
+      limit: itemPerPage,
+      totalRow: total,
+      totalPage: Math.ceil(total / itemPerPage),
+    },
+    data: services,
+  };
 };
 // get single profile
 const getProfile = async (technicianProfileId: string) => {

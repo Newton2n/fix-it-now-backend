@@ -12,6 +12,7 @@ import {
   TechnicianReviewSearchSchema,
   technicianUpdateSchema,
 } from "./technician.schema";
+import { ServiceSearchFiltersSchema } from "../service/service.schema";
 const technicianRoute = Router();
 
 //get all technician profile
@@ -66,6 +67,7 @@ technicianRoute.get(
 technicianRoute.get(
   "/services",
   authMiddleware.auth(UserRole.TECHNICIAN),
+  validateQuery(ServiceSearchFiltersSchema),
   technicianController.getServices,
 );
 // get all reviews for a technician

@@ -65,7 +65,6 @@ const updateAvailability = catchAsync(
     const user = req.user;
     const payload = req.body;
 
-    
     if (!user?.id) {
       throw new Error("User id required Please log in");
     }
@@ -87,7 +86,10 @@ const getBookings = catchAsync(
       throw new Error("User id required Please log in");
     }
 
-    const result = await technicianService.getBooking(user.id,req.validatedQuery);
+    const result = await technicianService.getBooking(
+      user.id,
+      req.validatedQuery,
+    );
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -106,7 +108,10 @@ const getServices = catchAsync(
       throw new Error("User id required Please log in");
     }
 
-    const result = await technicianService.getServices(user.id);
+    const result = await technicianService.getServices(
+      user.id,
+      req.validatedQuery,
+    );
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -187,7 +192,8 @@ const getAllReviews = catchAsync(
     }
 
     const result = await technicianService.getAllReviews(
-      technicianId as string,req.validatedQuery
+      technicianId as string,
+      req.validatedQuery,
     );
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,
@@ -209,5 +215,5 @@ export const technicianController = {
   getAll,
   verify,
   getAllReviews,
-  getServices
+  getServices,
 };
