@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import {
+  TUserSetPasswordPayload,
   TUserUpdatePasswordPayload,
   TUserUpdatePayload,
 } from "./user.interface";
@@ -27,7 +28,7 @@ const update = async (userId: string, payload: TUserUpdatePayload) => {
     });
     return update;
   });
-  return updateTransaction
+  return updateTransaction;
 };
 const updatePassword = async (
   userId: string,
@@ -39,9 +40,9 @@ const updatePassword = async (
         id: userId,
       },
     });
-    const matchPassword =await bcrypt.compare(
+    const matchPassword = await bcrypt.compare(
       payload.oldPassword,
-      userExists.password,
+      userExists.password!,
     );
 
     if (!matchPassword) {
@@ -68,17 +69,52 @@ const updatePassword = async (
   });
   return passwordTransaction;
 };
+//set password
+const setPassword = async (
+  userId: string,
+  payload: TUserSetPasswordPayload,
+) => {
+  const passwordTransaction = await prisma.$transaction(async (tx) => {
+    const userExists = await tx.user.findUniqueOrThrow({
+      where: {
+        id: userId,
+      },
+    });
 
+    if (userExists.password !== null) {
+      throw new Error("You have already set your password");
+    }
+
+    const newPasswordHash = await bcrypt.hash(
+      payload.newPassword,
+      Number(config.bcrypt_salt_rounds),
+    );
+
+    const update = await tx.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password: newPasswordHash,
+      },
+      omit: {
+        password: true,
+      },
+    });
+    return update;
+  });
+  return passwordTransaction;
+};
 
 // get single profile
 const getUser = async (userId: string) => {
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-      id :userId
+      id: userId,
     },
-    omit :{
-      password :true
-    }
+    omit: {
+      password: true,
+    },
   });
 
   return user;
@@ -87,5 +123,6 @@ const getUser = async (userId: string) => {
 export const userService = {
   update,
   updatePassword,
-  getUser
+  getUser,
+  setPassword
 };

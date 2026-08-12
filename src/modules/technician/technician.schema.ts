@@ -56,16 +56,13 @@ export const changeAvailabilityPayload = z.object({
 
 export const technicianProfileUpdateStatus = z.object({
   body: z.object({
-      status: z.enum([
-        TechnicianStatus.PENDING_APPROVAL,
-        TechnicianStatus.SUSPENDED,
-        TechnicianStatus.VERIFIED
-      ]),
-    }),
+    status: z.enum([
+      TechnicianStatus.PENDING_APPROVAL,
+      TechnicianStatus.SUSPENDED,
+      TechnicianStatus.VERIFIED,
+    ]),
+  }),
 });
-
-
-
 
 //query schema
 
@@ -75,14 +72,16 @@ export const GetTechniciansSchema = z.object({
   limit: z.coerce.number().int().positive().default(10),
   minExperience: z.coerce.number().optional(),
   isAvailable: z.string().optional(),
-  skills: z.string().optional(), 
+  status: z.enum([
+    TechnicianStatus.PENDING_APPROVAL,
+    TechnicianStatus.SUSPENDED,
+    TechnicianStatus.VERIFIED,
+  ]).optional(),
+  skills: z.string().optional(),
   serviceArea: z.string().optional(),
   sortBy: z.enum(["experience", "date"]).default("date"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });
-
-
-
 
 // review search schema
 export const TechnicianReviewSearchSchema = z.object({

@@ -139,6 +139,7 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
     isAvailable = "true",
     minExperience,
     search,
+    status,
     serviceArea,
     skills,
   } = queryPayload;
@@ -166,6 +167,11 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
         },
       },
     ];
+  }
+  if (status) {
+    whereClause.status = {
+      equals: status,
+    };
   }
 
   if (minExperience) {
@@ -198,9 +204,6 @@ const getAll = async (queryPayload: TTechnicianSearchFilters) => {
       hasSome: serviceArea.replace(/[\[\]"]/g, "").split(","),
     };
   }
-  whereClause.status = {
-    equals: "VERIFIED",
-  };
 
   //order by
   const orderBy =

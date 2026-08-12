@@ -56,10 +56,28 @@ const updatePassword = catchAsync(
     });
   },
 );
+const setPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const user = req.user
+    if(!user){
+        throw new Error("User Not log in please log in")
+    }
+
+    const result = await userService.setPassword(user.id as string,payload);
+
+    sendSuccessResponse(res, {
+      statusCode: StatusCodes.CREATED,
+      message: "User Password Updated Successfully",
+      data: result,
+    });
+  },
+);
 
 
 export const userController = {
   update,
   updatePassword,
-  getUser
+  getUser,
+  setPassword
 };

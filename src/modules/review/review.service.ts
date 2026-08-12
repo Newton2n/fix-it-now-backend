@@ -146,13 +146,19 @@ const getAllMy = async (
   }
 
   //rating filtering
-  if (minRating || maxRating) {
+  if (minRating !== undefined || maxRating !== undefined) {
     whereClause.rating = {};
-    if (minRating) {
-      whereClause.rating.gte = minRating;
+
+    if (minRating !== undefined) {
+      whereClause.rating.gte = Number(minRating);
     }
-    if (maxRating) {
-      whereClause.rating.lte = maxRating;
+
+    // Only apply maxRating if it's provided AND not smaller than minRating
+    if (
+      maxRating !== undefined &&
+      (minRating === undefined || maxRating >= minRating)
+    ) {
+      whereClause.rating.lte = Number(maxRating);
     }
   }
 
@@ -194,7 +200,7 @@ const getLatest = async () => {
     },
     take: 6,
   });
-  return reviews
+  return reviews;
 };
 
 export const reviewService = {
@@ -203,5 +209,5 @@ export const reviewService = {
   update,
   remove,
   getAllMy,
-  getLatest
+  getLatest,
 };

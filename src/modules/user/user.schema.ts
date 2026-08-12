@@ -20,3 +20,8 @@ export const userUpdatePassword = z.object({
     newPassword: z.string().min(6, "Password must be at least 6 letters long"),
   }),
 });
+export const userSetPassword = z.object({
+  body: z.object({
+    newPassword: z.string().min(6, "Password must be at least 6 letters long"),
+  }),
+});

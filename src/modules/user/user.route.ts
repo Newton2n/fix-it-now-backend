@@ -4,7 +4,7 @@ import { validate } from "../../middleware/validate";
 
 import { authMiddleware } from "../../middleware/auth";
 import { UserRole } from "../../../generated/prisma/enums";
-import { userUpdatePassword, userUpdateSchema } from "./user.schema";
+import { userSetPassword, userUpdatePassword, userUpdateSchema } from "./user.schema";
 
 const userRoute = Router();
 
@@ -26,6 +26,13 @@ userRoute.patch(
   authMiddleware.auth(UserRole.ADMIN,UserRole.CUSTOMER,UserRole.TECHNICIAN),
   validate(userUpdatePassword),
   userController.updatePassword,
+);
+//update user
+userRoute.patch(
+  "/set-password",
+  authMiddleware.auth(UserRole.CUSTOMER,UserRole.TECHNICIAN),
+  validate(userSetPassword),
+  userController.setPassword,
 );
 
 
