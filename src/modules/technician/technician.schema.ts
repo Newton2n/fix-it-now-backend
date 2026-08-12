@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { TechnicianStatus } from "../../../generated/prisma/enums";
+import {
+  BookingStatus,
+  PaymentStatus,
+  TechnicianStatus,
+} from "../../../generated/prisma/enums";
 
 const daySchema = z.object({
   start: z.string(),
@@ -72,11 +76,13 @@ export const GetTechniciansSchema = z.object({
   limit: z.coerce.number().int().positive().default(10),
   minExperience: z.coerce.number().optional(),
   isAvailable: z.string().optional(),
-  status: z.enum([
-    TechnicianStatus.PENDING_APPROVAL,
-    TechnicianStatus.SUSPENDED,
-    TechnicianStatus.VERIFIED,
-  ]).optional(),
+  status: z
+    .enum([
+      TechnicianStatus.PENDING_APPROVAL,
+      TechnicianStatus.SUSPENDED,
+      TechnicianStatus.VERIFIED,
+    ])
+    .optional(),
   skills: z.string().optional(),
   serviceArea: z.string().optional(),
   sortBy: z.enum(["experience", "date"]).default("date"),
@@ -93,4 +99,33 @@ export const TechnicianReviewSearchSchema = z.object({
   limit: z.coerce.number().int().positive().default(10),
   sortBy: z.enum(["rating", "createdAt"]).default("createdAt"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
+});
+
+//query schema
+export const TechnicianBookingSearchSchema = z.object({
+  status: z
+    .enum([
+      BookingStatus.ACCEPTED,
+      BookingStatus.CANCELED,
+      BookingStatus.COMPLETED,
+      BookingStatus.DECLINED,
+      BookingStatus.PAID,
+      BookingStatus.IN_PROGRESS,
+      BookingStatus.REQUESTED,
+    ])
+    .optional(),
+  serviceId: z.uuid().optional(),
+  startDate: z.coerce.date().optional(),
+  endDate: z.coerce.date().optional(),
+  page: z.coerce.number().int().positive().default(1),
+  limit: z.coerce.number().int().positive().default(15),
+  sortBy: z.enum(["scheduledAt", "createdAt"]).default("createdAt"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
+  paymentStatus: z
+    .enum([
+      PaymentStatus.PENDING,
+      PaymentStatus.FAILED,
+      PaymentStatus.SUCCEEDED,
+    ])
+    .optional(),
 });

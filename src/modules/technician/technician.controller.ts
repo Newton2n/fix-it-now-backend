@@ -87,7 +87,7 @@ const getBookings = catchAsync(
       throw new Error("User id required Please log in");
     }
 
-    const result = await technicianService.getBooking(user.id);
+    const result = await technicianService.getBooking(user.id,req.validatedQuery);
 
     sendSuccessResponse(res, {
       statusCode: StatusCodes.OK,

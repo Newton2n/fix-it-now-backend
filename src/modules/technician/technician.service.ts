@@ -1,11 +1,13 @@
 import { TechnicianStatus } from "../../../generated/prisma/enums";
 import {
+  BookingWhereInput,
   ReviewWhereInput,
   TechnicianProfileWhereInput,
 } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
   TCreateTechnicianProfilePayload,
+  TTechnicianBookingSearchQuery,
   TTechnicianReviewSearchQuery,
   TTechnicianSearchFilters,
   TUpdateAvailabilityPayload,
@@ -76,25 +78,84 @@ const getMe = async (userId: string) => {
   return profile;
 };
 // get all booking by log in technician
-const getBooking = async (userId: string) => {
-  const profile = await prisma.technicianProfile.findUniqueOrThrow({
+const getBooking = async (
+  userId: string,
+  queryPayload: TTechnicianBookingSearchQuery,
+) => {
+  const technicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
     where: {
       userId: userId,
     },
   });
+  const {
+    limit,
+    page,
+    paymentStatus,
+    sortBy,
+    sortOrder,
+    status,
+    endDate,
+    serviceId,
+    startDate,
+  } = queryPayload;
+  const skipRow = (page - 1) * limit;
+  const whereClause: BookingWhereInput = {};
+  whereClause.service = {
+    technicianId :technicianProfile.id
+  }
 
+  if (status) {
+    whereClause.status = status;
+  }
+  if (paymentStatus) {
+    whereClause.payment = {
+      status: paymentStatus,
+    };
+  }
+  if (serviceId) {
+    whereClause.serviceId = serviceId;
+  }
+
+  //date filtering (between if both)
+  if (startDate || endDate) {
+    whereClause.scheduledAt = {};
+
+    if (startDate) {
+      whereClause.scheduledAt.gte = startDate;
+    }
+    if (endDate) {
+      whereClause.scheduledAt.lte = endDate;
+    }
+  }
+
+  const orderBy =
+    sortBy === "createdAt"
+      ? { createdAt: sortOrder }
+      : { scheduledAt: sortOrder };
+
+  const bookingsCount = await prisma.booking.count({
+    where: whereClause,
+  });
   const bookings = await prisma.booking.findMany({
-    where: {
-      service: {
-        technicianId: profile.id,
-      },
+    //only filtering
+    where: whereClause,
+    include: {
+      review: true,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    skip: skipRow,
+    take: limit,
+    orderBy,
   });
 
-  return bookings;
+  return {
+    meta: {
+      currentPage: page,
+      limit,
+      totalRow: bookingsCount,
+      totalPage: Math.ceil(bookingsCount / limit),
+    },
+    data: bookings,
+  };
 };
 // get all services by log in technician
 const getServices = async (userId: string) => {

@@ -6,6 +6,7 @@ import { UserRole } from "../../../generated/prisma/enums";
 import {
   changeAvailabilityPayload,
   GetTechniciansSchema,
+  TechnicianBookingSearchSchema,
   technicianProfileUpdateStatus,
   technicianRegisterSchema,
   TechnicianReviewSearchSchema,
@@ -14,8 +15,11 @@ import {
 const technicianRoute = Router();
 
 //get all technician profile
-technicianRoute.get("/",validateQuery(GetTechniciansSchema), technicianController.getAll);
-
+technicianRoute.get(
+  "/",
+  validateQuery(GetTechniciansSchema),
+  technicianController.getAll,
+);
 
 //create technician profile
 technicianRoute.post(
@@ -55,6 +59,7 @@ technicianRoute.get(
 technicianRoute.get(
   "/bookings",
   authMiddleware.auth(UserRole.TECHNICIAN),
+  validateQuery(TechnicianBookingSearchSchema),
   technicianController.getBookings,
 );
 // get services by log in technician
