@@ -19,7 +19,7 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  console.log(" Seeding database...");
+
 
   // Hash  password
   const hashedPassword = await bcrypt.hash(
@@ -84,12 +84,12 @@ async function main() {
     });
   }
 
-  console.log("Database seeded successfully.");
+  
 }
 
 main()
   .catch((error) => {
-    console.error("Seed failed:", error);
+  
     process.exit(1);
   })
   .finally(async () => {

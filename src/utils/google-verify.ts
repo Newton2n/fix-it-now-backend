@@ -12,10 +12,10 @@ export const verifyGoogleToken = async (idToken: string) => {
     if (!payload) {
       throw new Error("Token payload is empty");
     }
-    console.log("verify google", ticket);
+    
     return payload;
   } catch (error) {
-    console.log(error);
+  
     throw new Error("Invalid Google ID Token");
   }
 };

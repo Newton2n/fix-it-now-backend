@@ -125,7 +125,7 @@ const refreshToken = async (refreshToken: string) => {
 
 //log in via google
 const google = async (idToken: string) => {
-  console.log("google id token", idToken);
+
   let user = null;
   const userPayload = await verifyGoogleToken(idToken);
   if (!userPayload) {

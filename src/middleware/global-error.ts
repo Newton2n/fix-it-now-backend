@@ -177,7 +177,7 @@ const globalError = (
 
   // Development Log
   if (process.env.NODE_ENV !== "production") {
-    console.error(err);
+   
   }
 
   return res.status(statusCode).json({
