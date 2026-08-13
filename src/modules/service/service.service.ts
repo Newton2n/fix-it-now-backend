@@ -96,9 +96,7 @@ const getAll = async (queryPayload: TSearchFilters) => {
     orderBy,
     skip,
     take: itemPerPage,
-
   });
- 
 
   return {
     meta: {
@@ -130,13 +128,12 @@ const getAllByTechnicianId = async (technicianId: string) => {
 
 //get by id
 const getById = async (serviceId: string) => {
- 
   const serviceRecord = await prisma.service.findUnique({
     where: { id: serviceId },
     include: {
       booking: {
         include: {
-          review: true, 
+          review: true,
         },
       },
     },
@@ -146,7 +143,6 @@ const getById = async (serviceId: string) => {
     throw new Error("Service does not exist");
   }
 
-  
   const { booking, ...service } = serviceRecord;
 
   // 3. Flatten all reviews from the bookings into a single clean array
@@ -207,6 +203,16 @@ const update = async (
     },
   });
 
+  if (payload?.categoryId !== undefined) {
+    const categoryExist = await prisma.category.findUnique({
+      where: {
+        id: payload.categoryId,
+      },
+    });
+    if (!categoryExist) {
+      throw new Error("Sorry category does not exists");
+    }
+  }
   //owner check
   if (service.technicianId !== isTechnicianProfileExist.id) {
     throw new Error("You cannot edit another technician's service");

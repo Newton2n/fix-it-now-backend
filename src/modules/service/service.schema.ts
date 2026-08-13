@@ -22,6 +22,7 @@ export const createServiceSchema = z.object({
 });
 export const updateServiceSchema = z.object({
   body: z.object({
+    categoryId: z.uuid("Invalid category ID").optional(),
     title: z
       .string()
       .min(3, "title must be at least 3 letters long")
